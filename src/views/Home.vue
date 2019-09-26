@@ -5,16 +5,16 @@
 	    <div class="h">领取你的国庆专属头像</div>
 	    <div class="hh">目前已经有<span>14000万</span>人参与活动</div>
 	  </div>
-    <content />
+    <slideshow></slideshow>
   </div>
 </template>
 
 <script>
-import Content from '@/components/content.vue'
+import slideshow from '../components/slideshow'
 export default {
   name: "home",
   components: {
-  	Content
+  	slideshow
   }
 };
 </script>
