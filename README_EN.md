@@ -25,7 +25,10 @@
 2019-09-26 Create project 
 Note: currently the core code has not been uploaded, Fork first, update is expected to be completed on 2019-09-27, then Clone or download, run locally
 
+## contribute 
 
+Interested students can cut a branch (named after your github account) and start a pull request
+ 
 ## Core realization principle
 
 - ** get or upload WeChat avatar **
