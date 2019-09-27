@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="btn" @click="goto(prevIndex)"></div>
-    <div class="btn next" @click="goto(prevIndex)"></div>
+    <div class="btn next" @click="goto(nextIndex)"></div>
   </div>
 </template>
 
