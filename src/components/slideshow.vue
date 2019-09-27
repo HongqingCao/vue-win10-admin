@@ -2,10 +2,10 @@
   <div class="slideshow-warpper">
     <div class="img-warpper">
       <div class="border-img">
-        <img :src="borderImgList[nowIndex].src" />
+        <img :src="borderImgList[nowIndex].src" ref="isBorderImg" />
       </div>
       <div class="head-img">
-        <img src="../assets/test.jpg" />
+        <img :src="headImg" ref="isHeadImg" />
       </div>
     </div>
     <div class="btn" @click="goto(prevIndex)"></div>
@@ -16,17 +16,17 @@
 <script>
 export default {
   name: "slideshow",
-  props: ["borderImgList"],
+  props: ["borderImgList", "headImg"],
   data() {
     return {
       nowIndex: 0,
-      ImgList: this.borderImgList[0].src
+      selectBorderImg: this.borderImgList[0].src
     };
   },
   methods: {
     goto(index) {
       this.nowIndex = index;
-      this.ImgList = this.borderImgList[index].src;
+      this.selectBorderImg = this.borderImgList[index].src;
     }
   },
   computed: {
