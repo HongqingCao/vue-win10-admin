@@ -1,5 +1,5 @@
 <p align="center">
-<img src="./src/assets/title.png" alt="mark text" width="200" height="320">
+<img src="./src/assets/title.png" alt="mark text" width="414" height="733">
 </p>
 
 <h3 align="center">用vue构建微信国庆头像生成工具</h3>
