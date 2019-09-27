@@ -1,5 +1,5 @@
 <p align="center">
-<img src="./src/assets/logo.png" alt="mark text" width="100" height="100">
+<img src="./src/assets/title.png" alt="mark text" width="200" height="320">
 </p>
 
 <h3 align="center">用vue构建微信国庆头像生成工具</h3>
@@ -24,7 +24,7 @@
 ## 更新日志
 
 2019-09-26 创建项目 
-目前核心代码并未上传，敬请期待，预计2019-09-27号更新完毕
+注意：目前核心代码并未上传，可先Fork，预计2019-09-27号更新完毕, 再 Clone or download，本地运行
 
 
 ## 核心实现原理
