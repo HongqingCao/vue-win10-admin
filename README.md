@@ -5,12 +5,11 @@
 <h3 align="center">用vue构建微信国庆头像生成工具</h3>
 
 <p align="center">
-  <span> | </span>
   <a href="">
     更新日志
   </a>
   <span> | </span>
-  <a href="./README.md">
+  <a href="./README_EN.md">
     English
   </a>
   <span> | </span>
@@ -37,12 +36,12 @@
 
 支持微信h5页面
 
-## Project setup
+## 项目设置
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### 编译和热更新用于开发
 ```
 npm run dev
 ```
