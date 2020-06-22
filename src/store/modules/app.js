@@ -38,26 +38,33 @@ const mutations = {
   }, 
   CHANGE_WIN: (state, iconData) => {
     for (let i = 0; i < state.winArr.length; i++) {
-      if (state.winArr[i].title === iconData.title) { // 如果当前业务已打开，则前置显示
-        // 当前窗口是否最小化
-        let dom = document.querySelector(`[data-title=${iconData.title}]`);
-        if (dom.style.display === 'none') {
-          dom.style.display = 'block';
-        }
-        // 处理zIndex
-        // state.winArr[i].zIndex = state.zIndex;
-        // state.zIndex++;
-        state.winArr = JSON.parse(JSON.stringify(state.winArr));
+      if (state.winArr[i].title === iconData.title) { 
+        state.nowWin = iconData;
         return false;
       }
     }
     // 当前业务未打开，需要打开
     state.winArr.push({
       title: iconData.title,
-      alt: iconData.icon,
+      icon: iconData.icon,
     });
     state.nowWin = iconData;
-    console.log(state.winArr)
+  },
+  TOGGLE_WIN: (state, tagData) => {
+    state.nowWin = tagData;
+  },
+  DEL_WINDOW: (state, data) => {
+    for (let i = 0; i < state.winArr.length; i++) {
+      if (state.winArr[i].title === data.title) {
+        state.winArr.splice(i, 1);
+        if(i >= state.winArr.length) {
+          state.nowWin = state.winArr[i - 1]
+        } else {
+          state.nowWin = state.winArr[i]
+        }
+        return false;
+      }
+    }
   },
   SET_ZINDEX:  (state, dom) => {
     for (let i = 0; i < state.winArr.length; i++) {
@@ -86,6 +93,12 @@ const actions = {
  },
  changeWin({ commit }, iconData) {
   commit('CHANGE_WIN', iconData)
+ },
+ toggleWin({ commit }, tagData) {
+  commit('TOGGLE_WIN', tagData)
+ },
+ delWindow({ commit }, data) {
+  commit('DEL_WINDOW', data)
  },
 }
 

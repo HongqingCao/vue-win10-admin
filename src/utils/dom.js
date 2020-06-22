@@ -1,4 +1,5 @@
 function getClassName (dom, className) {
+  if(dom.className == "")return false;
   let _className = dom.className;
   if (_className === 'win10-warrper') {
     return false;

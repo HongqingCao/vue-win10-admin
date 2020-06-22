@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve",
-    "server": "nodemon --delay 2000ms -w server/bin/www",
-    "start": "concurrently -k \"npm run server\" \"npm run dev\"",
+    "server": "nodemon --delay 2000ms server/bin/www",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },

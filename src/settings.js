@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'vue-caoamin',
+  title: 'vue-win10-admin',
   showSettings: true,
   tagsView: true,
   fixedHeader: false,

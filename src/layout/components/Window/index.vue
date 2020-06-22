@@ -1,10 +1,10 @@
 <template>
   <div class="window-wrapper"
        :style="{
-          width: (!fullScreen ?  winWidth : size.width) + '%',
-          height: (!fullScreen ? winHeight : size.height) + '%',
-          left: !fullScreen ? 0 : (position.left + '%'),
-          top: !fullScreen ? 0 : (position.top + '%'),
+          width: (!fullScreen ?  winWidth : size.width) + 'px',
+          height: (!fullScreen ? winHeight : size.height) + 'px',
+          left: !fullScreen ? 0 : (position.left + 'px'),
+          top: !fullScreen ? 0 : (position.top + 'px'),
         }"
   >
     <div class="window-header">
@@ -30,7 +30,7 @@
           icon="iconguanbi"
           title="关闭"
           class="task-btn"
-          @click="handleMessageBtn"
+          @click="handleClose"
         ></task-btn>
       </div>
     </div>
@@ -61,25 +61,25 @@ export default {
   },
   computed: {
     winHeight: function () {
-      return 100;
+      return document.body.clientHeight - 40;
     },
     winWidth: function () {
-      return 100;
+      return document.body.clientWidth;
     }
   },
   data() {
     return {
       size: {
-        width: 80,
-        height: 80
+        width: document.body.clientWidth - 300,
+        height: document.body.clientHeight -240
       },
       position: {
-        left: 10,
-        top: 10
+        left: 150,
+        top: 100
       },
       oldSize: {
-        width: 100,
-        height: 100
+        width: document.body.clientWidth,
+        height: document.body.clientHeight - 40
       },
       oldPosition: {
         left: 0,
@@ -100,19 +100,19 @@ export default {
         document.onmousemove = (e) => {
           if (direction === 'move') {
             let left = 0,top = 0
-            left = that.position.left + (e.clientX - clientX) / e.clientX * 100
-            top = that.position.top + (e.clientY - clientY) / e.clientY * 100
+            left = that.position.left + (e.clientX - clientX)
+            top = that.position.top + (e.clientY - clientY)
             if(left < 0) {
               that.position.left = 0
-            } else if (left > (100 - that.size.width)) {
-               that.position.left = 100 - that.size.width
+            } else if (left > (this.winWidth - that.size.width)) {
+               that.position.left = this.winWidth - that.size.width
             } else {
               that.position.left = left
             }
             if(top < 0) {
               that.position.top = 0
-            } else if (top > (100 - that.size.height)) {
-               that.position.top = 100 - that.size.height
+            } else if (top > (this.winHeight - that.size.height)) {
+               that.position.top = this.winHeight - that.size.height
             } else {
               that.position.top = top
             }
@@ -136,14 +136,10 @@ export default {
         this.size.width = this.oldSize.width
         this.size.height = this.oldSize.height
       } else {
-        // this.position.left = 0
-        // this.position.top = 0
-        // this.size.width = 100
-        // this.size.height = 100
-        this.oldPosition.left = this.position.left== 0 ? 10 :this.position.left
-        this.oldPosition.top = this.position.top== 0 ? 10 :this.position.top
-        this.oldSize.width = this.size.width== 100 ? 80 :this.size.width
-        this.oldSize.height = this.size.height == 100 ? 80 :this.size.height
+        this.oldPosition.left = this.position.left== 0 ? 150 :this.position.left
+        this.oldPosition.top = this.position.top== 0 ? 100 :this.position.top
+        this.oldSize.width = this.size.width== this.winWidth ? (this.winWidth - 300) :this.size.width
+        this.oldSize.height = this.size.height == this.winHeight ? (this.winHeight -240) :this.size.height
         this.position.left = this.oldPosition.left
         this.position.top = this.oldPosition.top
         this.size.width = this.oldSize.width
@@ -154,6 +150,9 @@ export default {
       setTimeout(function () {
         that.$el.style.transition = 'all 0s';
       }, 500);
+    },
+    handleClose() {
+      this.$store.dispatch('app/delWindow', this.windowData);
     }
   }
 }

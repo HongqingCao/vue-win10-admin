@@ -1,8 +1,9 @@
 <template>
   <div
       class="tags-wrapper"
+      :class="{'active': tagData.title==nowWin.title}"
       :style="{width: width}"
-      @click="handleClick(tagData.title)"
+      @click="handleClick(tagData)"
   >{{tagData.title}}</div>
 </template>
 
@@ -18,7 +19,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'winArr'
+      'winArr',
+      'nowWin'
     ]),
     width: function () {
       let per = 100 / (this.winArr.length);
@@ -26,10 +28,8 @@ export default {
     }
   },
   methods: {
-    handleClick (name) {
-      this.$store.commit('toggleWin', {
-        name: name
-      });
+    handleClick (tagData) {
+      this.$store.dispatch('app/toggleWin', tagData);
     }
   }
 };
@@ -51,6 +51,9 @@ export default {
   word-break: keep-all;
   padding: 0 6px;
   margin-right: 1px;
+  &.active{
+    background-color: rgba(106, 105, 100, 0.7);
+  }
   &:hover {
     background-color: rgba(106, 105, 100, 0.7);
     cursor: pointer;
