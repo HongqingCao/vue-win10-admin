@@ -38,16 +38,13 @@ const mutations = {
   }, 
   CHANGE_WIN: (state, iconData) => {
     for (let i = 0; i < state.winArr.length; i++) {
-      if (state.winArr[i].title === iconData.title) { 
+      if (state.winArr[i].meta.title === iconData.meta.title) { 
         state.nowWin = iconData;
         return false;
       }
     }
     // 当前业务未打开，需要打开
-    state.winArr.push({
-      title: iconData.title,
-      icon: iconData.icon,
-    });
+    state.winArr.push(iconData);
     state.nowWin = iconData;
   },
   TOGGLE_WIN: (state, tagData) => {

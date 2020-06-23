@@ -1,10 +1,10 @@
 <template>
   <div
       class="tags-wrapper"
-      :class="{'active': tagData.title==nowWin.title}"
+      :class="{'active': tagData.name == nowWin.name}"
       :style="{width: width}"
       @click="handleClick(tagData)"
-  >{{tagData.title}}</div>
+  >{{tagData.meta.title}}</div>
 </template>
 
 <script>

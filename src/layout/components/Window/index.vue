@@ -11,7 +11,7 @@
       <div class="window-title" 
            :class="{move: fullScreen}"
            @mousedown="mousedown($event, 'move')">
-        {{windowData.title}}
+        {{windowData.meta.title}}
       </div>
       <div class="window-right">
         <task-btn
@@ -35,13 +35,20 @@
       </div>
     </div>
     <div class="window-content">
-      <div class="content-left">
-        <div class="list">{{windowData.title}}</div>
-        <div class="list">测试测试测试</div>
-        <div class="list">测试测试测试</div>
-        <div class="list">测试测试测试</div>
+      <div class="content-left" v-if="windowData.children">
+        <div class="list" 
+             v-for="(item) in windowData.children"
+             :key="item.name" 
+             :class="{'active': (windowData.path + '/' + item.path)===key }"
+             @click="handleMenu(item)"
+             >{{item.meta.title}}</div>
       </div>
-      <div class="content-right">{{windowData.title}}</div>
+      <div class="content-right">
+        <div class="nav-title">{{title}}</div>
+        <transition name="fade-transform" mode="out-in">
+          <router-view :key="key"></router-view>
+        </transition>
+      </div>
     </div>
   </div>
 </template>
@@ -65,10 +72,17 @@ export default {
     },
     winWidth: function () {
       return document.body.clientWidth;
+    },
+    key() {
+      return this.$route.path
+    },
+    title() {
+      return this.navTitle ? this.navTitle:( this.windowData.meta.title + ' / ' + this.windowData.children[0].meta.title)
     }
   },
   data() {
     return {
+      navTitle:'',
       size: {
         width: document.body.clientWidth - 300,
         height: document.body.clientHeight -240
@@ -153,6 +167,13 @@ export default {
     },
     handleClose() {
       this.$store.dispatch('app/delWindow', this.windowData);
+    },
+    handleMenu(item) {
+      let path = this.windowData.children ? (this.windowData.path + '/' + item.path) : item.path
+      this.navTitle = this.windowData.meta.title + ' / ' + item.meta.title
+      if(this.$route.path != path){
+          this.$router.push(path)
+        }
     }
   }
 }
@@ -189,7 +210,7 @@ export default {
   .window-content {
     overflow: hidden;
     height: calc(100% - 40px);
-
+    display: flex;
     .content-left{
       width: 220px;
       height: 100%;
@@ -200,15 +221,26 @@ export default {
         line-height: 40px;
         padding: 0 10px 0 10px;
         font-size: 14px;
-
         &:hover {
-          background-color: rgba(106, 105, 100, 0.4);
+          background-color: rgba(106, 105, 100, 0.3);
           cursor: pointer;
+        }
+        &.active{
+          background-color: rgba(106, 105, 100, 0.2);
         }
       }
     }
     .content-right{
       flex: 1;
+      height: 100%;
+      width: calc(100% - 220px);
+      padding: 24px 12px 24px 24px;
+      background: #f0f2f5;
+      overflow:scroll;
+      .nav-title {
+        color: rgba(0,0,0,.45);
+        padding-bottom: 15px;
+      }
     }
   }
 }

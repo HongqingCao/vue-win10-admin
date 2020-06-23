@@ -1,29 +1,24 @@
 const initTable = require('../config/db')
 const Sequelize = require('sequelize')
 
-const menu = initTable.define('db_menu', {
+const menu = initTable.define('db_authority', {
   id: {
     type: Sequelize.INTEGER(11),
     primaryKey: true,
     autoIncrement: true
   },
-  pid: {
-    type: Sequelize.INTEGER(11),
-  },
-  menuName: {
+  authority_id: Sequelize.INTEGER(11),
+  authority_name: {
     type: Sequelize.STRING(48),
-    comment: '菜单名称'
+    comment: '权限名称'
   },
-  menuId: Sequelize.INTEGER(11),
-  parentMenuId: Sequelize.INTEGER(11),
+  authority_type: Sequelize.INTEGER(11),
+  authority_sort: Sequelize.INTEGER(11),
+  parent_id: Sequelize.INTEGER(11),
+  parent_name:Sequelize.STRING(48),
   desc: {
     type: Sequelize.STRING(128),
-    comment: '角色描述'
-  },
-  status: {
-    type: Sequelize.INTEGER(4),
-    defaultValue: 1,
-    comment: '状态: 0：停用，1：启用(默认为1)'
+    comment: '权限描述'
   },
   create_user: Sequelize.INTEGER(11),
   create_time: {

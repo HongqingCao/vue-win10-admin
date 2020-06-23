@@ -12,7 +12,7 @@
       <tags 
            v-for="item  in winArr"
            :tagData="item"
-          :key="item.title"
+          :key="item.name"
            ></tags>
     </div>
     <div class="taskbar-right">

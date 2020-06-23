@@ -8,8 +8,8 @@
 --> 
 <template>
 <div class="icon-warrper" @click="handleClick">
-  <i class="iconfont" :class="iconData.icon"></i>
-  <span class="app-title">{{iconData.title}}</span>
+    <i class="iconfont" :class="iconData.meta.icon"></i>
+    <span class="app-title">{{iconData.meta.title}}</span>
 </div>
 
 </template>
@@ -18,13 +18,7 @@
 export default {
   props: {
     iconData: {
-      type: Object,
-      default: function () {
-        return {
-          icon: '',
-          title: ''
-        };
-      }
+      type: Object
     }
   },
   data() {
