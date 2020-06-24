@@ -12,7 +12,14 @@ const menu = initTable.define('db_authority', {
     type: Sequelize.STRING(48),
     comment: '权限名称'
   },
-  authority_type: Sequelize.INTEGER(11),
+  authority_type:  {
+    type: Sequelize.INTEGER(11),
+    comment: '权限类型: 0：菜单（默认0），1：操作和功能'
+  },
+  authority_url:  {
+    type: Sequelize.STRING(128),
+    comment: '权限标识'
+  },
   authority_sort: Sequelize.INTEGER(11),
   parent_id: Sequelize.INTEGER(11),
   parent_name:Sequelize.STRING(48),

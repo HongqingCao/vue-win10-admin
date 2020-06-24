@@ -17,6 +17,7 @@ const state = {
   },
   winArr: [],
   nowWin:'',
+  navTitle:'',
   zIndex: 1001
 }
 
@@ -49,6 +50,9 @@ const mutations = {
   },
   TOGGLE_WIN: (state, tagData) => {
     state.nowWin = tagData;
+  },
+  CHANGE_NAV: (state, data) => {
+    state.navTitle = data;
   },
   DEL_WINDOW: (state, data) => {
     for (let i = 0; i < state.winArr.length; i++) {
@@ -96,6 +100,9 @@ const actions = {
  },
  delWindow({ commit }, data) {
   commit('DEL_WINDOW', data)
+ },
+ changeNavTitle({ commit }, data) {
+  commit('CHANGE_NAV', data)
  },
 }
 

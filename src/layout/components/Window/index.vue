@@ -44,7 +44,7 @@
              >{{item.meta.title}}</div>
       </div>
       <div class="content-right">
-        <div class="nav-title">{{title}}</div>
+        <div class="nav-title">{{navTitle}}</div>
         <transition name="fade-transform" mode="out-in">
           <router-view :key="key"></router-view>
         </transition>
@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 let TaskBtn = () => import(/* webpackChunkName: 'task-btn' */ '@/components/TaskBtn.vue');
 
 export default {
@@ -67,6 +68,10 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([
+      'navTitle',
+      'nowWin'
+    ]),
     winHeight: function () {
       return document.body.clientHeight - 40;
     },
@@ -76,13 +81,15 @@ export default {
     key() {
       return this.$route.path
     },
+    noChildrenTitle() {
+      return this.windowData.children ? (this.windowData.meta.title + ' / ' + this.windowData.children[0].meta.title) :this.windowData.meta.title
+    },
     title() {
-      return this.navTitle ? this.navTitle:( this.windowData.meta.title + ' / ' + this.windowData.children[0].meta.title)
+      return this.navTitle ? this.navTitle : this.noChildrenTitle
     }
   },
   data() {
     return {
-      navTitle:'',
       size: {
         width: document.body.clientWidth - 300,
         height: document.body.clientHeight -240
@@ -170,9 +177,14 @@ export default {
     },
     handleMenu(item) {
       let path = this.windowData.children ? (this.windowData.path + '/' + item.path) : item.path
-      this.navTitle = this.windowData.meta.title + ' / ' + item.meta.title
       if(this.$route.path != path){
-          this.$router.push(path)
+        let navTitle =  this.windowData.meta.title + ' / ' + item.meta.title
+        this.$store.dispatch('app/changeNavTitle', navTitle);
+        this.$router.push(path)
+        // 记忆之前路由
+        let changeRouterWin = Object.assign({}, this.nowWin)
+            changeRouterWin.route = path
+        this.$store.dispatch('app/changeWin', changeRouterWin)
         }
     }
   }
@@ -181,19 +193,19 @@ export default {
 
 <style lang="scss">
 .window-wrapper {
-  background-color: #fff;
   position: absolute;
   z-index: 9;
   .window-header {
     height: 40px;
     line-height: 40px;
-    background-color:rgba(106, 105, 100, 0.7);
+    background-color:#08d;
     display: flex;
 
     .window-title {
       flex: 1;
       padding-left: 10px;
       user-select: none;
+      color: #fff;
 
       &.move {
         cursor: move;
@@ -214,7 +226,8 @@ export default {
     .content-left{
       width: 220px;
       height: 100%;
-      background-color:#e4e3e6;
+      color: hsla(0,0%,100%,.65);
+      background-color:#001529;
       float: left;
       .list {
         height: 40px;
@@ -222,11 +235,16 @@ export default {
         padding: 0 10px 0 10px;
         font-size: 14px;
         &:hover {
-          background-color: rgba(106, 105, 100, 0.3);
           cursor: pointer;
+          color: #fff;
+          transition: color .3s cubic-bezier(.645,.045,.355,1),
+                      border-color .3s cubic-bezier(.645,.045,.355,1),
+                      background .3s cubic-bezier(.645,.045,.355,1),
+                      padding .15s cubic-bezier(.645,.045,.355,1)
         }
         &.active{
-          background-color: rgba(106, 105, 100, 0.2);
+          color: #fff;
+          background-color: rgba(106, 105, 100, 0.4);
         }
       }
     }

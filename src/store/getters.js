@@ -7,6 +7,7 @@ const getters = {
   winSize: state => state.app.winSize,
   winArr: state => state.app.winArr,
   nowWin: state => state.app.nowWin,
+  navTitle: state => state.app.navTitle,
   getZIndex: state => state.app.maxZIndexValue,
   getProcessCount: state => state.app.processCount,
   getTaskbarDirection: state => state.app.taskbarDirection
