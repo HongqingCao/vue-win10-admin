@@ -1,7 +1,7 @@
 const initTable = require('../config/db')
 const Sequelize = require('sequelize')
-
-const menu = initTable.define('db_authority', {
+const moment = require('moment')
+const auth = initTable.define('db_auth', {
   id: {
     type: Sequelize.INTEGER(11),
     primaryKey: true,
@@ -21,7 +21,10 @@ const menu = initTable.define('db_authority', {
     comment: '权限标识'
   },
   authority_sort: Sequelize.INTEGER(11),
-  parent_id: Sequelize.INTEGER(11),
+  parent_id:  {
+    type: Sequelize.INTEGER(11),
+    defaultValue: 0,
+  },
   parent_name:Sequelize.STRING(48),
   desc: {
     type: Sequelize.STRING(128),
@@ -58,4 +61,4 @@ const menu = initTable.define('db_authority', {
   },
 }, {freezeTableName: true})
 
-module.exports = menu
+module.exports = auth

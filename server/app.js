@@ -37,9 +37,6 @@ app.use(async (ctx, next) => {
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
 app.use(routes())
-app.listen(3001, () => {
-  console.log('Koa is listening in 3001')
-})
 // error-handling
 app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)

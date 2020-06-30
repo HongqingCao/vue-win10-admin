@@ -80,8 +80,8 @@ class User extends Base{
 
  // 登录
   async login (ctx, next) {
-    console.log("ctx.request.body")
-    console.log(ctx.request.body)
+     console.log("data")
+     console.log(ctx.request.body)
     await ValidateUser.login(ctx, next)
     let account = ctx.request.body.account,
         password = ctx.request.body.password,
@@ -98,8 +98,8 @@ class User extends Base{
 
       search = await UserModel.findOne({where})
       data = search ? JSON.parse(JSON.stringify(search)) : null
-      console.log("data")
-      console.log(data)
+      // console.log("data")
+      // console.log(data)
      // 获取到数据
       if (data && data.status) {
 

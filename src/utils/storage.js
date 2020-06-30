@@ -1,54 +1,53 @@
 import Cookies from 'js-cookie'
-
+const TokenKey = 'win10-Admin-Token'
 /**
  * 对cookie操作
  */
-export function _setCookie (key, value, params, type) {
-  if (!key) return
+export function _setCookie (value, params, type) {
+  if (!TokenKey) return
   if (type === 'JSONStr') {
     value = JSON.stringify(value)
   }
-  Cookies.set(key, value, params)
+  Cookies.set(TokenKey, value, params)
 }
-export function _getCookie (key, type) {
-  if (!Cookies.get(key)) {
+export function _getCookie (type) {
+  if (!Cookies.get(TokenKey)) {
     return
   }
   if (type === 'JSONStr') {
-    return JSON.parse(Cookies.get(key))
+    return JSON.parse(Cookies.get(TokenKey))
   } else {
-    return Cookies.get(key)
+    return Cookies.get(TokenKey)
   }
 }
-export function _removeCookie (key) {
-  return Cookies.remove(key)
+export function _removeCookie (TokenKey) {
+  return Cookies.remove(TokenKey)
 }
 
 /**
  * 对sessionStorage操作
  */
-export const _setSessionStore = (key, value, type) => {
-  if (!key) return
+export const _setSessionStore = (value, type) => {
+  if (!TokenKey) return
   if (type === 'JSONStr') {
     value = JSON.stringify(value)
   }
-  sessionStorage.setItem(key, value)
+  sessionStorage.setItem(TokenKey, value)
 }
 
-export const _getSessionStore = (key, type) => {
-  if (!sessionStorage.getItem(key)) {
+export const _getSessionStore = (type) => {
+  if (!sessionStorage.getItem(TokenKey)) {
     return
   }
   if (type === 'JSONStr') {
-    return JSON.parse(sessionStorage.getItem(key))
+    return JSON.parse(sessionStorage.getItem(TokenKey))
   } else {
-    return sessionStorage.getItem(key)
+    return sessionStorage.getItem(TokenKey)
   }
 }
 
-export const _removeSessionStore = key => {
-  if (!key) return
-  sessionStorage.removeItem(key)
+export const _removeSessionStore = TokenKey => {
+  sessionStorage.removeItem(TokenKey)
 }
 
 /**

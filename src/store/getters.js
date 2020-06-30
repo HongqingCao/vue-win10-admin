@@ -10,6 +10,11 @@ const getters = {
   navTitle: state => state.app.navTitle,
   getZIndex: state => state.app.maxZIndexValue,
   getProcessCount: state => state.app.processCount,
-  getTaskbarDirection: state => state.app.taskbarDirection
+  getTaskbarDirection: state => state.app.taskbarDirection,
+
+  token: state => state.user.token,
+  roles: state => state.user.roles,
+
+  routers: state => state.permission.routes,
 }
 export default getters

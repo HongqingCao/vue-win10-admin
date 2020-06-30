@@ -1,6 +1,6 @@
 const initTable = require('../config/db')
 const Sequelize = require('sequelize')
-
+const moment = require('moment')
 const role = initTable.define('db_role', {
   id: {
     type: Sequelize.INTEGER(11),

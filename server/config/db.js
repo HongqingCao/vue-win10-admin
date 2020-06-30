@@ -13,7 +13,7 @@ const sequelize = new Sequelize(dbName, user, password, {
   host,
   port,
   timezone,
-  operatorsAliases: false,
+  //operatorsAliases: false,
   pool: {
     max: 5,
     min: 0,
@@ -32,13 +32,13 @@ sequelize
   });
 
 // 根据模型自动创建表
-sequelize
-  .sync({alter: true} )
-  .then(() => {
-    console.log('init db ok')
-  })
-  .catch(err => {
-    console.log('init db error', err)
-  })
+// sequelize
+//   .sync({alter: true} )
+//   .then(() => {
+//     console.log('init db ok')
+//   })
+//   .catch(err => {
+//     console.log('init db error', err)
+//   })
 
 module.exports = sequelize

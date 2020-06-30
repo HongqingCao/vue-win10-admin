@@ -1,6 +1,6 @@
 const initTable = require('../config/db')
 const Sequelize = require('sequelize')
-
+const moment = require('moment')
 const token = initTable.define('db_token', {
   id: {
     type: Sequelize.INTEGER(11),

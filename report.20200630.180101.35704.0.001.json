@@ -1,0 +1,155 @@
+
+{
+  "header": {
+    "reportVersion": 1,
+    "event": "Allocation failed - JavaScript heap out of memory",
+    "trigger": "FatalError",
+    "filename": "report.20200630.180101.35704.0.001.json",
+    "dumpEventTime": "2020-06-30T18:01:01Z",
+    "dumpEventTimeStamp": "1593511261581",
+    "processId": 35704,
+    "cwd": "D:\\github\\vue-win10-admin",
+    "commandLine": [
+      "D:\\Soft\\node.exe",
+      "server/bin/www"
+    ],
+    "nodejsVersion": "v12.10.0",
+    "wordSize": 64,
+    "arch": "x64",
+    "platform": "win32",
+    "componentVersions": {
+      "node": "12.10.0",
+      "v8": "7.6.303.29-node.16",
+      "uv": "1.31.0",
+      "zlib": "1.2.11",
+      "brotli": "1.0.7",
+      "ares": "1.15.0",
+      "modules": "72",
+      "nghttp2": "1.39.2",
+      "napi": "4",
+      "llhttp": "1.1.4",
+      "http_parser": "2.8.0",
+      "openssl": "1.1.1c",
+      "cldr": "35.1",
+      "icu": "64.2",
+      "tz": "2019a",
+      "unicode": "12.1"
+    },
+    "release": {
+      "name": "node",
+      "headersUrl": "https://nodejs.org/download/release/v12.10.0/node-v12.10.0-headers.tar.gz",
+      "sourceUrl": "https://nodejs.org/download/release/v12.10.0/node-v12.10.0.tar.gz",
+      "libUrl": "https://nodejs.org/download/release/v12.10.0/win-x64/node.lib"
+    },
+    "osName": "Windows_NT",
+    "osRelease": "10.0.17134",
+    "osVersion": "Windows 10 Education",
+    "osMachine": "x86_64",
+    "cpus": [
+      {
+        "model": "Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz",
+        "speed": 3600,
+        "user": 13929953,
+        "nice": 0,
+        "sys": 48364687,
+        "idle": 140772359,
+        "irq": 1425671
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz",
+        "speed": 3600,
+        "user": 16595656,
+        "nice": 0,
+        "sys": 53098703,
+        "idle": 133372640,
+        "irq": 451218
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz",
+        "speed": 3600,
+        "user": 29848078,
+        "nice": 0,
+        "sys": 40231796,
+        "idle": 132986875,
+        "irq": 479250
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz",
+        "speed": 3600,
+        "user": 40007937,
+        "nice": 0,
+        "sys": 45215062,
+        "idle": 117843750,
+        "irq": 362453
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz",
+        "speed": 3600,
+        "user": 17311140,
+        "nice": 0,
+        "sys": 49101156,
+        "idle": 136654453,
+        "irq": 444828
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz",
+        "speed": 3600,
+        "user": 19442765,
+        "nice": 0,
+        "sys": 44629703,
+        "idle": 138994281,
+        "irq": 399515
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz",
+        "speed": 3600,
+        "user": 26150218,
+        "nice": 0,
+        "sys": 44114609,
+        "idle": 132801921,
+        "irq": 374765
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz",
+        "speed": 3600,
+        "user": 52044750,
+        "nice": 0,
+        "sys": 37816203,
+        "idle": 113205796,
+        "irq": 413031
+      }
+    ],
+    "networkInterfaces": [
+      {
+        "name": "以太网",
+        "internal": false,
+        "mac": "40:8d:5c:89:91:72",
+        "address": "fe80::190b:4da4:df87:f2e8",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 11
+      },
+      {
+        "name": "以太网",
+        "internal": false,
+        "mac": "40:8d:5c:89:91:72",
+        "address": "10.7.253.134",
+        "netmask": "255.255.255.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "Loopback Pseudo-Interface 1",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "::1",
+        "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+        "family": "IPv6",
+        "scopeid": 0
+      },
+      {
+        "name": "Loopback Pseudo-Interface 1",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "127.0.0.1",
+        "netmask": "255.0.0.0",
+        "f

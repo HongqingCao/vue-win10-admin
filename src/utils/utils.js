@@ -3,7 +3,7 @@
  * @param data
  * @returns {string}
  */
-export function dataTrim (data) {
+let dataTrim = (data) =>  {
   if (Array.isArray(data)) {
     for (let item of data) {
       if (typeof item === 'object') {
@@ -22,4 +22,22 @@ export function dataTrim (data) {
     }
   }
   return data
+};
+/**
+ * @description 全局去前后空格
+ * @param data
+ * @returns {string}
+ */
+let removeItemFromArr = (item, dataList) => {
+  for (let i = 0; i < dataList.length; i++) {
+    if (dataList[i] === item) {
+      dataList.splice(i, 1);
+      break;
+    }
+  }
+};
+
+export default {
+  dataTrim,
+  removeItemFromArr
 }

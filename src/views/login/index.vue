@@ -21,7 +21,7 @@
 
 <script>
 import { isPassword } from "@/utils/validate";
-  import { loginApi } from "@/api/login";
+import { loginApi } from "@/api/login";
 export default {
   name: "Login",
   data() {
@@ -46,10 +46,24 @@ export default {
         password: "",
         type:1
       },
+      redirect: undefined,
+      otherQuery: {},
       loginRules: {
         account: [{required: true, trigger: "blur", validator: validateAccount}],
         password: [{required: true, trigger: "blur", validator: validatePassword}]
       },
+    }
+  },
+  watch: {
+    $route: {
+      handler: function(route) {
+        const query = route.query
+        if (query) {
+          this.redirect = query.redirect
+          this.otherQuery = this.getOtherQuery(query)
+        }
+      },
+      immediate: true
     }
   },
   methods: {
@@ -66,13 +80,22 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate((valid) => {
         if(valid) {
-            loginApi(this.loginForm).then((res) => {
-              console.log("res")
-              console.log(res)
+          this.$store.dispatch('user/login', this.loginForm)
+            .then(() => {
+              this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+            })
+            .catch(() => {
             })
         }
       })
-   
+    },
+    getOtherQuery(query) {
+      return Object.keys(query).reduce((acc, cur) => {
+        if (cur !== 'redirect') {
+          acc[cur] = query[cur]
+        }
+        return acc
+      }, {})
     }
   }
 }

@@ -1,13 +1,26 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-//import Login from '../views/login/index.vue'
 
-import routeList from './constantRoutes'
+import asyncRoutesMap from './asyncRoutes'
+import constantRouterMap from './constantRoutes'
+
 Vue.use(VueRouter)
 
-const router = new VueRouter({
+const createRouter  = () => new VueRouter({
   mode: 'history', 
-  routes: routeList, 
+  scrollBehavior: () => ({ y: 0 }),
+  routes: constantRouterMap
 })
+
+const router = createRouter()
+
+export const constantRoutes = [
+  ...constantRouterMap,
+]
+// 重置路由
+export function resetRouter() {
+  const newRouter = createRouter()
+  router.matcher = newRouter.matcher
+}
 
 export default router
