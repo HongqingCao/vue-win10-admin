@@ -80,8 +80,8 @@ class User extends Base{
 
  // 登录
   async login (ctx, next) {
-     console.log("data")
-     console.log(ctx.request.body)
+    //  console.log("data")
+    //  console.log(ctx.request.body)
     await ValidateUser.login(ctx, next)
     let account = ctx.request.body.account,
         password = ctx.request.body.password,
@@ -124,13 +124,9 @@ class User extends Base{
             data[data.type + '_expire_time'] = new Date(+new Date() + 60 * 60 * 24 * 1 * 1000) // 重新登录则上次的失效 (测试期间设置为一天后失效)
             break
         }
-
         try {
           // Token过期了或者用户登录获取到的信息和之前token解析出来的不一样，则重新设置，否则不处理
-          console.log("1")
           let getIP = this.getClientIp(ctx)
-          console.log("ip" + getIP)
-
           Authority.setToken(data, {
             set: {
               [data.type + '_token']: JWT.sign(data, secret, {}),

@@ -14,7 +14,7 @@ service.interceptors.request.use(config => {
   // 设置请求头
   if (store.getters.token) {
     // 让每个请求携带token
-    config.headers['Authorization'] = _getSessionStore('token')
+    config.headers['Authorization'] = _getSessionStore()
   }
   // 对全局参数做过滤，把不存在的参数删除
   if (config.method === 'post') {

@@ -7,7 +7,9 @@ const auth = initTable.define('db_auth', {
     primaryKey: true,
     autoIncrement: true
   },
-  authority_id: Sequelize.INTEGER(11),
+  authority_id:  {
+    type: Sequelize.INTEGER(11)
+  },
   authority_name: {
     type: Sequelize.STRING(48),
     comment: '权限名称'

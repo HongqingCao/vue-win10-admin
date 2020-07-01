@@ -1,5 +1,6 @@
 import asyncRoutes from '@/router/asyncRoutes'
- let constantRoutes = []
+import { getAuthList } from "@/api/systemSetting"
+let constantRoutes = []
 
 let modelRouter = [
   {
@@ -129,16 +130,26 @@ const state = {
 const mutations = {
   SET_ROUTES: (state, routes) => {
     state.addRoutes = routes
-    state.routes = constantRoutes.concat(routes)
+    state.routes = routes
   }
 }
 
 const actions = {
   getMenuRouterList({ commit }) {
     return new Promise(resolve => {
-      sortMenuList(modelRouter)
-      commit('SET_ROUTES', constantRoutes)
-      resolve(constantRoutes)
+      getAuthList().then(res => {
+        if (res.code === 20000 && res.data) {
+          //本地路由测试
+          //sortMenuList(modelRouter)
+          sortMenuList(res.data)
+          commit('SET_ROUTES', constantRoutes)
+        } else {
+          constantRoutes.push({path: '*', redirect: '/404', hidden: true});
+        }
+        resolve(constantRoutes)
+      })
+      console.log("state.routes")
+      console.log(state.routes)
     })
   }
 }
@@ -178,7 +189,13 @@ const getTreeArr = (obj) => {
         item.children.push(item1)
       }
     })
-    item.children.sort((a, b) => a.sort - b.sort)
+    // 如果有二级菜单就进行排序，如果没有删除children属性
+    if (item.children.length > 0) {
+      item.children.sort((a, b) => a.sort - b.sort)
+    } else {
+      delete item.children
+    }
+    
   })
   baseMenu.sort((a, b) => a.sort - b.sort)
   return baseMenu

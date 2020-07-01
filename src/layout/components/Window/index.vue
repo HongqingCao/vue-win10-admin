@@ -232,7 +232,7 @@ export default {
       .list {
         height: 40px;
         line-height: 40px;
-        padding: 0 10px 0 10px;
+        padding: 0 10px 0 20px;
         font-size: 14px;
         &:hover {
           cursor: pointer;

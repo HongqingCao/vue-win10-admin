@@ -1,23 +1,19 @@
-const Base = require('./base')
 const AuthModel = require('../model/auth')
-const Op = require('sequelize').Op
-
-const loginIn = async (ctx) => {
-  console.log('user')
-  const user =JSON.parse(JSON.stringify( ctx.request.body))
-  console.log(user)
-  console.log(user.account)
-  const data = await UserModel.findAll({
-    account: user.account
+const getList = async (ctx) => {
+  console.log("aaaaa")
+  const data = await AuthModel.findAll({
+    flag: 1
   })
   ctx.body = {
-    code: data ? 1000 : 1003,
+    code: data ? 20000 : 1003,
     data: data,
-    desc: data ? '登陆成功' : '账号或密码错误'
+    error:null,
+    desc: data ? 'SUCCESS' : 'error'
   }
+  console.log("dddddd")
   console.log(ctx.body)
 }
 
 module.exports = {
-  loginIn
+  getList
 }

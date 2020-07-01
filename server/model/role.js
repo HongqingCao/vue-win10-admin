@@ -51,7 +51,7 @@ const role = initTable.define('db_role', {
     type: Sequelize.INTEGER(4),
     defaultValue: 1,
     comment: '状态: 0：删除，1：可用(默认为1)'
-  },
+  }
 }, {freezeTableName: true})
 
 module.exports = role

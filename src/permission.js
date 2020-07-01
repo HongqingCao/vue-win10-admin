@@ -5,11 +5,8 @@ import { _getSessionStore } from '@/utils/storage'
 
 // 免登陆可进入的页面
 const whiteList = ['/login', '/401', '/404', '/retrieve']
-let test = 1
 // 路由前置
-
 router.beforeEach((to, from, next) => {
-  debugger
   if (_getSessionStore()) {
     if (to.path === '/login') {
       next({ path: '/' })
@@ -24,7 +21,7 @@ router.beforeEach((to, from, next) => {
           next(`/login?redirect=${to.path}`)
         })
       } else {
-        router.addRoutes(store.getters.routers);
+        //router.addRoutes(store.getters.routers);
         next()
       }
     }

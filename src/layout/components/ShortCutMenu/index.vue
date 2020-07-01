@@ -22,17 +22,21 @@
 <script>
 import {mapGetters} from 'vuex'
 import appIcon from '@/components/Icon.vue'
-import routes from '@/router/constantRoutes'
+//import routes from '@/router/constantRoutes'
 export default {
   components: {
     appIcon
   },
   computed:{
     ...mapGetters([
-      'nowWin'
+      'nowWin',
+      'routers'
     ]),
     iconList: function () {
-      return routes.filter(item => { return !(item.path =="/") });
+      //return routes.filter(item => { return !(item.path =="/") });
+      console.log("22222222")
+      console.log(this.routers)
+      return this.routers
     }
   },
   data() {

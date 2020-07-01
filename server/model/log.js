@@ -34,7 +34,7 @@ const log = initTable.define('db_log', {
     get() {
       return moment(this.getDataValue('create_time')).format('YYYY-MM-DD HH:mm')
     }
-  },
+  }
 }, {freezeTableName: true})
 
 module.exports = log

@@ -15,7 +15,7 @@ module.exports = {
       warnings: false,
       errors: true
     },
-    proxy: 'http://localhost:3000'
+    //proxy: 'http://localhost:3000'
   },
   configureWebpack: {
     name: title,

@@ -18,7 +18,6 @@ export default [
   {
     path: '/',
     component: Layout,
-    alwaysShow: false,
-    name: 'home'
+    alwaysShow: false
   }
 ]

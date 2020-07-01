@@ -37,10 +37,11 @@ const actions = {
     //const { account, password, type} = userInfo
     return new Promise((resolve, reject) => {
       loginApi(userInfo).then(response => {
-        const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
+       // const data } = response
         console.log("token")
+        console.log(response)
+        commit('SET_TOKEN', response.token)
+        _setSessionStore(response.token)
         resolve()
       }).catch(error => {
         reject(error)

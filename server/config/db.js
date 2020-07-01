@@ -13,7 +13,7 @@ const sequelize = new Sequelize(dbName, user, password, {
   host,
   port,
   timezone,
-  //operatorsAliases: false,
+  operatorsAliases: false,
   pool: {
     max: 5,
     min: 0,
@@ -30,8 +30,11 @@ sequelize
   .catch(err => {
     console.error('链接失败:', err);
   });
-
-// 根据模型自动创建表
+  
+  // sequelize.sync({
+  //   force: true
+  // })
+//根据模型自动创建表
 // sequelize
 //   .sync({alter: true} )
 //   .then(() => {

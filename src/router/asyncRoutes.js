@@ -37,23 +37,30 @@ export default {
   },
   authority:{
     path: 'authority',
-    component: () => import('@/views/authority'),
+    component: () => import('@/views/systemSetting/authority'),
     hidden: true,
     name: 'authority',
     meta: { title: '权限设置' }
   },
   role:{
     path: 'role',
-    component: () => import('@/views/role'),
+    component: () => import('@/views/systemSetting/role'),
     hidden: true,
     name: 'role',
     meta: { title: '角色管理' }
   },
   log:{
     path: 'log',
-    component: () => import('@/views/log'),
+    component: () => import('@/views/systemSetting/log'),
     hidden: true,
     name: 'log',
     meta: { title: '系统日志' }
+  },
+  admin:{
+    path: 'admin',
+    component: () => import('@/views/systemSetting/admin'),
+    hidden: true,
+    name: 'admin',
+    meta: { title: '管理员设置' }
   }
 }
