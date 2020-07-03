@@ -2,7 +2,7 @@ import router from '@/router'
 import store from '@/store'
 import { Message } from 'element-ui'
 import { _getSessionStore } from '@/utils/storage'
-
+import utils from '@/utils/utils'
 // 免登陆可进入的页面
 const whiteList = ['/login', '/401', '/404', '/retrieve']
 // 路由前置
@@ -22,6 +22,11 @@ router.beforeEach((to, from, next) => {
         })
       } else {
         //router.addRoutes(store.getters.routers);
+        //console.log("path"+ to.path)
+        // 刷新记住当前页面
+        if (to.path.length>1) {
+          nowRoute(to.path)
+        }
         next()
       }
     }
@@ -36,3 +41,26 @@ router.beforeEach((to, from, next) => {
 // 路由后置
 router.afterEach(() => {
 })
+
+const nowRoute = (path) => {
+  let nowpath = utils.splitRouter(path)
+  let storeRouters = store.getters.routers
+  let changeRouterWin = {}
+  let navTitle = ''
+  storeRouters.forEach(item => {
+     if(item.name == nowpath[0]) {
+      changeRouterWin = item
+     }
+  })
+  if (nowpath.length>1) {
+    changeRouterWin.children.forEach(item => {
+      if(item.name == nowpath[1]) {
+        navTitle = item.meta.title
+      }
+   })
+  }
+  navTitle = navTitle ? (changeRouterWin.meta.title + ' / ' + navTitle) :changeRouterWin.meta.title
+  store.dispatch('app/changeNavTitle', navTitle);
+  changeRouterWin.route = path
+  store.dispatch('app/changeWin', changeRouterWin)
+}

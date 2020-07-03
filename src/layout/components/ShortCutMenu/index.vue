@@ -34,8 +34,6 @@ export default {
     ]),
     iconList: function () {
       //return routes.filter(item => { return !(item.path =="/") });
-      console.log("22222222")
-      console.log(this.routers)
       return this.routers
     }
   },

@@ -39,7 +39,7 @@ const mutations = {
   }, 
   CHANGE_WIN: (state, iconData) => {
     for (let i = 0; i < state.winArr.length; i++) {
-      if (state.winArr[i].meta.title === iconData.meta.title) { 
+      if (state.winArr[i].name === iconData.name) { 
         state.nowWin = iconData;
         return false;
       }

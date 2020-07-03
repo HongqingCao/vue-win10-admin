@@ -1,8 +1,12 @@
 const AuthModel = require('../model/auth')
+//const { where } = require('sequelize/types')
 const getList = async (ctx) => {
-  console.log("aaaaa")
+  let type = ctx.request.query.type
   const data = await AuthModel.findAll({
-    flag: 1
+    where: {
+      flag: 1,
+      authority_type: type
+    }
   })
   ctx.body = {
     code: data ? 20000 : 1003,
@@ -13,7 +17,19 @@ const getList = async (ctx) => {
   console.log("dddddd")
   console.log(ctx.body)
 }
+const getAll = async (ctx) => {
+  const data = await AuthModel.findAll({
+    flag: 1
+  })
+  ctx.body = {
+    code: data ? 20000 : 1003,
+    data: data,
+    error:null,
+    desc: data ? 'SUCCESS' : 'error'
+  }
+}
 
 module.exports = {
-  getList
+  getList,
+  getAll
 }

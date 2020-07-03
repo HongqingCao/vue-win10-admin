@@ -2,7 +2,6 @@ import axios from 'axios'
 import { Message, MessageBox } from 'element-ui'
 import store from '@/store'
 import { _getSessionStore } from './storage'
-
 // create an axios instance
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // api的base_url
@@ -79,8 +78,6 @@ service.interceptors.response.use(
       })
       return Promise.reject('error')
     } else {
-      console.log("2222")
-      console.log(response.data)
       const data = response.data
       return data
     }

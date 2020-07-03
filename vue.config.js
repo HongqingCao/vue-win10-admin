@@ -1,21 +1,20 @@
-const path = require('path');
-const resolve = dir => path.join(__dirname, dir);
-const { title } = require("./src/settings");
+const path = require('path')
+const resolve = dir => path.join(__dirname, dir)
+const { title } = require("./src/settings")
 // 自定义vue配置
 module.exports = {
   publicPath: "/",
   outputDir: "dist",
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
-  productionSourceMap: false,
+  productionSourceMap: true,
   devServer: {
     port: 8888,
-    open: true,
+   // open: true,
     overlay: {
       warnings: false,
       errors: true
     },
-    //proxy: 'http://localhost:3000'
   },
   configureWebpack: {
     name: title,

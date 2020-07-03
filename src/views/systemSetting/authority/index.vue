@@ -2,11 +2,11 @@
   <div class="authority-wrapper">
     <el-button type="primary">添加权限</el-button>
     <div class="authority-content">
-      <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick">
-        <span class="tree-node" slot-scope="{ node }">
-          <span class="node-name">{{ node.label }}</span>
+      <el-tree :data="nodeData"  @node-click="handleNodeClick">
+        <span class="tree-node" slot-scope="{ data }">
+          <span class="node-name">{{ data.authority_name }}</span>
           <div class="operate-btn">
-            <span @click.stop="addNode()">新增</span>
+            <span @click.stop="addNode(data)">新增</span>
             <span>修改</span>
             <span>删除</span>
           </div>
@@ -21,49 +21,47 @@
 
 <script>
   const addModify = () => import('./addModifyDialog')
+  import { getAllAuthList } from "@/api/systemSetting"
   export default {
     components:{
      addModify
     },
     data() {
       return {
-        data: [{
-          label: '仪表台',
-          children: [{
-            label: '二级 1-1',
-            children: [{
-              label: '三级 1-1-1'
-            }]
-          }]
-        }, {
-          label: '平台管理',
-          children: [{
-            label: '二级 2-1',
-            children: [{
-              label: '三级 2-1-1'
-            }]
-          }, {
-            label: '二级 2-2',
-            children: [{
-              label: '三级 2-2-1'
-            }]
-          }]
-        }],
-        defaultProps: {
-          children: 'children',
-          label: 'label'
-        }
+        nodeData:[]
       };
     },
     methods: {
       handleNodeClick(data) {
         console.log(data);
       },
-      addNode() {
-        console.log("222")
-        let data = {}
-         this.$refs.refaddModifyDialog.show(data,'新增权限')
+      addNode(data) {
+        this.$refs.refaddModifyDialog.show(data,'新增权限')
+      },
+      getTreeNodeData(data, pid) {
+        if (data.length === 0) return []
+        let nodeArr = [], tempList = data.concat()
+        for (let i in tempList) {
+          if (tempList[i].parent_id == pid) {
+            tempList[i].children =  this.getTreeNodeData(tempList, tempList[i].authority_id)
+            nodeArr.push(tempList[i])
+          }
+        }
+
+        return nodeArr
+      },
+      getData() {
+        getAllAuthList().then(res => {
+          if (res.code === 20000 && res.data) {
+            this.nodeData = this.getTreeNodeData(res.data,'')
+            console.log("222222")
+            console.log(this.nodeData)
+          }
+        })
       }
+    },
+    mounted() {
+      this.getData()
     }
   };
 </script>

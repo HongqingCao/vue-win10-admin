@@ -70,7 +70,7 @@ export default {
   computed: {
     ...mapGetters([
       'navTitle',
-      'nowWin'
+      'nowWin',
     ]),
     winHeight: function () {
       return document.body.clientHeight - 40;

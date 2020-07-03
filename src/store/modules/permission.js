@@ -2,92 +2,92 @@ import asyncRoutes from '@/router/asyncRoutes'
 import { getAuthList } from "@/api/systemSetting"
 let constantRoutes = []
 
-let modelRouter = [
-  {
-    desc: "仪表盘",
-    authority_id: 1,
-    authority_name: "仪表盘",
-    parent_id: 0,
-    parent_name: "",
-    authority_sort: 1,
-    authority_type: 0,
-    authority_url: "dashboard",
-    create_date: "2019-07-14T16:34:22.000Z",
-    create_timestamp: "1563122062",
-    flag: 1,
-    id: 1
-  },
-  {
-    desc: "平台管理",
-    authority_id: 2,
-    authority_name: "平台管理",
-    parent_id: 0,
-    parent_name: "",
-    authority_sort: 2,
-    authority_type: 0,
-    authority_url: "config",
-    create_date: "2019-07-14T16:34:22.000Z",
-    create_timestamp: "1563122062",
-    flag: 1,
-    id: 2
-  },
-  {
-    desc: "系统设置",
-    authority_id: 3,
-    authority_name: "系统设置",
-    parent_id: 0,
-    parent_name: "",
-    authority_sort: 3,
-    authority_type: 0,
-    authority_url: "systemSetting",
-    create_date: "2019-07-14T16:34:22.000Z",
-    create_timestamp: "1563122062",
-    flag: 1,
-    id: 3
-  },
-  {
-    desc: "权限设置",
-    authority_id: 4,
-    authority_name: "权限设置",
-    parent_id: 3,
-    parent_name: "",
-    authority_sort: 0,
-    authority_type: 0,
-    authority_url: "authority",
-    create_date: "2019-07-14T16:34:22.000Z",
-    create_timestamp: "1563122062",
-    flag: 1,
-    id: 4
-  },
-  {
-    desc: "角色管理",
-    authority_id: 5,
-    authority_name: "角色管理",
-    parent_id: 3,
-    parent_name: "",
-    authority_sort: 1,
-    authority_type: 0,
-    authority_url: "role",
-    create_date: "2019-07-14T16:34:22.000Z",
-    create_timestamp: "1563122062",
-    flag: 1,
-    id: 5
-  },
-  {
-    desc: "系统日志",
-    authority_id: 6,
-    authority_name: "系统日志",
-    parent_id: 3,
-    parent_name: "",
-    authority_sort: 2,
-    authority_type: 0,
-    authority_url: "log",
-    create_date: "2019-07-14T16:34:22.000Z",
-    create_timestamp: "1563122062",
-    flag: 1,
-    id: 6
-  }
-]
+// let modelRouter = [
+//   {
+//     desc: "仪表盘",
+//     authority_id: 1,
+//     authority_name: "仪表盘",
+//     parent_id: 0,
+//     parent_name: "",
+//     authority_sort: 1,
+//     authority_type: 0,
+//     authority_url: "dashboard",
+//     create_date: "2019-07-14T16:34:22.000Z",
+//     create_timestamp: "1563122062",
+//     flag: 1,
+//     id: 1
+//   },
+//   {
+//     desc: "平台管理",
+//     authority_id: 2,
+//     authority_name: "平台管理",
+//     parent_id: 0,
+//     parent_name: "",
+//     authority_sort: 2,
+//     authority_type: 0,
+//     authority_url: "config",
+//     create_date: "2019-07-14T16:34:22.000Z",
+//     create_timestamp: "1563122062",
+//     flag: 1,
+//     id: 2
+//   },
+//   {
+//     desc: "系统设置",
+//     authority_id: 3,
+//     authority_name: "系统设置",
+//     parent_id: 0,
+//     parent_name: "",
+//     authority_sort: 3,
+//     authority_type: 0,
+//     authority_url: "systemSetting",
+//     create_date: "2019-07-14T16:34:22.000Z",
+//     create_timestamp: "1563122062",
+//     flag: 1,
+//     id: 3
+//   },
+//   {
+//     desc: "权限设置",
+//     authority_id: 4,
+//     authority_name: "权限设置",
+//     parent_id: 3,
+//     parent_name: "",
+//     authority_sort: 0,
+//     authority_type: 0,
+//     authority_url: "authority",
+//     create_date: "2019-07-14T16:34:22.000Z",
+//     create_timestamp: "1563122062",
+//     flag: 1,
+//     id: 4
+//   },
+//   {
+//     desc: "角色管理",
+//     authority_id: 5,
+//     authority_name: "角色管理",
+//     parent_id: 3,
+//     parent_name: "",
+//     authority_sort: 1,
+//     authority_type: 0,
+//     authority_url: "role",
+//     create_date: "2019-07-14T16:34:22.000Z",
+//     create_timestamp: "1563122062",
+//     flag: 1,
+//     id: 5
+//   },
+//   {
+//     desc: "系统日志",
+//     authority_id: 6,
+//     authority_name: "系统日志",
+//     parent_id: 3,
+//     parent_name: "",
+//     authority_sort: 2,
+//     authority_type: 0,
+//     authority_url: "log",
+//     create_date: "2019-07-14T16:34:22.000Z",
+//     create_timestamp: "1563122062",
+//     flag: 1,
+//     id: 6
+//   }
+// ]
 /**
  * Use meta.role to determine if the current user has permission
  * @param roles
@@ -137,7 +137,7 @@ const mutations = {
 const actions = {
   getMenuRouterList({ commit }) {
     return new Promise(resolve => {
-      getAuthList().then(res => {
+      getAuthList({type:0}).then(res => {
         if (res.code === 20000 && res.data) {
           //本地路由测试
           //sortMenuList(modelRouter)
@@ -146,10 +146,10 @@ const actions = {
         } else {
           constantRoutes.push({path: '*', redirect: '/404', hidden: true});
         }
+        console.log("222")
+        console.log(constantRoutes)
         resolve(constantRoutes)
       })
-      console.log("state.routes")
-      console.log(state.routes)
     })
   }
 }
@@ -164,7 +164,7 @@ const sortMenuList = (menuList) => {
       routerItem.pid = item.parent_id
       routerItem.sort = item.authority_sort
       routerItem.meta.title = item.authority_name
-      if (item.parent_id === 0) {
+      if (item.parent_id == 0) {
         routerItem.alwaysShow = true
       } else {
         routerItem.hidden = true
@@ -180,19 +180,20 @@ const getTreeArr = (obj) => {
     console.log('getTreeArr=>请传入数组')
     return []
   }
-  let baseMenu = obj.data.filter(item => { return (item.pid === 0) })
-  let menuList = obj.data.filter(item => { return !(item.pid === 0) })
+  let baseMenu = obj.data.filter(item => { return (item.pid == 0) })
+  let menuList = obj.data.filter(item => { return !(item.pid == 0) })
   baseMenu.forEach(item => {
     item.children = []
     menuList.forEach(item1 =>{
-      if(item[obj.key] === item1[obj.pKey]){
+      if(item[obj.key] == item1[obj.pKey]){
         item.children.push(item1)
       }
     })
     // 如果有二级菜单就进行排序，如果没有删除children属性
-    if (item.children.length > 0) {
+    if (item.children.length > 1) {
       item.children.sort((a, b) => a.sort - b.sort)
-    } else {
+    }
+    if (!item.children) {
       delete item.children
     }
     

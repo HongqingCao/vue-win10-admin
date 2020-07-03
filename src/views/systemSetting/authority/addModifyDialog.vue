@@ -7,13 +7,13 @@
       width="500px">
       <el-form :model="form" :rules="rules" ref="ruleForm" label-width="120px">
         <el-form-item label="父权限名称">
-          <el-input v-model="form.parentName"></el-input>
+          <el-input v-model="form.parent_name" :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="* 权限名称">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="form.authority_name"></el-input>
         </el-form-item>
         <el-form-item label="* 权限类型">
-          <el-select v-model="form.type" placeholder="请选择权限类型">
+          <el-select v-model="form.authority_type" placeholder="请选择权限类型">
             <el-option 
               v-for="item in authorityType"
               :key="item.value"
@@ -23,14 +23,14 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="* 菜单唯一标识" v-if="form.type==0">
-          <el-input v-model="form.url"></el-input>
+        <el-form-item label="* 菜单唯一标识" v-if="form.authority_type==0">
+          <el-input v-model="form.authority_url"></el-input>
         </el-form-item>
-        <el-form-item label="* 功能URL/标识" v-if="form.type==1">
-          <el-input v-model="form.url"></el-input>
+        <el-form-item label="* 功能URL/标识" v-if="form.authority_type==1">
+          <el-input v-model="form.authority_url"></el-input>
         </el-form-item>
         <el-form-item label="* 排序">
-          <el-input v-model="form.sort"></el-input>
+          <el-input v-model="form.authority_sort"></el-input>
         </el-form-item>
         <el-form-item label="* 权限描述">
           <el-input v-model="form.desc"></el-input>
@@ -53,7 +53,7 @@ export default {
       title:'新增权限',
       authorityType:authorityType,
       form:{
-        type:authorityType[0].value,
+        authority_type:authorityType[0].value,
         status:true
       },
       rules:{}
@@ -63,7 +63,7 @@ export default {
     show(data,title) {
       this.title = title
       this.dialogVisible = true
-
+      this.form = data
     }
   }
 }

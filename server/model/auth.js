@@ -1,6 +1,7 @@
 const initTable = require('../config/db')
 const Sequelize = require('sequelize')
 const moment = require('moment')
+const shortid = require('shortid')
 const auth = initTable.define('db_auth', {
   id: {
     type: Sequelize.INTEGER(11),
@@ -8,7 +9,8 @@ const auth = initTable.define('db_auth', {
     autoIncrement: true
   },
   authority_id:  {
-    type: Sequelize.INTEGER(11)
+    type: Sequelize.STRING(20),
+    defaultValue: shortid.generate
   },
   authority_name: {
     type: Sequelize.STRING(48),
@@ -33,21 +35,7 @@ const auth = initTable.define('db_auth', {
     comment: '权限描述'
   },
   create_user: Sequelize.INTEGER(11),
-  create_time: {
-    type: Sequelize.DATE,
-    defaultValue: Sequelize.NOW,
-    get() {
-      return moment(this.getDataValue('create_time')).format('YYYY-MM-DD HH:mm')
-    }
-  },
   update_user: Sequelize.INTEGER(11),
-  update_time: {
-    type: Sequelize.DATE,
-    defaultValue: Sequelize.NOW,
-    get() {
-      return moment(this.getDataValue('update_time')).format('YYYY-MM-DD HH:mm')
-    }
-  },
   delete_user: Sequelize.INTEGER(11),
   delete_time: {
     type: Sequelize.DATE,
