@@ -193,7 +193,7 @@ const getTreeArr = (obj) => {
     if (item.children.length > 1) {
       item.children.sort((a, b) => a.sort - b.sort)
     }
-    if (!item.children) {
+    if (item.children.length === 0) {
       delete item.children
     }
     

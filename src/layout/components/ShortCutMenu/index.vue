@@ -45,14 +45,14 @@ export default {
     iconClick(iconData) {
       iconData.route = this.$route.path
       console.log(iconData)
-      this.$store.dispatch('app/changeWin', iconData)
+     // this.$store.dispatch('app/changeWin', iconData)
       // 路径判断,如果相同的就不切换路由
       let path = iconData.children ? (iconData.path + '/' + iconData.children[0].path) : iconData.path
       if(this.$route.path != path) {
         // 切换navtitle
-        let navTitle =  iconData.children ? (iconData.meta.title + '/' + iconData.children[0].meta.title) : iconData.meta.title
+       // let navTitle =  iconData.children ? (iconData.meta.title + '/' + iconData.children[0].meta.title) : iconData.meta.title
         this.$router.push(path)
-        this.$store.dispatch('app/changeNavTitle', navTitle);
+       // this.$store.dispatch('app/changeNavTitle', navTitle);
         }
     }
   }
