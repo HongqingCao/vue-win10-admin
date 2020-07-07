@@ -17,4 +17,7 @@ router.prefix('/api/auth')
 
 router.get('/getList', Auth.getList)
 router.get('/getAll', Auth.getAll)
+router.post('/created', Auth.created)
+router.post('/update', Auth.update)
+
 module.exports = router

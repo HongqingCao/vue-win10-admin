@@ -155,6 +155,7 @@ const actions = {
 }
 
 const sortMenuList = (menuList) => {
+  console
   let baseMenu = []
   baseMenu = menuList.map(item => {
     let routerName = item.authority_url.replace("/", "")
@@ -164,24 +165,27 @@ const sortMenuList = (menuList) => {
       routerItem.pid = item.parent_id
       routerItem.sort = item.authority_sort
       routerItem.meta.title = item.authority_name
-      if (item.parent_id == 0) {
+      if (item.parent_id === "0") {
         routerItem.alwaysShow = true
       } else {
         routerItem.hidden = true
       }
-    }
-    return routerItem
+      return routerItem
+    } 
   })
+  // 过滤数组
+  baseMenu = baseMenu.filter(item => item!=undefined)
   constantRoutes = getTreeArr({ key: 'id', pKey: 'pid', data: baseMenu, jsonData: false })
 }
 // 调整路由
 const getTreeArr = (obj) => {
+  console.log(obj.data)
   if (!Array.isArray(obj.data)) {
     console.log('getTreeArr=>请传入数组')
     return []
   }
-  let baseMenu = obj.data.filter(item => { return (item.pid == 0) })
-  let menuList = obj.data.filter(item => { return !(item.pid == 0) })
+  let baseMenu = obj.data.filter(item => { return (item.pid === "0") })
+  let menuList = obj.data.filter(item => { return !(item.pid === "0") })
   baseMenu.forEach(item => {
     item.children = []
     menuList.forEach(item1 =>{

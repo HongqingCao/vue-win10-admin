@@ -24,21 +24,7 @@ const role = initTable.define('db_role', {
     comment: '状态: 0：停用，1：启用(默认为1)'
   },
   create_user: Sequelize.INTEGER(11),
-  create_time: {
-    type: Sequelize.DATE,
-    defaultValue: Sequelize.NOW,
-    get() {
-      return moment(this.getDataValue('create_time')).format('YYYY-MM-DD HH:mm')
-    }
-  },
   update_user: Sequelize.INTEGER(11),
-  update_time: {
-    type: Sequelize.DATE,
-    defaultValue: Sequelize.NOW,
-    get() {
-      return moment(this.getDataValue('update_time')).format('YYYY-MM-DD HH:mm')
-    }
-  },
   delete_user: Sequelize.INTEGER(11),
   delete_time: {
     type: Sequelize.DATE,

@@ -28,12 +28,11 @@ const log = initTable.define('db_log', {
     comment: '日志描述访问IP'
   },
   create_user: Sequelize.INTEGER(11),
-  create_time: {
-    type: Sequelize.DATE,
-    defaultValue: Sequelize.NOW,
-    get() {
-      return moment(this.getDataValue('create_time')).format('YYYY-MM-DD HH:mm')
-    }
+  create_name: Sequelize.STRING(100),
+  flag: {
+    type: Sequelize.INTEGER(4),
+    defaultValue: 1,
+    comment: '状态: 0：删除，1：可用(默认为1)'
   }
 }, {freezeTableName: true})
 

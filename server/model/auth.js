@@ -26,8 +26,8 @@ const auth = initTable.define('db_auth', {
   },
   authority_sort: Sequelize.INTEGER(11),
   parent_id:  {
-    type: Sequelize.INTEGER(11),
-    defaultValue: 0,
+    type: Sequelize.STRING(20),
+    defaultValue: "0",
   },
   parent_name:Sequelize.STRING(48),
   desc: {

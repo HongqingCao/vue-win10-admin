@@ -6,7 +6,6 @@ const logModel = require('../model/log')
 const Authority = require('./authority')
 const JWT = require('jsonwebtoken')
 const { secret } = require('../config/config')
-//const Op = require('sequelize').Op
 
 class User extends Base{
   constructor () {
@@ -24,64 +23,63 @@ class User extends Base{
     // this.userTransfer = this.userTransfer.bind(this)
   }
   // 注册用户
-  async registered (req, res, next) {
-    let search, result, userInfo = await this.getUserInfo(req) || {}
+  async registered (ctx, next) {
+    console.log("ctx")
+    console.log(ctx.request.body)
+    let search, result, userInfo = await this.getUserInfo(ctx) || {}
+    console.log(userInfo)
     // TODO: 需要做一个消息队列，保证注册时数据不会混乱
     // 查询用户是否存在
     try {
-      search = await this.getUserByAccount({account: req.request.body.account, flag: 1})
+      search = await this.getUserByAccount({account: ctx.request.body.account, flag: 1})
     } catch (e) {
-      this.handleException(req, res, e)
+      this.handleException(ctx, e)
       return
     }
     // 用户不存在创建用户，存在则提示
     if (!search) {
       try {
-        let data = JSON.parse(JSON.stringify(req.request.body))
+        let data = JSON.parse(JSON.stringify(ctx.request.body))
         // TODO: 添加时有创建人, 注册时没有
         // 参数处理
         data.create_user = userInfo.id || 1,
-        data.create_time = new Date()
         result = await UserModel.create(data)
       } catch (e) {
-        this.handleException(req, res, e)
+        this.handleException(ctx, e)
         return
       }
 
       try {
-        // TODO: 创建用户写入日志
         await logModel.create({
-            origin: req.request.body.type,
+            origin: ctx.request.body.type,
             type: 4,
-            title: req.request.body.type === 2 ? '创建用户' : '注册用户',
+            title: ctx.request.body.type === 2 ? '创建用户' : '注册用户',
             desc: '',
-            ip: this.getClientIp(req),
+            ip: this.getClientIp(ctx),
             create_user: userInfo.id || 1,
-            create_time: new Date()
         })
       } catch (e) {
-        this.handleException(req, res, e)
+        this.handleException(ctx, e)
       }
 
-      res.body = {
+      ctx.body = {
         code: 20000,
         success: true,
-        message: req.request.body.type === 2 ? '创建成功' : '注册成功'
+        message: ctx.request.body.type === 2 ? '创建成功' : '注册成功'
       }
     } else {
-      res.body = {
+      ctx.body = {
         code: 20001,
         success: false,
         message: '用户已存在'
       }
     }
-    console.log(res.body)
   }
 
  // 登录
   async login (ctx, next) {
-    //  console.log("data")
-    //  console.log(ctx.request.body)
+    console.log("ctx")
+    console.log(ctx.request.body)
     await ValidateUser.login(ctx, next)
     let account = ctx.request.body.account,
         password = ctx.request.body.password,
@@ -98,9 +96,6 @@ class User extends Base{
 
       search = await UserModel.findOne({where})
       data = search ? JSON.parse(JSON.stringify(search)) : null
-      // console.log("data")
-      // console.log(data)
-     // 获取到数据
       if (data && data.status) {
 
         for (let key in data) {
@@ -108,7 +103,6 @@ class User extends Base{
             delete data[key]
           }
         }
-
         // 得到要设置的token类型和过期时间
         switch (+type) {
           case 0:

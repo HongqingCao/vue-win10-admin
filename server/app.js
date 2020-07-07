@@ -42,4 +42,8 @@ app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)
 });
 
+// app.listen(3000, () => {
+//   console.log('Koa is listening in 3000')
+// })
+
 module.exports = app

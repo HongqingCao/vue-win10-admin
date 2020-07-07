@@ -32,20 +32,7 @@ const user = initTable.define('db_user', {
     comment:'头像'
   }, 
   create_user: Sequelize.INTEGER(11),
-  create_time: {
-    type: Sequelize.DATE,
-    defaultValue: Sequelize.NOW,
-    get() {
-      return moment(this.getDataValue('create_time')).format('YYYY-MM-DD HH:mm')
-    }
-  },
   update_user: Sequelize.STRING(128),
-  update_time: {
-    type: Sequelize.DATE,
-    get() {
-      return moment(this.getDataValue('update_time')).format('YYYY-MM-DD HH:mm')
-    }
-  },
   delete_user: Sequelize.STRING(128),
   delete_time: {
     type: Sequelize.DATE,

@@ -38,7 +38,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
       <el-button @click="dialogVisible = false">取 消</el-button>
-      <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      <el-button type="primary" @click="confirm">确 定</el-button>
     </span>
     </el-dialog>
   </div>
@@ -54,7 +54,9 @@ export default {
       authorityType:authorityType,
       form:{
         authority_type:authorityType[0].value,
-        status:true
+        status:true,
+        parent_name:'',
+        parent_id:"0"
       },
       rules:{}
     }
@@ -63,7 +65,23 @@ export default {
     show(data,title) {
       this.title = title
       this.dialogVisible = true
-      this.form = data
+      this.form = {
+        authority_type:authorityType[0].value,
+        status:true,
+        parent_name:'',
+        parent_id:"0"
+      }
+      if(this.title == '新增权限') {
+        this.form.parent_name = data.authority_name ? data.authority_name : ""
+        this.form.parent_id = data.authority_id ? data.authority_id : "0"
+      } else this.form = data
+    },
+    confirm() {
+      if (this.title == '新增权限') {
+        this.$emit('createdAuth', this.form);
+      } else {
+        this.$emit('updateAuth', this.form);
+      }
     }
   }
 }

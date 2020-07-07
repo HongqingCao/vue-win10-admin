@@ -29,13 +29,9 @@ export default {
   },
   methods: {
     handleClick (tagData) {
-      this.$store.dispatch('app/toggleWin', tagData);
       let path = tagData.children ? (tagData.path + '/' + tagData.children[0].path) : tagData.path
       if(this.$route.path != path) {
-        // 切换navtitle
-        let navTitle =  tagData.children ? (tagData.meta.title + '/' + tagData.children[0].meta.title) : tagData.meta.title
         this.$router.push(path)
-        this.$store.dispatch('app/changeNavTitle', navTitle);
         }
     }
   }

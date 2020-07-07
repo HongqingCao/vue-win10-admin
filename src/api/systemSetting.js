@@ -15,3 +15,19 @@ export function getAllAuthList(data) {
     params:data
   })
 }
+// 创建权限
+export function createdAuth(data) {
+  return request({
+    url: 'api/auth/created',
+    method: 'post',
+    data
+  })
+}
+// 修改权限 
+export function updateAuth(data) {
+  return request({
+    url: 'api/auth/update',
+    method: 'post',
+    data
+  })
+}
