@@ -141,6 +141,8 @@ const actions = {
         if (res.code === 20000 && res.data) {
           //本地路由测试
           //sortMenuList(modelRouter)
+          console.log("111")
+          console.log(res.data)
           sortMenuList(res.data)
           commit('SET_ROUTES', constantRoutes)
         } else {

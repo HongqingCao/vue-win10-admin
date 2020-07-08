@@ -7,8 +7,8 @@ const userRole = initTable.define('db_user_role', {
     primaryKey: true,
     autoIncrement: true
   },
-  role_id: Sequelize.INTEGER(11),
-  user_id: Sequelize.INTEGER(11),
+  role_id: Sequelize.STRING(20),
+  user_id: Sequelize.BIGINT(20)
 }, {freezeTableName: true})
 
 module.exports = userRole

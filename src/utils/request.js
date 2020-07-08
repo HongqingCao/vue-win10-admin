@@ -69,7 +69,7 @@ service.interceptors.response.use(
       }).catch(() => {
       })
       return Promise.reject('error')
-    } else if (res.code === 20301){
+    } else if (res.code === 20301 || res.code === 20001 ){
       Message({
         showClose: true,
         message: res.message,
@@ -84,7 +84,6 @@ service.interceptors.response.use(
   },
   error => {
     console.log(error.response) // for debug
-   // const message = error.response ? globalFn.requestError(error.response.status) : '请求超时'
     Message({
       showClose: true,
       message: error.response,

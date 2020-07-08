@@ -1,49 +1,27 @@
-const AuthModel = require('../model/auth')
+const RoleModel = require('../model/role')
+const UserModel = require('../model/user')
 const logModel = require('../model/log')
 const Base = require('./base')
 
-class Auth extends Base{
+class Role extends Base{
   constructor () {
     super()
-    this.getList = this.getList.bind(this)
     this.getAll = this.getAll.bind(this)
     this.created = this.created.bind(this)
     this.update = this.update.bind(this)
     this.delete = this.delete.bind(this)
   }
-
-  async getList (ctx, next) {
-    let type = ctx.request.query.type
-    const data = await AuthModel.findAll({
-      where: {
-        flag: 1,
-        authority_type: type
-      }
-    })
-    ctx.body = {
-      code: data ? 20000 : 1003,
-      data: data,
-      error:null,
-      desc: data ? 'SUCCESS' : 'error'
-    }
-  }
-
   async getAll (ctx, next) {
-    const data = await AuthModel.findAll({
+    const data = await RoleModel.findAll({
       attributes: [
-        'authority_id', 
-        'authority_name',
-        'authority_type',
-        'authority_url',
-        'authority_sort',
-        'parent_id',
-        'parent_name',
-        'desc'
+        'role_id', 
+        'name',
+        'desc',
+        'auth_ids'
       ],
       where: {
         flag: 1
       }
-      
     })
     ctx.body = {
       code: data ? 20000 : 1003,
@@ -57,9 +35,9 @@ class Auth extends Base{
 
     let data = JSON.parse(JSON.stringify(ctx.request.body)), search, result, userInfo = await this.getUserInfo(ctx) || {}
     try {
-      search = await AuthModel.findOne({
+      search = await RoleModel.findOne({
                where: { 
-                  authority_url: data.authority_url, 
+                name: data.name, 
                   flag: 1
                 }
               })
@@ -71,7 +49,7 @@ class Auth extends Base{
     if (!search) {
       try {
         data.create_user = userInfo.id || 1
-        result = await AuthModel.create(data)
+        result = await RoleModel.create(data)
       } catch (e) {
         this.handleException(ctx, e)
         return
@@ -81,8 +59,8 @@ class Auth extends Base{
           set: {
             origin: ctx.body.type || 2,
             type: 4,
-            title: "创建权限",
-            desc: "创建权限" + data.authority_name,
+            title: "创建角色",
+            desc: "创建角色" + data.name,
             ip: this.getClientIp(ctx),
             create_user: userInfo.id ||1
           }
@@ -99,7 +77,7 @@ class Auth extends Base{
       ctx.body = {
         code: 20001,
         success: false,
-        message:  data.authority_url +'权限已存在'
+        message:  data.name +'角色已存在'
       }
     }
   }
@@ -108,7 +86,7 @@ class Auth extends Base{
     let  data = ctx.request.body, result, userInfo = await this.getUserInfo(ctx) || {}
     try {
       data.update_user = userInfo.id
-      result = await AuthModel.update(data, {where:{authority_id:data.authority_id}})
+      result = await RoleModel.update(data, {where:{role_id:data.role_id}})
     }  catch (e) {
       this.handleException(ctx, e)
       return
@@ -120,7 +98,7 @@ class Auth extends Base{
             origin: ctx.body.type || 2,
             type: 4,
             title: "编辑权限",
-            desc: "编辑权限" + data.authority_url,
+            desc: "编辑权限" + data.name,
             ip: this.getClientIp(ctx),
             create_user: userInfo.id ||1
           }
@@ -144,16 +122,17 @@ class Auth extends Base{
 
   async delete (ctx, next) {
     let  data = ctx.request.body
-    console.log("data")
-    console.log(data)
-    const child = await AuthModel.findAll({
-      where:{parent_id: data.authority_id, flag:1}
+    const child = await UserModel.findAll({
+      attributes: [
+        'id'
+      ],
+      where:{role_id: data.role_id, flag:1}
     })
     if (child && child.length > 0) {
       ctx.body = {
         code: 20001,
         success: false,
-        message: '请先删除【' + data.authority_name + "】子节点下的权限"
+        message: `存在${child.length}个绑定用户,请先解除绑定`
       }
       return 
     }
@@ -162,7 +141,7 @@ class Auth extends Base{
     data.delete_user = userInfo.id
     data.delete_time = new Date()
     try {
-      result = await AuthModel.update(data, {where:{authority_id:data.authority_id}})
+      result = await RoleModel.update(data, {where:{role_id:data.role_id}})
     }  catch (e) {
       this.handleException(ctx, e)
       return
@@ -173,8 +152,8 @@ class Auth extends Base{
           set: {
             origin: ctx.body.type || 2,
             type: 4,
-            title: "删除权限",
-            desc: "删除权限" + data.authority_url,
+            title: "删除角色",
+            desc: "删除角色" + data.name,
             ip: this.getClientIp(ctx),
             create_user: userInfo.id ||1
           }
@@ -198,4 +177,4 @@ class Auth extends Base{
 }
 
 
-module.exports = new Auth()
+module.exports = new Role()

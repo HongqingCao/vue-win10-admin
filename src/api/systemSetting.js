@@ -31,3 +31,11 @@ export function updateAuth(data) {
     data
   })
 }
+// 删除权限 
+export function deleteAuth(data) {
+  return request({
+    url: 'api/auth/delete',
+    method: 'post',
+    data
+  })
+}

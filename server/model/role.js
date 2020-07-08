@@ -1,14 +1,18 @@
 const initTable = require('../config/db')
 const Sequelize = require('sequelize')
 const moment = require('moment')
+const shortid = require('shortid')
+
 const role = initTable.define('db_role', {
   id: {
     type: Sequelize.INTEGER(11),
     primaryKey: true,
     autoIncrement: true
   },
-  pid: {
-    type: Sequelize.INTEGER(11),
+  role_id: {
+    type: Sequelize.STRING(20),
+    comment: '权限ID',
+    defaultValue: shortid.generate,
   },
   name: {
     type: Sequelize.STRING(24),
@@ -18,10 +22,9 @@ const role = initTable.define('db_role', {
     type: Sequelize.STRING(128),
     comment: '角色描述'
   },
-  status: {
-    type: Sequelize.INTEGER(4),
-    defaultValue: 1,
-    comment: '状态: 0：停用，1：启用(默认为1)'
+  auth_ids: {
+    type: Sequelize.TEXT('long'),
+    comment: '角色权限id列表'
   },
   create_user: Sequelize.INTEGER(11),
   update_user: Sequelize.INTEGER(11),

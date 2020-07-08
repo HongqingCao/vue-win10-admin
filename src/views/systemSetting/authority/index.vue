@@ -2,13 +2,16 @@
   <div class="authority-wrapper">
     <el-button type="primary" @click.stop="addNode('', '新增权限')">添加权限</el-button>
     <div class="authority-content">
-      <el-tree :data="nodeData"  @node-click="handleNodeClick">
+      <el-tree :data="nodeData" 
+               node-key="authority_id"
+               :default-expanded-keys="defaultExpandedArr" 
+               @node-click="handleNodeClick">
         <span class="tree-node" slot-scope="{ data }">
           <span class="node-name">{{ data.authority_name }}</span>
           <div class="operate-btn">
             <span @click.stop="addNode(data, '新增权限')">新增</span>
             <span @click.stop="addNode(data,'修改权限')">修改</span>
-            <span>删除</span>
+            <span @click.stop="delNode(data)">删除</span>
           </div>
         </span>
       </el-tree>
@@ -23,23 +26,39 @@
 
 <script>
   const addModify = () => import('./addModifyDialog')
-  import { getAllAuthList, createdAuth, updateAuth} from "@/api/systemSetting"
+  import { getAllAuthList, createdAuth, updateAuth, deleteAuth} from "@/api/systemSetting"
   export default {
     components:{
      addModify
     },
     data() {
       return {
-        nodeData:[]
+        nodeData:[],
+        defaultExpandedArr:[]
       };
     },
     methods: {
-      handleNodeClick(data) {
-        console.log(data);
+      handleNodeClick() {
       },
       addNode(data, title) {
+        // 如果是父节点就删除子节点相关信息
+        if (data && data.children) {
+          delete data.children
+        }
         console.log(data)
         this.$refs.refaddModifyDialog.show(data,title)
+      },
+      delNode(data) {
+        
+        deleteAuth(data).then(res => {
+          if (res.code === 20000) {
+            this.$message({
+              message: res.message,
+              type: 'success'
+            })
+            this.getData()
+          }
+        })
       },
       createdAuth(data) {
         createdAuth(data).then(res => {
@@ -72,6 +91,9 @@
           if (tempList[i].parent_id === pid) {
             tempList[i].children =  this.getTreeNodeData(tempList, tempList[i].authority_id)
             nodeArr.push(tempList[i])
+          }
+          if (tempList[i].parent_id == "0"){
+            this.defaultExpandedArr.push(tempList[i].authority_id)
           }
         }
         if (nodeArr.children && nodeArr.children.length > 1) {

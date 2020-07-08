@@ -4,14 +4,11 @@ const moment = require('moment')
 
 const user = initTable.define('db_user', {
   id: {
-    type: Sequelize.INTEGER(11),
+    type: Sequelize.BIGINT(20),
     primaryKey: true,
     autoIncrement: true
   },
-  role_id:  {
-    type: Sequelize.INTEGER(11),
-    comment:'用户类型: 0: 超级管理员 1: 管理员 2:普通用户'
-  },
+  role_id:Sequelize.STRING(20),
   account: Sequelize.STRING(100),
   name: Sequelize.STRING(100),
   password: Sequelize.STRING(256),
