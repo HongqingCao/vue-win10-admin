@@ -12,36 +12,27 @@ class User extends Base{
     super()
     this.registered = this.registered.bind(this)
     this.login = this.login.bind(this)
-    this.loginOut = this.loginOut.bind(this)
-    // this.update = this.update.bind(this)
-    // this.delete = this.delete.bind(this)
+    //this.loginOut = this.loginOut.bind(this)
+    this.update = this.update.bind(this)
+    this.delete = this.delete.bind(this)
     // this.userInfo = this.userInfo.bind(this)
-    // this.getRow = this.getRow.bind(this)
-    // this.getList = this.getList.bind(this)
-    // this.getAll = this.getAll.bind(this)
+    this.getList = this.getList.bind(this)
+    this.getAll = this.getAll.bind(this)
     // this.getPermissions = this.getPermissions.bind(this)
     // this.userTransfer = this.userTransfer.bind(this)
   }
   // 注册用户
   async registered (ctx, next) {
-    console.log("ctx")
-    console.log(ctx.request.body)
     let search, result, userInfo = await this.getUserInfo(ctx) || {}
-    console.log(userInfo)
-    // TODO: 需要做一个消息队列，保证注册时数据不会混乱
-    // 查询用户是否存在
     try {
       search = await this.getUserByAccount({account: ctx.request.body.account, flag: 1})
     } catch (e) {
       this.handleException(ctx, e)
       return
     }
-    // 用户不存在创建用户，存在则提示
     if (!search) {
       try {
         let data = JSON.parse(JSON.stringify(ctx.request.body))
-        // TODO: 添加时有创建人, 注册时没有
-        // 参数处理
         data.create_user = userInfo.id || 1,
         result = await UserModel.create(data)
       } catch (e) {
@@ -61,7 +52,6 @@ class User extends Base{
       } catch (e) {
         this.handleException(ctx, e)
       }
-
       ctx.body = {
         code: 20000,
         success: true,
@@ -78,8 +68,6 @@ class User extends Base{
 
  // 登录
   async login (ctx, next) {
-    console.log("ctx")
-    console.log(ctx.request.body)
     await ValidateUser.login(ctx, next)
     let account = ctx.request.body.account,
         password = ctx.request.body.password,
@@ -164,17 +152,14 @@ class User extends Base{
             title: '用户登录',
             desc: '',
             ip: this.getClientIp(ctx),
-            create_user: search.id,
-            create_time: new Date()
+            create_user: search.id
           }
         })
       } catch (e) {
         this.handleException(ctx, e)
       }
       try {
-        console.log("111:" + data.id)
         token = await Authority.getToken({user_id: data.id})
-        console.log("222")
       } catch (e) {
         this.handleException(ctx, e)
         return
@@ -187,48 +172,146 @@ class User extends Base{
         message: '登录成功'
       }
     }
-    console.log("ctx.body")
-    console.log(ctx.body)
     next()
   }
 
-  // 退出登录
-  async loginOut (req, res, next) {
-    let userInfo = await this.getUserInfo(req)
-    // 设置Token过期时间为现在
-    userInfo[req.query.type + '_expire_time'] = +new Date()
+  async getList (ctx, next) {
+    const { page = 1, pageSize = 10, status = 1, account='', phone='',role_id=''} = ctx.query
+
     try {
-      // TODO: 测试期间不清除数据
-      // await Authority.setToken(userInfo, {
-      //   set: {[userInfo.type + '_token']: JWT.sign(userInfo, 'BBS', {}), user_id: userInfo.id}
-      // })
+      let whereParams = {
+        flag: 1,
+        status:status
+      }
+      account && (whereParams['account'] = { [Op.like]: `%${account}%` })
+      phone && (whereParams['phone'] = phone)
+      role_id && (whereParams['role_id'] = role_id)
+
+      let {count, rows}  = await UserModel.findAndCountAll({
+        attributes: [
+          'role_id', 
+          'account',
+          'name',
+          'sex',
+          'phone',
+          'status'
+        ],
+        where:whereParams,
+        offset: (page - 1) * Number(pageSize),
+        limit: Number(pageSize)
+      })
+      ctx.body = {
+        code: rows ? 20000 : 1003,
+        data: {
+          list: rows,
+          pageData: {
+            page: +page,
+            pageSize: +pageSize,
+            totals: count
+          }
+        },
+        error:null,
+        desc: rows ? 'SUCCESS' : 'error'
+      }
     } catch (e) {
-      this.handleException(req, res, e)
+      this.handleException(ctx, e)
       return
     }
+  }
+  async getAll (ctx, next) {
     try {
-      let type = req.query.type === 'phone' ? 0 : req.query.type === 'bbs' ? 1 : 2
-      // 写入登出日志
-      await logModel.writeLog({
-        set: {
-          origin: type,
-          type: 2,
-          title: '用户登出',
-          desc: '',
-          ip: this.getClientIp(req),
-          create_user: userInfo.id,
-          create_time: new Date()
+      const data = await RoleModel.findAll({
+        where: {
+          flag: 1
         }
       })
+      ctx.body = {
+        code: data ? 20000 : 1003,
+        data: data,
+        error:null,
+        desc: data ? 'SUCCESS' : 'error'
+      }
     } catch (e) {
-      this.handleException(req, res, e)
+      this.handleException(ctx, e)
+      return
     }
-    res.json({
-      code: 20000,
-      success: true,
-      content: {},
-      message: '操作成功'
-    })
+  }
+  async update (ctx, next){
+    let  data = ctx.request.body, result, userInfo = await this.getUserInfo(ctx) || {}
+    try {
+      data.update_user = userInfo.id
+      result = await UserModel.update(data, {where:{account:data.account,flag: 1}})
+    }  catch (e) {
+      this.handleException(ctx, e)
+      return
+    }
+    if (result) {
+      try {
+        await logModel.writeLog({
+          set: {
+            origin: ctx.body.type || 2,
+            type: 4,
+            title: "编辑用户",
+            desc: "编辑权限" + data.account,
+            ip: this.getClientIp(ctx),
+            create_user: userInfo.id ||1
+          }
+        })
+      } catch (e) {
+        this.handleException(ctx, e)
+      }
+      ctx.body = {
+        code: 20000,
+        success: true,
+        message: '操作成功'
+      }
+    } else {
+      ctx.body = {
+        code: 20001,
+        success: false,
+        message: '编辑失败'
+      }
+    }
+  }
+  async delete (ctx, next) {
+    let  data = ctx.request.body
+    let result, userInfo = await this.getUserInfo(ctx) || {}
+    data.flag = 0
+    data.delete_user = userInfo.id
+    data.delete_time = new Date()
+    try {
+      result = await UserModel.update(data, {where:{account:data.account}})
+    }  catch (e) {
+      this.handleException(ctx, e)
+      return
+    }
+    if (result) {
+      try {
+        await logModel.writeLog({
+          set: {
+            origin: ctx.body.type || 2,
+            type: 4,
+            title: "删除用户",
+            desc: "删除用" + data.name,
+            ip: this.getClientIp(ctx),
+            create_user: userInfo.id ||1
+          }
+        })
+      } catch (e) {
+        this.handleException(ctx, e)
+      }
+      ctx.body = {
+        code: 20000,
+        success: true,
+        message: '删除成功'
+      }
+    } else {
+      ctx.body = {
+        code: 20001,
+        success: false,
+        message: '删除失败'
+      }
+    }
   }
 }
 module.exports = new User()

@@ -26,7 +26,7 @@ const user = initTable.define('db_user', {
   status: {
     type: Sequelize.INTEGER(4),
     defaultValue:1,
-    comment:'头像'
+    comment:'状态: 0：停用，1：启用(默认为1)'
   }, 
   create_user: Sequelize.INTEGER(11),
   update_user: Sequelize.STRING(128),

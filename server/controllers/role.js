@@ -17,7 +17,8 @@ class Role extends Base{
         'role_id', 
         'name',
         'desc',
-        'auth_ids'
+        'auth_ids',
+        'createdAt'
       ],
       where: {
         flag: 1
@@ -37,7 +38,7 @@ class Role extends Base{
     try {
       search = await RoleModel.findOne({
                where: { 
-                name: data.name, 
+                  name: data.name, 
                   flag: 1
                 }
               })
@@ -86,7 +87,7 @@ class Role extends Base{
     let  data = ctx.request.body, result, userInfo = await this.getUserInfo(ctx) || {}
     try {
       data.update_user = userInfo.id
-      result = await RoleModel.update(data, {where:{role_id:data.role_id}})
+      result = await RoleModel.update(data, {where:{role_id:data.role_id,flag: 1}})
     }  catch (e) {
       this.handleException(ctx, e)
       return

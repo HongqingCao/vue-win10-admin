@@ -39,3 +39,45 @@ export function deleteAuth(data) {
     data
   })
 }
+
+// 获取角色列表
+export function getAllRoleList(data) {
+  return request({
+    url: 'api/role/getAll',
+    method: 'get',
+    params:data
+  })
+}
+// 创建角色
+export function createdRole(data) {
+  return request({
+    url: 'api/role/created',
+    method: 'post',
+    data
+  })
+}
+// 修改角色
+export function updateRole(data) {
+  return request({
+    url: 'api/role/update',
+    method: 'post',
+    data
+  })
+}
+// 删除角色
+export function deleteRole(data) {
+  return request({
+    url: 'api/role/delete',
+    method: 'post',
+    data
+  })
+}
+
+// 编辑角色权限
+export function addRoleAuth(data) {
+  return request({
+    url: 'api/role/addAuth',
+    method: 'post',
+    data
+  })
+}

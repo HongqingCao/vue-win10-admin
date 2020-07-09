@@ -56,11 +56,11 @@ export default {
     name: 'log',
     meta: { title: '系统日志' }
   },
-  admin:{
-    path: 'admin',
-    component: () => import('@/views/systemSetting/admin'),
+  user:{
+    path: 'user',
+    component: () => import('@/views/systemSetting/user'),
     hidden: true,
-    name: 'admin',
-    meta: { title: '管理员设置' }
+    name: 'user',
+    meta: { title: '用户管理' }
   }
 }

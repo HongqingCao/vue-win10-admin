@@ -49,7 +49,6 @@
         this.$refs.refaddModifyDialog.show(data,title)
       },
       delNode(data) {
-        
         deleteAuth(data).then(res => {
           if (res.code === 20000) {
             this.$message({

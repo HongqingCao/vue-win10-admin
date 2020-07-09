@@ -1,32 +1,44 @@
 <template>
-  <div class="role-wrapper">
-    <el-button type="primary" @click.stop="addRole('', '新增角色')">新增角色</el-button>
+  <div class="user-wrapper">
+    <el-button type="primary" @click.stop="addUser('', '新增用户')">新增用户</el-button>
     <el-table
     class="role-table"
       :data="tableData"
       style="width: 100%">
       <el-table-column
-        label="角色序号"
+        label="序号"
         type="index"
-        width="120">
+        width="50">
       </el-table-column>
       <el-table-column
-        label="角色名称"
-        width="200">
-        <template slot-scope="scope">
-          <el-popover trigger="hover" placement="top">
-            <p>角色名称: {{ scope.row.name }}</p>
-            <p>角色描述: {{ scope.row.desc }}</p>
-            <div slot="reference" class="name-wrapper">
-              <el-tag size="medium">{{ scope.row.name }}</el-tag>
-            </div>
-          </el-popover>
-        </template>
+        label="账号"
+        prop="account" 
+        width="150">
       </el-table-column>
       <el-table-column
-        label="创建时间"
-        prop="createdAt" 
-        width="200">
+        label="昵称"
+        prop="name" 
+        width="150">
+      </el-table-column>
+      <el-table-column
+        label="角色"
+        prop="role_id" 
+        width="100">
+      </el-table-column>
+      <el-table-column
+        label="性别"
+        prop="sex" 
+        width="50">
+      </el-table-column>
+      <el-table-column
+        label="手机号码"
+        prop="phone" 
+        width="150">
+      </el-table-column>
+       <el-table-column
+        label="状态"
+        prop="status" 
+        width="100">
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
@@ -34,7 +46,7 @@
             size="mini"
             type="primary"
             icon="el-icon-edit"
-            @click="addRole(scope.row,'修改角色')"></el-button>
+            @click="addUser(scope.row,'修改角色')"></el-button>
           <el-button
             size="mini"
             type="danger"
@@ -47,26 +59,26 @@
         </template>
       </el-table-column>
     </el-table>
-    <addModify 
+    <!-- <addModify 
       ref="refaddModifyDialog"
       @createdRole="createdRole"
       @updateRole="updateRole"
     ></addModify>
-    <setAuth
-      ref="refSetAuth"
-      @addRoleAuth="addRoleAuth"
-    ></setAuth>
+    <setRole
+      ref="refSetRole"
+      @addRole="addRole"
+    ></setRole> -->
   </div>
 </template>
 
 <script>
   const addModify = () => import('./addModifyDialog')
-  const setAuth = () => import('./setRoleAuthDialog')
-  import { getAllRoleList, createdRole, updateRole, deleteRole, addRoleAuth} from "@/api/systemSetting"
+  const setRole = () => import('./setRoleDialog')
+  import { getUserList, createdUser, updateUser, deleteUser} from "@/api/user"
   export default {
     components:{
      addModify,
-     setAuth
+     setRole
     },
     data() {
       return {
@@ -74,16 +86,16 @@
       }
     },
     methods: {
-      addRole(data,title) {
+      addUser(data,title) {
         this.$refs.refaddModifyDialog.show(data,title)
       },
-      delRole(data) {
-         this.$confirm('此操作将删除该权限, 是否继续?', '提示', {
+      delUser(data) {
+         this.$confirm('此操作将删除该账户, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.deleteRole(data)
+          this.deleteUser(data)
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -91,8 +103,8 @@
           })        
         })
       },
-      deleteRole(data) {
-        deleteRole(data).then(res => {
+      deleteUser(data) {
+        deleteUser(data).then(res => {
           if (res.code === 20000) {
             this.$message({
               message: res.message,
@@ -102,20 +114,8 @@
           }
         })
       },
-      createdRole(data) {
-        createdRole(data).then(res => {
-          if (res.code === 20000) {
-            this.$message({
-              message: res.message,
-              type: 'success'
-            })
-            this.$refs.refaddModifyDialog.dialogVisible = false
-            this.getData()
-          }
-        })
-      },
-      updateRole(data) {
-        updateRole(data).then(res => {
+      createdUser(data) {
+        createdUser(data).then(res => {
           if (res.code === 20000) {
             this.$message({
               message: res.message,
@@ -126,26 +126,38 @@
           }
         })
       },
-      setRoleAuth(data) {
-        console.log(data)
-        this.$refs.refSetAuth.show(data)
-      },
-      addRoleAuth(data) {
-        addRoleAuth(data).then(res => {
+      updateUser(data) {
+        updateUser(data).then(res => {
           if (res.code === 20000) {
             this.$message({
               message: res.message,
               type: 'success'
             })
-            this.$refs.refSetAuth.dialogVisible = false
+            this.$refs.refaddModifyDialog.dialogVisible = false
             this.getData()
           }
         })
       },
+      // setRoleAuth(data) {
+      //   console.log(data)
+      //   this.$refs.refSetAuth.show(data)
+      // },
+      // addRoleAuth(data) {
+      //   addRoleAuth(data).then(res => {
+      //     if (res.code === 20000) {
+      //       this.$message({
+      //         message: res.message,
+      //         type: 'success'
+      //       })
+      //       this.$refs.refSetAuth.dialogVisible = false
+      //       this.getData()
+      //     }
+      //   })
+      // },
       getData() {
-        getAllRoleList().then(res => {
+        getUserList().then(res => {
           if (res.code === 20000 && res.data) {
-            this.tableData = res.data
+            this.tableData = res.data.list
           }
         })
       }
@@ -156,7 +168,7 @@
   }
 </script>
 <style lang="scss">
-.role-wrapper{
+.user-wrapper{
   padding: 20px 12px 50px 12px;
   background: #ffffff;
   .role-table {
@@ -165,5 +177,9 @@
       background-color: #f1f3fa !important;
     }
   }
+.el-table .cell {
+  display: flex;
+}
+
 }
 </style>
