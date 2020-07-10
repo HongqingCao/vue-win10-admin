@@ -4,13 +4,40 @@
       :title="title"
       :visible.sync="dialogVisible"
       :modal-append-to-body="false"
-      width="500px">
-      <el-form :model="form" :rules="rules" ref="ruleForm" label-width="120px">
-        <el-form-item label="* 角色名">
+      width="450px">
+      <el-form :model="form" :rules="rules" ref="ruleForm" label-width="85px">
+        <el-form-item label="* 账号">
+          <el-input v-model="form.account"></el-input>
+        </el-form-item>
+        <el-form-item label="* 姓名">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
-        <el-form-item label="* 角色描述">
-          <el-input v-model="form.desc"></el-input>
+        <el-form-item label="* 密码">
+          <el-input v-model="form.password"></el-input>
+        </el-form-item>
+        <el-form-item label="* 重复密码">
+          <el-input v-model="password"></el-input>
+        </el-form-item>
+        <el-form-item label="* 手机号码">
+          <el-input v-model="form.phone"></el-input>
+        </el-form-item>
+        <el-form-item label="* 性别">
+          <el-select v-model="form.sex" placeholder="请选择" size="small">
+            <el-option 
+              v-for="item in sexType"
+              :key="item.value"
+              :value="item.value"
+              :label="item.label"
+              >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="* 冻结">
+          <el-switch
+            v-model="form.status"
+            active-value="0"
+            inactive-value="1">
+          </el-switch>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -22,12 +49,15 @@
 </template>
 
 <script>
+import {sexType} from "@/dictionary"
 export default {
   data() {
     return {
+      sexType:sexType,
       dialogVisible: false,
-      title:'新增角色',
-      form:{},
+      title:'新增用户',
+      password:'',
+      form:{type:1},
       rules:{}
     }
   },
@@ -35,13 +65,15 @@ export default {
     show(data,title) {
       this.title = title
       this.dialogVisible = true
-      this.form = data ? data : {}
+      this.form = data ? JSON.parse(JSON.stringify(data)) : {type:1}
     },
     confirm() {
-      if (this.title == '新增角色') {
-        this.$emit('createdRole', this.form);
+      this.form.status = +this.form.status
+      console.log()
+      if (this.title == '新增用户') {
+        this.$emit('createdUser', this.form);
       } else {
-        this.$emit('updateRole', this.form);
+        this.$emit('updateUser', this.form);
       }
     }
   }

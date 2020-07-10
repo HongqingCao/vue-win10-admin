@@ -1,0 +1,10 @@
+{
+  "restartable": "rs",
+  "ignore": ["./public", "./src", "./static", "./node_modules"],
+  "verbose": true,
+  "execMap": {
+    "js": "node --harmony"
+  },
+  "watch": ["./server"],
+  "ext": "js json"
+}

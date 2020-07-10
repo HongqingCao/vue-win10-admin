@@ -81,3 +81,20 @@ export function addRoleAuth(data) {
     data
   })
 }
+
+// 获取全部日志列表
+export function getAllLogList(data) {
+  return request({
+    url: 'api/log/getAll',
+    method: 'get',
+    params:data
+  })
+}
+// 删除日志
+export function deleteLog(data) {
+  return request({
+    url: 'api/log/delete',
+    method: 'post',
+    data
+  })
+}

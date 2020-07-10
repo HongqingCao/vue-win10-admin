@@ -80,7 +80,7 @@ export default {
 
 <style lang="scss">
 .win10-warrper {
-  width: 100vw;
+  min-width: 100vw;
   height: 100vh;
   background-image: url(../assets/main.jpg);
   background-size: 100% 100%;

@@ -1,14 +1,15 @@
 const initTable = require('../config/db')
 const Sequelize = require('sequelize')
 const moment = require('moment')
-
+const shortid = require('shortid')
 const user = initTable.define('db_user', {
   id: {
-    type: Sequelize.BIGINT(20),
-    primaryKey: true,
-    autoIncrement: true
+    type: Sequelize.STRING(20),
+    defaultValue: shortid.generate,
+    primaryKey: true
   },
   role_id:Sequelize.STRING(20),
+  role_name:Sequelize.STRING(24),
   account: Sequelize.STRING(100),
   name: Sequelize.STRING(100),
   password: Sequelize.STRING(256),

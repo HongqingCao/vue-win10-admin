@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve",
-    "server": "./node_modules/.bin/nodemon server/bin/www",
+    "server": "nodemon server/bin/www --config nodemon.json",
     "start": "concurrently -k \"npm run server\" \"npm run dev\"",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"

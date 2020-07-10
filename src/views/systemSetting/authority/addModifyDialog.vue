@@ -45,7 +45,7 @@
 </template>
 
 <script>
- import {authorityType} from "@/dictionary";
+import {authorityType} from "@/dictionary"
 export default {
   data() {
     return {

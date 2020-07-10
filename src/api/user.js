@@ -26,7 +26,7 @@ export function getAllUserList(data) {
 // 创建用户
 export function createdUser(data) {
   return request({
-    url: 'api/user/created',
+    url: 'api/user/registered',
     method: 'post',
     data
   })

@@ -5,6 +5,7 @@ const ValidateUser  = require('../validate/user')
 const logModel = require('../model/log')
 const Authority = require('./authority')
 const JWT = require('jsonwebtoken')
+const Op = require('sequelize').Op
 const { secret } = require('../config/config')
 
 class User extends Base{
@@ -34,7 +35,10 @@ class User extends Base{
       try {
         let data = JSON.parse(JSON.stringify(ctx.request.body))
         data.create_user = userInfo.id || 1,
+        console.log("data")
+        console.log(data)
         result = await UserModel.create(data)
+        console.log(result)
       } catch (e) {
         this.handleException(ctx, e)
         return
@@ -48,6 +52,7 @@ class User extends Base{
             desc: '',
             ip: this.getClientIp(ctx),
             create_user: userInfo.id || 1,
+            create_name: userInfo.name || ''
         })
       } catch (e) {
         this.handleException(ctx, e)
@@ -152,7 +157,8 @@ class User extends Base{
             title: '用户登录',
             desc: '',
             ip: this.getClientIp(ctx),
-            create_user: search.id
+            create_user: search.id  || 1,
+            create_name: search.name || ''
           }
         })
       } catch (e) {
@@ -176,20 +182,23 @@ class User extends Base{
   }
 
   async getList (ctx, next) {
-    const { page = 1, pageSize = 10, status = 1, account='', phone='',role_id=''} = ctx.query
+    const { page = 1, pageSize = 10, status ='', account='', phone='',role_id=''} = ctx.query
 
     try {
       let whereParams = {
-        flag: 1,
-        status:status
+        flag: 1
       }
+      
       account && (whereParams['account'] = { [Op.like]: `%${account}%` })
       phone && (whereParams['phone'] = phone)
       role_id && (whereParams['role_id'] = role_id)
-
+      status && (whereParams['status'] = status)
+      console.log(whereParams)
       let {count, rows}  = await UserModel.findAndCountAll({
         attributes: [
+          'id', 
           'role_id', 
+          'role_name',
           'account',
           'name',
           'sex',
@@ -240,7 +249,7 @@ class User extends Base{
     let  data = ctx.request.body, result, userInfo = await this.getUserInfo(ctx) || {}
     try {
       data.update_user = userInfo.id
-      result = await UserModel.update(data, {where:{account:data.account,flag: 1}})
+      result = await UserModel.update(data, {where:{id:data.id,flag: 1}})
     }  catch (e) {
       this.handleException(ctx, e)
       return
@@ -252,9 +261,10 @@ class User extends Base{
             origin: ctx.body.type || 2,
             type: 4,
             title: "编辑用户",
-            desc: "编辑权限" + data.account,
+            desc: "编辑用户" + data.account,
             ip: this.getClientIp(ctx),
-            create_user: userInfo.id ||1
+            create_user: userInfo.id ||1, 
+            create_name: userInfo.name || ''
           }
         })
       } catch (e) {
@@ -294,7 +304,8 @@ class User extends Base{
             title: "删除用户",
             desc: "删除用" + data.name,
             ip: this.getClientIp(ctx),
-            create_user: userInfo.id ||1
+            create_user: userInfo.id ||1,
+            create_name: userInfo.name || ''
           }
         })
       } catch (e) {

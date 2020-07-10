@@ -194,7 +194,7 @@ export default {
 <style lang="scss">
 .window-wrapper {
   position: absolute;
-  min-width: 1080px;
+  min-width: 1180px;
   z-index: 9;
   .window-header {
     height: 40px;
