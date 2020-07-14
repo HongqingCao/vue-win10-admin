@@ -76,7 +76,11 @@ const mutations = {
         return false;
       }
     }
-  }
+  },
+  DEL_ALL_VIEWS: (state) => {
+    state.winArr = []
+    state.nowWin = ''
+  },
 }
 
 const actions = {
@@ -97,6 +101,9 @@ const actions = {
  },
  toggleWin({ commit }, tagData) {
   commit('TOGGLE_WIN', tagData)
+ },
+ delAllViews({ commit }) {
+  commit('DEL_ALL_VIEWS')
  },
  delWindow({ commit }, data) {
   commit('DEL_WINDOW', data)

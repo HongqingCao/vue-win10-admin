@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-07-04 15:12:58
+ * @LastEditTime: 2020-07-12 22:36:39
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \vue-win10-admin\server\controllers\token.js
+ */ 
 const TokenModel = require('../model/token')
 const Op = require('sequelize').Op
 const JWT = require('jsonwebtoken')
@@ -11,15 +19,16 @@ class Token {
   async setToken (data, obj) {
     let search, sql, newUserInfo = JSON.parse(JSON.stringify(data)), oldUserInfo = {}
     try {
+      console.log("search")
+      console.log(data.id)
       search = await this.getToken({user_id: data.id})
-      console.log("3")
-      console.log(search)
+     // console.log(search)
     } catch (e) {
       throw e
     }
     // 用户不存在则创建一条数据，存在则将原来的token替换掉
-    if(!search){
-      TokenModel.create(obj.set)
+    if (!search) {
+      sql = await TokenModel.create(obj.set)
     } else {
       // 解析token和当前数据做对比
       JWT.verify(search[data.type + '_token'], secret, (error, decoded) => {
@@ -28,8 +37,6 @@ class Token {
         }
         oldUserInfo = decoded
       })
-      console.log("4")
-      console.log(oldUserInfo)
       // 用户数据发生变化，重新设置数据信息，只修改token
       delete newUserInfo[data.type + '_expire_time']
       delete oldUserInfo[data.type + '_expire_time']
@@ -38,13 +45,15 @@ class Token {
         obj.set = {
           [data.type + '_token']: obj.set[data.type + '_token']
         }
-        sql = TokenModel.update(obj.set, {'where':{user_id: obj.set.user_id}})
+        sql = await  TokenModel.update(obj.set, {where:{user_id: obj.set.user_id}})
       } else if(+new Date(search[data.type + '_expire_time']) > +new Date()) {
         // 数据未过期，不处理
         sql = ``
       } else {
-        sql = TokenModel.update(obj.set, {'where':{user_id: obj.set.user_id}})
+        sql = await TokenModel.update(obj.set, {where:{user_id: obj.set.user_id}})
       }
+      console.log("6")
+      console.log(sql)
     }
     return sql
   }

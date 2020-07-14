@@ -46,8 +46,10 @@ export const _getSessionStore = (type) => {
   }
 }
 
-export const _removeSessionStore = TokenKey => {
+export const _removeSessionStore = () => {
+  console.log("1111")
   sessionStorage.removeItem(TokenKey)
+  console.log(_getSessionStore())
 }
 
 /**

@@ -13,14 +13,12 @@ class User extends Base{
     super()
     this.registered = this.registered.bind(this)
     this.login = this.login.bind(this)
-    //this.loginOut = this.loginOut.bind(this)
+    this.logOut = this.logOut.bind(this)
     this.update = this.update.bind(this)
     this.delete = this.delete.bind(this)
-    // this.userInfo = this.userInfo.bind(this)
+   this.getInfo = this.getInfo.bind(this)
     this.getList = this.getList.bind(this)
     this.getAll = this.getAll.bind(this)
-    // this.getPermissions = this.getPermissions.bind(this)
-    // this.userTransfer = this.userTransfer.bind(this)
   }
   // 注册用户
   async registered (ctx, next) {
@@ -78,19 +76,16 @@ class User extends Base{
         password = ctx.request.body.password,
         type = ctx.request.body.type,
         search, token = [], data
-    // 查询用户名密码是否正确, 以及为用户设置登录成功后的token
-    // TODO: 登录比较用户信息和token存储的信息是否一致，不一致需要重新设置token
+    let where = {
+      account:account,
+      password:password,
+      flag: 1
+    }
     try {
-      const where = {
-        account:account,
-        password:password,
-        flag: 1
-      }
-
       search = await UserModel.findOne({where})
       data = search ? JSON.parse(JSON.stringify(search)) : null
-      if (data && data.status) {
 
+      if (data && data.status != 0) {
         for (let key in data) {
           if (!data[key]) {
             delete data[key]
@@ -108,17 +103,18 @@ class User extends Base{
             break
           case 2:
             data.type = 'admin'
-            data[data.type + '_expire_time'] = new Date(+new Date() + 60 * 60 * 24 * 1 * 1000) // 重新登录则上次的失效 (测试期间设置为一天后失效)
+            data[data.type + '_expire_time'] = new Date(+new Date() + 60 * 60 * 24 * 1 * 1000) // 重新登录则上次的失效 (一天后失效)
+           // data[data.type + '_expire_time'] = new Date(+new Date() + 60 * 1000) // 重新登录则上次的失效 (测试期间设置为1分钟后失效)
             break
         }
+
         try {
           // Token过期了或者用户登录获取到的信息和之前token解析出来的不一样，则重新设置，否则不处理
-          let getIP = this.getClientIp(ctx)
           Authority.setToken(data, {
             set: {
               [data.type + '_token']: JWT.sign(data, secret, {}),
               [data.type + '_expire_time']: data[data.type + '_expire_time'],
-              [data.type + '_ip']: getIP,
+              [data.type + '_ip']: this.getClientIp(ctx),
               user_id: data.id
             },
             get: {
@@ -129,14 +125,14 @@ class User extends Base{
           this.handleException(ctx, e)
           return
         }
-      }
+      } 
     } catch (e) {
       this.handleException(ctx, e)
       return
     }
-    // 查询为空即用户信息不正确，不为空说明查询成功
+
     if (!search) {
-     ctx.body = {
+      ctx.body = {
         code: 20301,
         success: false,
         message: '账号或密码错误'
@@ -150,7 +146,7 @@ class User extends Base{
     } else {
       try {
         // 写入登录日志
-      await logModel.writeLog({
+        await logModel.writeLog({
           set: {
             origin: type,
             type: 1,
@@ -165,7 +161,9 @@ class User extends Base{
         this.handleException(ctx, e)
       }
       try {
+        console.log("111")
         token = await Authority.getToken({user_id: data.id})
+        console.log("usertoke")
       } catch (e) {
         this.handleException(ctx, e)
         return
@@ -177,10 +175,68 @@ class User extends Base{
         token: token ? token[data.type + '_token'] : '',
         message: '登录成功'
       }
-    }
-    next()
+    }   
   }
-
+// 退出登录
+  async logOut (ctx, next) {
+    let userInfo = await this.getUserInfo(ctx)
+    // 设置Token过期时间为现在
+    userInfo[ctx.query.type + '_expire_time'] = +new Date()
+    try {
+      // TODO: 测试期间不清除数据
+      await Authority.setToken(userInfo, {
+        set: {[userInfo.type + '_token']: JWT.sign(userInfo, secret, {}), user_id: userInfo.id}
+      })
+    } catch (e) {
+      this.handleException(ctx, e)
+      return
+    }
+    try {
+      let type = ctx.query.type === 'phone' ? 0 : ctx.query.type === 'user' ? 1 : 2
+      // 写入登出日志
+      await logModel.writeLog({
+        set: {
+          origin: type,
+          type: 2,
+          title: '用户登出',
+          desc: '',
+          ip: this.getClientIp(ctx),
+          create_user: userInfo.id
+        }
+      })
+    } catch (e) {
+      this.handleException(ctx, e)
+    }
+    ctx.body = {
+      code: 20000,
+      success: true,
+      data: {},
+      message: '操作成功'
+    }
+  }
+  async getInfo (ctx, next) {
+    let userInfo = await this.getUserInfo(ctx)
+    let where = {
+      id:userInfo.id,
+       flag: 1
+    }
+    const search = await UserModel.findOne({where})
+    if (search) {
+      ctx.body = {
+        code: 20000,
+        success: true,
+        data: search,
+        message: '操作成功'
+      }
+    } else {
+      ctx.body = {
+        code: 20401,
+        success: false,
+        data: {},
+        message: '用户不存在'
+      }
+    }
+  }
   async getList (ctx, next) {
     const { page = 1, pageSize = 10, status ='', account='', phone='',role_id=''} = ctx.query
 
@@ -193,7 +249,6 @@ class User extends Base{
       phone && (whereParams['phone'] = phone)
       role_id && (whereParams['role_id'] = role_id)
       status && (whereParams['status'] = status)
-      console.log(whereParams)
       let {count, rows}  = await UserModel.findAndCountAll({
         attributes: [
           'id', 

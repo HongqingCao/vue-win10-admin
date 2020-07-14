@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-07-04 15:12:59
+ * @LastEditTime: 2020-07-11 21:49:13
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \home-worlkf:\github\vue-win10-admin\src\dictionary\index.js
+ */ 
 // 权限类型
 const authorityType = [
   {
@@ -12,11 +20,11 @@ const authorityType = [
 // 性别类型
 const sexType = [
   {
-    value: 0,
+    value: 1,
     label: '男'
   },
   {
-    value: 1,
+    value: 2,
     label: '女'
   }
 ]

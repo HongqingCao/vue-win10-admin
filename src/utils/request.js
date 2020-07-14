@@ -2,6 +2,7 @@ import axios from 'axios'
 import { Message, MessageBox } from 'element-ui'
 import store from '@/store'
 import { _getSessionStore } from './storage'
+import router from '@/router'
 // create an axios instance
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // api的base_url
@@ -12,7 +13,7 @@ const service = axios.create({
 service.interceptors.request.use(config => {
   // 设置请求头
   if (store.getters.token) {
-    // 让每个请求携带token
+    // 让每个请求携带toke
     config.headers['Authorization'] = _getSessionStore()
   }
   // 对全局参数做过滤，把不存在的参数删除
@@ -63,13 +64,13 @@ service.interceptors.response.use(
         confirmButtonText: btMsg,
         type: 'info'
       }).then(() => {
-        // store.dispatch('user/loginOut').then(() => {
-        //   location.reload() // 为了重新实例化vue-router对象 避免bug
-        // })
+        store.dispatch('user/logOut').then(() => {
+          router.push('/login')
+        })
       }).catch(() => {
       })
       return Promise.reject('error')
-    } else if (res.code === 20301 || res.code === 20001 ){
+    } else if (res.code === 20301 || res.code === 20001 || res.code === 20501){
       Message({
         showClose: true,
         message: res.message,

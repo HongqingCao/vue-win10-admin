@@ -1,3 +1,4 @@
+
 const initTable = require('../config/db')
 const Sequelize = require('sequelize')
 const moment = require('moment')
@@ -7,7 +8,7 @@ const token = initTable.define('db_token', {
     primaryKey: true,
     autoIncrement: true
   },
-  user_id: Sequelize.INTEGER(11),
+  user_id: Sequelize.STRING(20),
   admin_token: {
     type: Sequelize.STRING(1024),
     comment: ''

@@ -3,10 +3,8 @@ const utils = require('../utils/utils')
 const JWT = require('jsonwebtoken')
 const Path = require('path')
 const Fs = require('fs')
-const NodeLog = require('../log/index')
+const { secret } = require('../config/config') // 秘钥
 
-// 秘钥
-const secret = 'VISITOR'
 
 class Base{
   constructor () {
@@ -40,8 +38,6 @@ class Base{
     req.connection.remoteAddress ||
     req.socket.remoteAddress ||
     req.connection.socket.remoteAddress || ''
-
-    console.log("ip:" + ip)
     if(ip.split(',').length>0){
         ip = ip.split(',')[0]
     }
@@ -100,9 +96,7 @@ class Base{
   }
   // TODO: 异常处理, 有时间扩展, 从这里转发到异常处理模块处理
   handleException (ctx, e) {
-    // 写入日志
-    NodeLog.writeLog(`\n异常发生时间${new Date()}: \n${e}`)
-    
+
     ctx.body = {
       code: e.errno || 20501,
       success: false,

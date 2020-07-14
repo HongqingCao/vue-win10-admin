@@ -20,8 +20,7 @@
 </template>
 
 <script>
-import { isPassword } from "@/utils/validate";
-import { loginApi } from "@/api/login";
+import { isPassword } from "@/utils/validate"
 export default {
   name: "Login",
   data() {
@@ -44,7 +43,7 @@ export default {
       loginForm: {
         account: "",
         password: "",
-        type:1
+        type:2
       },
       redirect: undefined,
       otherQuery: {},

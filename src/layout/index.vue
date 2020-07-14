@@ -43,13 +43,14 @@ export default {
  },
   methods: {
     handleClick(e) {
-      let isMessage = getClassName(e.target, 'win10-message');
-      let isMenu = getClassName(e.target, 'menu-warrper');
-      let isBtnMenu = getClassName(e.target, 'task-button task-btn-menu');
-      let isBtnMessage = getClassName(e.target, 'task-button task-btn-message');
+      let isMenu = getClassName(e.target, 'menu-warrper')
+      let isStart = getClassName(e.target, 'start-button')
+      
+      let isBtnMenu = getClassName(e.target, 'task-button task-btn-menu')
+      let isBtnMessage = getClassName(e.target, 'task-button task-btn-message')
 
       // 控制菜单和消息展示隐藏
-      if ((isMessage === false) && (isMenu === false) && (isBtnMenu === false) && (isBtnMessage === false)) {
+      if ((isMenu === false) && (isBtnMenu === false) && (isBtnMessage === false)) {
         if (this.showMenu === true) {
           this.$store.dispatch('app/toggleMenu');
         }
@@ -80,9 +81,9 @@ export default {
 
 <style lang="scss">
 .win10-warrper {
-  min-width: 100vw;
-  height: 100vh;
-  background-image: url(../assets/main.jpg);
+  width: 100%;
+  height: 100%;
+  background: #000 url(../assets/main.jpg) no-repeat fixed;
   background-size: 100% 100%;
   .desktop-warrper {
     width: 100%;

@@ -7,12 +7,12 @@
       <el-table-column label="账号" prop="account" width="100"></el-table-column>
       <el-table-column label="昵称" prop="name" width="120"></el-table-column>
       <el-table-column label="角色" prop="role_name"  width="150"></el-table-column>
-      <el-table-column label="性别" width="50">
-        <template slot-scope="scope"> {{sexType[scope.row.sex].label}}</template>
+      <el-table-column label="性别" width="80">
+        <template slot-scope="scope"> {{scope.row.sex | sexType}}</template>
       </el-table-column>
       <el-table-column label="手机号码" prop="phone" width="150"></el-table-column>
-       <el-table-column label="状态" width="50">
-          <template slot-scope="scope"> {{userStatusType[scope.row.status].label}}</template>
+       <el-table-column label="状态" width="80">
+          <template slot-scope="scope"> {{scope.row.status | userStatusType}}</template>
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
@@ -20,7 +20,7 @@
             size="mini"
             type="primary"
             icon="el-icon-edit"
-            @click="addUser(scope.row,'修改角色')"></el-button>
+            @click="addUser(scope.row,'修改用户')"></el-button>
           <el-button
             size="mini"
             type="danger"

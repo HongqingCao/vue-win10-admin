@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-07-04 15:12:59
+ * @LastEditTime: 2020-07-12 13:57:17
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \home-worlkf:\github\vue-win10-admin\src\layout\components\Menu\StartList.vue
+--> 
 <template>
   <div class="startlist-warrper" :style="{width: showUnfold ? '250px':'50px'}">
     <div class="start">
@@ -11,7 +19,7 @@
     <div class="list" :style="{width: showUnfold ? '250px':'50px'}">
       <start-btn
         icon="iconyonghu"
-        title="Administrator"
+        :title="userInfo.name"
         name="Administrator"
         :isUnfold="showUnfold"
       ></start-btn>
@@ -29,10 +37,12 @@
         icon="iconyunliankeji_gongyinglianfuben"
         title="设置"
         :isUnfold="showUnfold"
+        @click="setClick"
       ></start-btn>
       <start-btn
         icon="iconguanji"
         title="退出"
+        @click="logOut"
         :isUnfold="showUnfold"
       ></start-btn>
     </div>
@@ -49,7 +59,9 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'showUnfold'
+      'showUnfold',
+      'routers',
+      'userInfo'
     ]),
  },
   data() {
@@ -60,6 +72,33 @@ export default {
   methods:{
     startClick() {
       this.$store.dispatch('app/toggleUnfold');
+    },
+    setClick() {
+      let path
+      this.routers.map(item =>{
+        if (item.path == '/systemSetting') {
+           path = '/systemSetting/' + item.children[0].path
+        }
+      })
+      if(this.$route.path != path) {
+      this.$router.push(path)
+      }
+    },
+    logOut() {
+       this.$confirm('此操作将退出系统, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$store.dispatch('user/logOut').then(() => {
+            this.$router.go(0)
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消退出'
+          })        
+        })
     }
   }
 }

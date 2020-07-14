@@ -12,7 +12,9 @@ router.beforeEach((to, from, next) => {
       next({ path: '/' })
     } else {
       if (store.getters.routers.length === 0) {
-        store.dispatch('permission/getMenuRouterList').then(routers => { // 获取用户权限数据
+        store.dispatch('user/getUserInfo')
+        // 获取用户权限数据
+        store.dispatch('permission/getMenuRouterList').then(routers => { 
           router.addRoutes(routers) // 动态添加可访问路由表
           next({ ...to, replace: true }) // hack方法 确保addRoutes已完成 ,设置replace: true，以便导航不会留下历史记录
         }).catch((err) => {
@@ -21,8 +23,6 @@ router.beforeEach((to, from, next) => {
           next(`/login?redirect=${to.path}`)
         })
       } else {
-        //router.addRoutes(store.getters.routers);
-        //console.log("path"+ to.path)
         // 刷新记住当前页面
         if (to.path.length>1) {
           nowRoute(to.path)
@@ -34,7 +34,7 @@ router.beforeEach((to, from, next) => {
     if (whiteList.indexOf(to.path) !== -1) {
       next()
     } else {
-      next('/login')
+      next(`/login?redirect=${to.path}`)
     }
   }
 })

@@ -147,7 +147,6 @@ export default {
           document.onmouseup = null;
         }
       }
-      console.log(this.position.left)
     },
     handleMax() {
       this.$el.style.transition = 'all 0.3s'
@@ -178,13 +177,13 @@ export default {
     handleMenu(item) {
       let path = this.windowData.children ? (this.windowData.path + '/' + item.path) : item.path
       if(this.$route.path != path){
-        let navTitle =  this.windowData.meta.title + ' / ' + item.meta.title
-        this.$store.dispatch('app/changeNavTitle', navTitle);
+        // let navTitle =  this.windowData.meta.title + ' / ' + item.meta.title
+        // this.$store.dispatch('app/changeNavTitle', navTitle);
         this.$router.push(path)
         // 记忆之前路由
-        let changeRouterWin = Object.assign({}, this.nowWin)
-            changeRouterWin.route = path
-        this.$store.dispatch('app/changeWin', changeRouterWin)
+        // let changeRouterWin = Object.assign({}, this.nowWin)
+        //     changeRouterWin.route = path
+        // this.$store.dispatch('app/changeWin', changeRouterWin)
         }
     }
   }
@@ -194,7 +193,7 @@ export default {
 <style lang="scss">
 .window-wrapper {
   position: absolute;
-  min-width: 1180px;
+  min-width: 1280px;
   z-index: 9;
   .window-header {
     height: 40px;

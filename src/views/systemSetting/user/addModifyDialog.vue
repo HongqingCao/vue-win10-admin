@@ -6,22 +6,22 @@
       :modal-append-to-body="false"
       width="450px">
       <el-form :model="form" :rules="rules" ref="ruleForm" label-width="85px">
-        <el-form-item label="* 账号">
+        <el-form-item label="账号" prop="account">
           <el-input v-model="form.account"></el-input>
         </el-form-item>
-        <el-form-item label="* 姓名">
+        <el-form-item label="姓名" prop="name">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
-        <el-form-item label="* 密码">
+        <el-form-item label="密码" prop="password" v-if="title == '新增用户'">
           <el-input v-model="form.password"></el-input>
         </el-form-item>
-        <el-form-item label="* 重复密码">
-          <el-input v-model="password"></el-input>
+        <el-form-item label="修改密码" prop="password" v-if="title == '修改用户'">
+          <el-input v-model="form.password"></el-input>
         </el-form-item>
-        <el-form-item label="* 手机号码">
+        <el-form-item label="手机号码" prop="phone">
           <el-input v-model="form.phone"></el-input>
         </el-form-item>
-        <el-form-item label="* 性别">
+        <el-form-item label="性别" prop="sex">
           <el-select v-model="form.sex" placeholder="请选择" size="small">
             <el-option 
               v-for="item in sexType"
@@ -32,7 +32,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="* 冻结">
+        <el-form-item label="冻结">
           <el-switch
             v-model="form.status"
             active-value="0"
@@ -57,24 +57,49 @@ export default {
       dialogVisible: false,
       title:'新增用户',
       password:'',
-      form:{type:1},
-      rules:{}
+      form:{},
+      rules:{
+        account: [
+          {required: true, trigger: "blur", message: '请输入账号'}
+        ],
+        name: [
+          {required: true, trigger: "blur", message: '请输入姓名'}
+        ],
+        password: [
+          { required: true, message: '请输入活动名称', trigger: 'blur' },
+          { min: 6, message: '密码至少输入6位数', trigger: 'blur' }
+        ],
+        phone: [
+          {required: true, validator: this.formValid.phoneReg, trigger: "blur"}
+        ],
+        sex: [
+          {required: true, trigger: "blur", message: '请选择性别'}
+        ]
+      }
     }
   },
   methods: {
     show(data,title) {
-      this.title = title
+      this.title = title 
       this.dialogVisible = true
-      this.form = data ? JSON.parse(JSON.stringify(data)) : {type:1}
+      this.$refs.ruleForm.resetFields()
+      this.form = data ? JSON.parse(JSON.stringify(data)) : {}
     },
     confirm() {
       this.form.status = +this.form.status
-      console.log()
-      if (this.title == '新增用户') {
-        this.$emit('createdUser', this.form);
-      } else {
-        this.$emit('updateUser', this.form);
-      }
+      let leng = 0
+      let formValids = (this.title == '新增用户') ? ['account','name','password','phone','sex'] : ['account','name','phone','sex']
+      this.$refs.ruleForm.validateField(formValids, errorMessage=> {
+        if (!errorMessage) leng++
+        if (leng === formValids.length) {
+          if (this.title == '新增用户') {
+            this.$emit('createdUser', this.form);
+          } else {
+            this.$emit('updateUser', this.form);
+          }
+        }
+      })
+
     }
   }
 }
