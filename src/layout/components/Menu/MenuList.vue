@@ -1,29 +1,42 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-07-04 15:12:59
+ * @LastEditTime: 2020-07-11 22:37:01
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \home-worlkf:\github\vue-win10-admin\src\layout\components\Menu\MenuList.vue
+--> 
 <template>
   <div class="menulist-warrper" v-if="routers">
     <el-menu
-      default-active="2"
       text-color="#ffffff"
       background-color="rgba(19, 23, 28, 0.8)"
       active-text-color="#6b6b6b"
       class="el-menu-vertical-demo"
-      v-for="(item, index) in routers" :key="item.id"
+      v-for="item in routers" :key="item.id"
       >
-      <el-submenu  v-if="item.children" :index="index">
-        <template slot="title">
-          <i class="iconfont" :class="item.meta.icon"></i>
-          <span class="title-span">{{item.meta.title}}</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item 
-          v-for="(children, index) in item.children" 
-          :key="children.id" 
-          :index="index">{{children.meta.title}}</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-       <el-menu-item  v-if="!item.children" :index="index">
-        <i class="iconfont" :class="item.meta.icon"></i>
-        <span class="title-span">{{item.meta.title}}</span>
-      </el-menu-item>
+      <template v-if="item.children">
+        <el-submenu  :index="item.path">
+          <template slot="title">
+            <i class="iconfont" :class="item.meta.icon"></i>
+            <span class="title-span">{{item.meta.title}}</span>
+          </template>
+          <el-menu-item-group  v-for="children in item.children"  :key="children.id">
+            <router-link :to="item.path+'/'+children.path">
+               <el-menu-item :index="children.id">{{children.meta.title}}</el-menu-item>
+            </router-link>
+          </el-menu-item-group>
+        </el-submenu>
+      </template>
+       <template v-else >
+         <router-link :to="item.path">
+            <el-menu-item  :index="item.path">
+              <i class="iconfont" :class="item.meta.icon"></i>
+              <span class="title-span">{{item.meta.title}}</span>
+            </el-menu-item>
+          </router-link>
+       </template>
+
     </el-menu>
   </div>
 </template>

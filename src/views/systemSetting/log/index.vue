@@ -2,7 +2,9 @@
   <div class="log-wrapper">
     <el-table class="role-table" :data="tableData" style="width: 100%">
       <el-table-column label="序号" type="index" width="50"></el-table-column>
-      <el-table-column label="操作时间" prop="updatedAt" width="150"></el-table-column>
+      <el-table-column label="操作时间"  width="150">
+        <template slot-scope="scope"> {{ Date.parse(scope.row.updatedAt) | date}}</template>
+      </el-table-column>
       <el-table-column label="账号" prop="create_name" width="120"></el-table-column>
       <el-table-column label="类型" prop="type"  width="80"></el-table-column>
       <el-table-column label="内容" prop="desc"  width="250"></el-table-column>

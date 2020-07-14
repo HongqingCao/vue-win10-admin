@@ -23,10 +23,8 @@
           </el-popover>
         </template>
       </el-table-column>
-      <el-table-column
-        label="创建时间"
-        prop="createdAt" 
-        width="200">
+      <el-table-column label="创建时间"  width="200">
+        <template slot-scope="scope"> {{ Date.parse(scope.row.createdAt) | date}}</template>
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">

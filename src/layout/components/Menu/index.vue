@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-07-04 15:12:59
+ * @LastEditTime: 2020-07-12 13:19:28
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \home-worlkf:\github\vue-win10-admin\src\layout\components\Menu\index.vue
+--> 
 <template>
   <div class="menu-warrper"  :style="{bottom: showMenu==true ?'40px':'-480px'}">
     <div class="start-list">
@@ -36,7 +44,7 @@ export default {
 
 <style lang="scss">
 .menu-warrper {
-  width: 840px;
+  width: 600px;
   height: 480px;
   position: fixed;
   bottom: -480px;
@@ -45,7 +53,7 @@ export default {
   background-color: rgba(19, 23, 28, 0.8);
   overflow-x: hidden;
   overflow-y: auto;
-  z-index: 9990;
+  z-index: 2000;
   transition: all 0.5s;
   .start-list{
     float: left;
@@ -86,7 +94,6 @@ export default {
 
   .menu-blocks {
     float: left;
-    max-width: 770px;
     width: calc(100% - 260px);
     height: 100%;
     padding-top: 20px;

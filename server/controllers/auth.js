@@ -1,5 +1,6 @@
 const AuthModel = require('../model/auth')
 const logModel = require('../model/log')
+const Authority = require('./authority')
 const Base = require('./base')
 
 class Auth extends Base{

@@ -2,14 +2,14 @@
  * @Author: codercao 
  * @Date: 2020-04-02 16:49:36 
  * @Last Modified by: codercao
- * @Last Modified time: 2020-07-10 17:07:17
+ * @Last Modified time: 2020-07-14 15:07:46
  */
 
 const config = {
   // 启动端口
   port: 2020,
   //秘钥
-  secret:'VISITOR',
+  secret:'win10',
   // 数据库配置
   database: {
     dbName: 'db_win',

@@ -149,7 +149,7 @@ module.exports =  {
     }
     return arr1
   },
-  // 为tree数据结构添加name，好获取子节点至根节点的全部路径 S0812A
+  // 为tree数据结构添加name，好获取子节点至根节点的全部路径 
   methoss: (arr, pathName) => {
     arr.forEach(item => {
       // 对一级菜单处理

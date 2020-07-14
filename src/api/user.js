@@ -8,6 +8,21 @@ export function loginApi(data) {
     data
   })
 }
+
+export function logOut(data) {
+  return request({
+    url: 'api/user/logOut',
+    method: 'get',
+    params:data
+  })
+}
+export function getInfo(data) {
+  return request({
+    url: 'api/user/getInfo',
+    method: 'get',
+    params:data
+  })
+}
 export function getUserList(data) {
   return request({
     url: 'api/user/getList',

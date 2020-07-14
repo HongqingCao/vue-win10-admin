@@ -11,17 +11,6 @@
         <div class="right"></div>
       </div>
     </div>
-    <div class="left-warrpper">
-      <div class="title">创建</div>
-      <div class="list-warrpper">
-        <div class="left"></div>
-        <div class="right"></div>
-      </div>
-      <div class="list-warrpper">
-        <div class="left"></div>
-        <div class="right"></div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -29,8 +18,6 @@
 .menublocks-warrpper{
   padding: 0 10px 0 10px;
   .left-warrpper {
-    width: 50%;
-    float: left;
     padding-right: 10px;
     
     .title {

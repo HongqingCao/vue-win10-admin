@@ -12,5 +12,4 @@ registerRouter = () => {
         })
     return compose(routers)
 }
-
 module.exports = registerRouter

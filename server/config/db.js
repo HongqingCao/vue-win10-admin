@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-07-04 15:12:57
+ * @LastEditTime: 2020-07-12 19:30:19
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \vue-win10-admin\server\config\db.js
+ */ 
 const Sequelize = require('sequelize');
 const {
   dbName,
@@ -13,7 +21,7 @@ const sequelize = new Sequelize(dbName, user, password, {
   host,
   port,
   timezone,
-  operatorsAliases: false,
+ // operatorsAliases: false,
   pool: {
     max: 5,
     min: 0,
@@ -31,9 +39,6 @@ sequelize
     console.error('链接失败:', err);
   });
   
-  // sequelize.sync({
-  //   force: true
-  // })
 //根据模型自动创建表
 // sequelize
 //   .sync({alter: true} )

@@ -5,12 +5,12 @@
       :visible.sync="dialogVisible"
       :modal-append-to-body="false"
       width="500px">
-      <el-form :model="form" :rules="rules" ref="ruleForm" label-width="120px">
-        <el-form-item label="* 角色名">
-          <el-input v-model="form.name"></el-input>
+      <el-form :model="ruleForm" :rules="roleRules" ref="ruleForm" label-width="120px">
+        <el-form-item label="* 角色名" prop="name">
+          <el-input v-model="ruleForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="* 角色描述">
-          <el-input v-model="form.desc"></el-input>
+        <el-form-item label="角色描述">
+          <el-input v-model="ruleForm.desc"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -27,22 +27,32 @@ export default {
     return {
       dialogVisible: false,
       title:'新增角色',
-      form:{},
-      rules:{}
+      ruleForm:{
+        name:''
+      },
+      roleRules:{
+        name: [
+            { required: true, message: '请输入角色名', trigger: 'blur' }
+          ]
+      }
     }
   },
   methods: {
     show(data,title) {
       this.title = title
       this.dialogVisible = true
-      this.form = data ? data : {}
+      this.ruleForm = data ? JSON.parse(JSON.stringify(data)) : {}
     },
     confirm() {
-      if (this.title == '新增角色') {
-        this.$emit('createdRole', this.form);
-      } else {
-        this.$emit('updateRole', this.form);
-      }
+      this.$refs.ruleForm.validate(valid => {
+        if (valid) {
+          if (this.title == '新增角色') {
+            this.$emit('createdRole', this.ruleForm);
+          } else {
+            this.$emit('updateRole', this.ruleForm);
+          }
+        }
+      })
     }
   }
 }

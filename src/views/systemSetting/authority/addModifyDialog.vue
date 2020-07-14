@@ -9,10 +9,10 @@
         <el-form-item label="父权限名称">
           <el-input v-model="form.parent_name" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label="* 权限名称">
+        <el-form-item label="权限名称" prop="authority_name">
           <el-input v-model="form.authority_name"></el-input>
         </el-form-item>
-        <el-form-item label="* 权限类型">
+        <el-form-item label="权限类型">
           <el-select v-model="form.authority_type" placeholder="请选择权限类型">
             <el-option 
               v-for="item in authorityType"
@@ -23,21 +23,21 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="* 菜单唯一标识" v-if="form.authority_type==0">
+        <el-form-item label="菜单唯一标识" v-if="form.authority_type==0" prop="authority_url">
           <el-input v-model="form.authority_url"></el-input>
         </el-form-item>
-        <el-form-item label="* 功能URL/标识" v-if="form.authority_type==1">
+        <el-form-item label="功能URL/标识" v-if="form.authority_type==1" prop="authority_url">
           <el-input v-model="form.authority_url"></el-input>
         </el-form-item>
-        <el-form-item label="* 排序">
+        <el-form-item label="排序">
           <el-input v-model="form.authority_sort"></el-input>
         </el-form-item>
-        <el-form-item label="* 权限描述">
+        <el-form-item label="权限描述">
           <el-input v-model="form.desc"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-      <el-button @click="dialogVisible = false">取 消</el-button>
+      <el-button @click="dialogVisible = false;ruleForm.resetFields()">取 消</el-button>
       <el-button type="primary" @click="confirm">确 定</el-button>
     </span>
     </el-dialog>
@@ -58,13 +58,21 @@ export default {
         parent_name:'',
         parent_id:"0"
       },
-      rules:{}
+      rules:{
+        authority_name: [
+          { required: true, message: '请输入权限名称', trigger: 'blur' }
+        ],
+        authority_url: [
+          { required: true, message: '请输入标识', trigger: 'blur' }
+        ],
+      }
     }
   },
   methods: {
     show(data,title) {
       this.title = title
       this.dialogVisible = true
+      //this.$refs.ruleForm.resetFields()  // 清除表单提交校验
       this.form = {
         authority_type:authorityType[0].value,
         status:true,
@@ -77,11 +85,15 @@ export default {
       } else this.form = data
     },
     confirm() {
-      if (this.title == '新增权限') {
-        this.$emit('createdAuth', this.form);
-      } else {
-        this.$emit('updateAuth', this.form);
-      }
+      this.$refs.ruleForm.validate(valid => {
+        if (valid) {
+            if (this.title == '新增权限') {
+              this.$emit('createdAuth', this.form);
+            } else {
+              this.$emit('updateAuth', this.form);
+            }
+        }
+      })
     }
   }
 }

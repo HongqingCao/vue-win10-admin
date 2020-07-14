@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-07-09 21:47:22
+ * @LastEditTime: 2020-07-11 21:46:44
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \home-worlkf:\github\vue-win10-admin\src\views\systemSetting\user\setRoleDialog.vue
+--> 
 <template>
   <div class="setRoleDialog-wrapper">
     <el-dialog 
@@ -57,7 +65,7 @@ export default {
       let data = {
         role_id: this.role_id,
         role_name: this.role_name,
-        account: this.data.account
+        id: this.data.id
       }
       this.$emit('addRole', data)
     }
