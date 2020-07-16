@@ -25,7 +25,7 @@
             size="mini"
             type="danger"
             icon="el-icon-delete"
-            @click="delRole(scope.row)"></el-button>
+            @click="delUser(scope.row)"></el-button>
           <el-button
             size="mini"
             type="success"

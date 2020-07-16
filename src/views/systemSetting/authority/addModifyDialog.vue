@@ -37,7 +37,7 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-      <el-button @click="dialogVisible = false;ruleForm.resetFields()">取 消</el-button>
+      <el-button @click="dialogVisible = false">取 消</el-button>
       <el-button type="primary" @click="confirm">确 定</el-button>
     </span>
     </el-dialog>

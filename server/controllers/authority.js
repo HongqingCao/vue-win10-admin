@@ -1,5 +1,7 @@
 const Base = require('./base')
 const Token = require('./token')
+const RoleModel = require('../model/role')
+const AuthModel = require('../model/auth')
 const UserModel = require('../model/user')
 const JWT = require('jsonwebtoken')
 const { secret } = require('../config/config')
@@ -61,7 +63,7 @@ class Authority extends Base{
       }
     try {
       ///search = await this.getToken({[content.type + '_token']: token})
-      search = await this.getToken({user_id: content.id})
+      search = await this.getToken({user_id: content.user_id})
       console.log("search13")
       console.log(Date.parse(search[content.type + '_expire_time']) < +new Date())
     } catch (e) {
@@ -104,22 +106,68 @@ class Authority extends Base{
   }
   // 验证用户是否有操作权限
   async permissions (ctx, next) {
-    const baseUrl = ctx.baseUrl.split('/')
-    const method = ctx.method
-    const userInfo = await this.getUserInfo(ctx)
+    let auth_ids, authority_id
     const whiteList = ['/api/user/login', '/api/user/registered', '/api/user/loginOut']
-    let api = ctx.baseUrl + ctx.path
-    // 如果是删除接口，将delete后面去掉再校验
-    // if (/delete/.test(api)) {
-    //   api = api.replace(/\/[^/*]*$/, '')
-    // }
-    // 当请求方式为get时或者登陆注册时，不需要验证数据权限
-    if (method.toLocaleLowerCase() === 'get' || whiteList.includes(api) || whiteList.includes(ctx.originalUrl)) {
-      next()
-      return
+    // 不需要验证数据权限
+    if (whiteList.includes(ctx.path)) return next()
+    const userInfo = await this.getUserInfo(ctx)
+    if (userInfo.role_id) {
+      try {
+        auth_ids = await  RoleModel.findOne({
+          attributes: [
+            'auth_ids' 
+          ],
+          where:{
+            role_id:userInfo.role_id
+          }
+        })
+      } catch (e) {
+        this.handleException(ctx, e)
+        return
+      }
+      try {
+        console.log('path')
+        console.log(ctx.path)
+        authority_id = await  AuthModel.findOne({
+          attributes: [
+            'authority_id', 
+          ],
+          where:{
+            authority_url: ctx.path
+          }
+      })
+      } catch (e) {
+        this.handleException(ctx, e)
+        return
+      }
+      console.log("auth_ids")
+      console.log(auth_ids)
+      console.log(authority_id)
+      if(auth_ids && authority_id){
+        if (auth_ids.auth_ids.split(',').includes(authority_id.authority_id)) {
+          return next()
+        } else {
+          ctx.body = {
+            code: 20501,
+            success: false,
+            content: {},
+            message: '无访问权限' + ctx.path 
+          }
+          next()
+          return
+        }
+      } 
     }
+    ctx.body = {
+      code: 20501,
+      success: false,
+      content: {},
+      message: '无访问权限' + ctx.path 
+    }
+    next()
+    return
   }
 }
 
-module.exports =  new Authority()
+
 module.exports =  new Authority()

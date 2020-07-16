@@ -53,6 +53,7 @@ export default {
       getAllAuthList().then(res => {
           if (res.code === 20000 && res.data) {
             this.nodeData = this.getTreeNodeData(res.data,'0')
+            this.selectedNodeIds = this.defaultExpandedArr
             console.log(this.nodeData)
           }
         })
@@ -86,6 +87,9 @@ export default {
 
 <style lang="scss">
 .setRoleAuthDialog-wrapper {
+  .el-dialog__wrapper{
+    padding-bottom: 100px;
+  }
   .el-dialog{
     .el-dialog__header{
       border-bottom: 1px solid rgba(0, 0, 0, 0.09);

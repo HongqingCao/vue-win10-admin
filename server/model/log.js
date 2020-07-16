@@ -27,7 +27,7 @@ const log = initTable.define('db_log', {
     type: Sequelize.STRING(48),
     comment: '日志描述访问IP'
   },
-  create_user: Sequelize.INTEGER(11),
+  create_user: Sequelize.STRING(20),
   create_name: Sequelize.STRING(100),
   flag: {
     type: Sequelize.INTEGER(4),
