@@ -7,6 +7,7 @@ const logger = require('koa-logger')
 const cors = require('koa2-cors')
 const routes = require('./routes/index')
 const authority = require('./controllers/authority.js')
+const { port } = require('./config/config')
 require('./config/db')
 
 app.use(cors())
@@ -36,13 +37,19 @@ app.use(async (ctx, next) => {
 app.use(async (ctx, next) => {
   await authority.checkToken(ctx, next)
 })
+// app.use(async (ctx, next) => {
+//   await authority.permissions(ctx, next)
+// })
 
 app.use(routes())
 
 // error-handling
 app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)
-});
+})
 
+app.listen(port, () => {
+  console.log('Koa is listening in ' + port)
+})
 
 module.exports = app

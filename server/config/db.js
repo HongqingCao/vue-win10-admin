@@ -39,7 +39,7 @@ sequelize
     console.error('链接失败:', err);
   });
   
-//根据模型自动创建表
+// 根据模型自动创建表
 // sequelize
 //   .sync({alter: true} )
 //   .then(() => {

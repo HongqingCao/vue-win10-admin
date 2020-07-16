@@ -65,7 +65,7 @@ export default {
       let data = {
         role_id: this.role_id,
         role_name: this.role_name,
-        id: this.data.id
+        user_id: this.data.user_id
       }
       this.$emit('addRole', data)
     }

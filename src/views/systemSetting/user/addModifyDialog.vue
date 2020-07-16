@@ -15,9 +15,6 @@
         <el-form-item label="密码" prop="password" v-if="title == '新增用户'">
           <el-input v-model="form.password"></el-input>
         </el-form-item>
-        <el-form-item label="修改密码" prop="password" v-if="title == '修改用户'">
-          <el-input v-model="form.password"></el-input>
-        </el-form-item>
         <el-form-item label="手机号码" prop="phone">
           <el-input v-model="form.phone"></el-input>
         </el-form-item>
@@ -52,6 +49,16 @@
 import {sexType} from "@/dictionary"
 export default {
   data() {
+    const passwordValidator = (rule, value, callback) => {
+      if (value) {
+        if (value.length < 6 || value.length > 16) {
+          callback(new Error('密码长度为6~16位'))
+          return
+        }
+      } else {
+        callback(new Error('请输入密码'))
+      }
+    } 
     return {
       sexType:sexType,
       dialogVisible: false,
@@ -66,8 +73,7 @@ export default {
           {required: true, trigger: "blur", message: '请输入姓名'}
         ],
         password: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' },
-          { min: 6, message: '密码至少输入6位数', trigger: 'blur' }
+          { required: true, validator: passwordValidator, trigger: 'blur' }
         ],
         phone: [
           {required: true, validator: this.formValid.phoneReg, trigger: "blur"}
@@ -82,20 +88,21 @@ export default {
     show(data,title) {
       this.title = title 
       this.dialogVisible = true
-      this.$refs.ruleForm.resetFields()
       this.form = data ? JSON.parse(JSON.stringify(data)) : {}
     },
     confirm() {
       this.form.status = +this.form.status
-      let leng = 0
-      let formValids = (this.title == '新增用户') ? ['account','name','password','phone','sex'] : ['account','name','phone','sex']
+      let form = Object.assign({}, this.form),
+          leng = 0,
+          formValids = (this.title == '新增用户') ? ['account','name','password','phone','sex'] : ['account','name','phone','sex']
       this.$refs.ruleForm.validateField(formValids, errorMessage=> {
         if (!errorMessage) leng++
-        if (leng === formValids.length) {
+        if (leng === formValids.length -1) {
           if (this.title == '新增用户') {
-            this.$emit('createdUser', this.form);
+            this.$emit('createdUser', form)
           } else {
-            this.$emit('updateUser', this.form);
+            delete form.passwordConfirm
+            this.$emit('updateUser', form)
           }
         }
       })

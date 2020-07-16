@@ -5,6 +5,7 @@ const ValidateUser  = require('../validate/user')
 const logModel = require('../model/log')
 const Authority = require('./authority')
 const JWT = require('jsonwebtoken')
+const MD5 = require('js-md5')
 const Op = require('sequelize').Op
 const { secret } = require('../config/config')
 
@@ -16,7 +17,7 @@ class User extends Base{
     this.logOut = this.logOut.bind(this)
     this.update = this.update.bind(this)
     this.delete = this.delete.bind(this)
-   this.getInfo = this.getInfo.bind(this)
+    this.getInfo = this.getInfo.bind(this)
     this.getList = this.getList.bind(this)
     this.getAll = this.getAll.bind(this)
   }
@@ -31,12 +32,10 @@ class User extends Base{
     }
     if (!search) {
       try {
-        let data = JSON.parse(JSON.stringify(ctx.request.body))
-        data.create_user = userInfo.id || 1,
-        console.log("data")
-        console.log(data)
+        let data = ctx.request.body
+        data.password = MD5(data.password) 
+        data.create_user = userInfo.user_id || 1,
         result = await UserModel.create(data)
-        console.log(result)
       } catch (e) {
         this.handleException(ctx, e)
         return
@@ -44,13 +43,13 @@ class User extends Base{
 
       try {
         await logModel.create({
-            origin: ctx.request.body.type,
-            type: 4,
-            title: ctx.request.body.type === 2 ? '创建用户' : '注册用户',
-            desc: '',
-            ip: this.getClientIp(ctx),
-            create_user: userInfo.id || 1,
-            create_name: userInfo.name || ''
+          origin: ctx.request.body.type,
+          type: 4,
+          title: ctx.request.body.type === 2 ? '创建用户' : '注册用户',
+          desc: '',
+          ip: this.getClientIp(ctx),
+          create_user: userInfo.user_id || 1,
+          create_name: userInfo.name || ''
         })
       } catch (e) {
         this.handleException(ctx, e)
@@ -73,7 +72,7 @@ class User extends Base{
   async login (ctx, next) {
     await ValidateUser.login(ctx, next)
     let account = ctx.request.body.account,
-        password = ctx.request.body.password,
+        password = MD5(ctx.request.body.password),
         type = ctx.request.body.type,
         search, token = [], data
     let where = {
@@ -103,7 +102,7 @@ class User extends Base{
             break
           case 2:
             data.type = 'admin'
-            data[data.type + '_expire_time'] = new Date(+new Date() + 60 * 60 * 24 * 1 * 1000) // 重新登录则上次的失效 (一天后失效)
+            data[data.type + '_expire_time'] = new Date(+new Date() + 60 * 60 * 24 * 1 * 1000) // 一天
            // data[data.type + '_expire_time'] = new Date(+new Date() + 60 * 1000) // 重新登录则上次的失效 (测试期间设置为1分钟后失效)
             break
         }
@@ -115,10 +114,10 @@ class User extends Base{
               [data.type + '_token']: JWT.sign(data, secret, {}),
               [data.type + '_expire_time']: data[data.type + '_expire_time'],
               [data.type + '_ip']: this.getClientIp(ctx),
-              user_id: data.id
+              user_id: data.user_id
             },
             get: {
-              user_id: data.id
+              user_id: data.user_id
             }
           })
         } catch (e) {
@@ -145,7 +144,6 @@ class User extends Base{
       }
     } else {
       try {
-        // 写入登录日志
         await logModel.writeLog({
           set: {
             origin: type,
@@ -153,7 +151,7 @@ class User extends Base{
             title: '用户登录',
             desc: '',
             ip: this.getClientIp(ctx),
-            create_user: search.id  || 1,
+            create_user: search.user_id || '',
             create_name: search.name || ''
           }
         })
@@ -161,9 +159,7 @@ class User extends Base{
         this.handleException(ctx, e)
       }
       try {
-        console.log("111")
-        token = await Authority.getToken({user_id: data.id})
-        console.log("usertoke")
+        token = await Authority.getToken({user_id: data.user_id})
       } catch (e) {
         this.handleException(ctx, e)
         return
@@ -185,7 +181,7 @@ class User extends Base{
     try {
       // TODO: 测试期间不清除数据
       await Authority.setToken(userInfo, {
-        set: {[userInfo.type + '_token']: JWT.sign(userInfo, secret, {}), user_id: userInfo.id}
+        set: {[userInfo.type + '_token']: JWT.sign(userInfo, secret, {}), user_id: userInfo.user_id}
       })
     } catch (e) {
       this.handleException(ctx, e)
@@ -244,14 +240,13 @@ class User extends Base{
       let whereParams = {
         flag: 1
       }
-      
       account && (whereParams['account'] = { [Op.like]: `%${account}%` })
       phone && (whereParams['phone'] = phone)
       role_id && (whereParams['role_id'] = role_id)
       status && (whereParams['status'] = status)
       let {count, rows}  = await UserModel.findAndCountAll({
         attributes: [
-          'id', 
+          'user_id', 
           'role_id', 
           'role_name',
           'account',
@@ -301,10 +296,11 @@ class User extends Base{
     }
   }
   async update (ctx, next){
-    let  data = ctx.request.body, result, userInfo = await this.getUserInfo(ctx) || {}
+    let  data = JSON.parse(JSON.stringify(ctx.request.body)), result, userInfo = await this.getUserInfo(ctx) || {}
+    data.password && (data.password = MD5(data.password))
     try {
-      data.update_user = userInfo.id
-      result = await UserModel.update(data, {where:{id:data.id,flag: 1}})
+      data.update_user = userInfo.user_id
+      result = await UserModel.update(data, {where: {user_id:data.user_id}})
     }  catch (e) {
       this.handleException(ctx, e)
       return
@@ -345,7 +341,7 @@ class User extends Base{
     data.delete_user = userInfo.id
     data.delete_time = new Date()
     try {
-      result = await UserModel.update(data, {where:{account:data.account}})
+      result = await UserModel.update(data, {where:{user_id:data.user_id}})
     }  catch (e) {
       this.handleException(ctx, e)
       return

@@ -62,9 +62,9 @@ export function date(timestamp, formater) {
 
 // 性别类型
 export function  sexType(value){
-  if (value=== 0) {
+  if (value=== 1) {
     return '男'
-  } else if (value === 1) {
+  } else if (value === 2) {
     return '女'
   } else return '未设置'
 }

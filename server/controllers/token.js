@@ -19,10 +19,7 @@ class Token {
   async setToken (data, obj) {
     let search, sql, newUserInfo = JSON.parse(JSON.stringify(data)), oldUserInfo = {}
     try {
-      console.log("search")
-      console.log(data.id)
-      search = await this.getToken({user_id: data.id})
-     // console.log(search)
+      search = await this.getToken({user_id: data.user_id})
     } catch (e) {
       throw e
     }
@@ -49,16 +46,17 @@ class Token {
       } else if(+new Date(search[data.type + '_expire_time']) > +new Date()) {
         // 数据未过期，不处理
         sql = ``
-      } else {
+      } 
+      else {
         sql = await TokenModel.update(obj.set, {where:{user_id: obj.set.user_id}})
       }
-      console.log("6")
-      console.log(sql)
     }
     return sql
   }
 
   async getToken (where) {
+    console.log("where")
+    console.log(where)
     const result = await TokenModel.findOne({where})
     return result
   }
