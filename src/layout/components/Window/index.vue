@@ -71,6 +71,7 @@ export default {
     ...mapGetters([
       'navTitle',
       'nowWin',
+      'winArr'
     ]),
     winHeight: function () {
       return document.body.clientHeight - 40;
@@ -90,6 +91,7 @@ export default {
   },
   data() {
     return {
+      loading:false,
       size: {
         width: document.body.clientWidth - 300,
         height: document.body.clientHeight -240
@@ -168,23 +170,21 @@ export default {
       this.fullScreen = !this.fullScreen
       let that = this;
       setTimeout(function () {
-        that.$el.style.transition = 'all 0s';
+        that.$el.style.transition = 'all 0s'
       }, 500);
     },
     handleClose() {
-      this.$store.dispatch('app/delWindow', this.windowData);
+      this.$store.dispatch('app/delWindow', this.windowData)
+      if (this.winArr.length < 1) {
+        this.$router.push('/') 
+      } else this.$router.go(-1)
+      
     },
     handleMenu(item) {
       let path = this.windowData.children ? (this.windowData.path + '/' + item.path) : item.path
-      if(this.$route.path != path){
-        // let navTitle =  this.windowData.meta.title + ' / ' + item.meta.title
-        // this.$store.dispatch('app/changeNavTitle', navTitle);
+      if (this.$route.path != path) {
         this.$router.push(path)
-        // 记忆之前路由
-        // let changeRouterWin = Object.assign({}, this.nowWin)
-        //     changeRouterWin.route = path
-        // this.$store.dispatch('app/changeWin', changeRouterWin)
-        }
+      }
     }
   }
 }

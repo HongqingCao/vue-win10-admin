@@ -54,7 +54,6 @@ export default {
           if (res.code === 20000 && res.data) {
             this.nodeData = this.getTreeNodeData(res.data,'0')
             this.selectedNodeIds = this.defaultExpandedArr
-            console.log(this.nodeData)
           }
         })
     },
@@ -72,8 +71,11 @@ export default {
     },
     nodeChanged(data, checkedData) {
       this.selectedNodeIds = checkedData.checkedKeys
+      console.log(checkedData.checkedKeys)
+      //this.selectedNodeIds = Array.from(new Set(this.selectedNodeIds)) 
     },
     confirm() {
+      this.selectedNodeIds = Array.from(new Set(this.selectedNodeIds)) 
       let data = {
         role_id: this.role_id,
         auth_ids: this.selectedNodeIds.join()

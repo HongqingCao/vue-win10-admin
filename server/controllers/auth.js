@@ -1,6 +1,8 @@
 const AuthModel = require('../model/auth')
 const logModel = require('../model/log')
+const RoleModel = require('../model/role')
 const Authority = require('./authority')
+const Op = require('sequelize').Op
 const Base = require('./base')
 
 class Auth extends Base{
@@ -14,13 +16,49 @@ class Auth extends Base{
   }
 
   async getList (ctx, next) {
-    let type = ctx.request.query.type
-    const data = await AuthModel.findAll({
-      where: {
+    let oneUserRole, whereParams, data, type = ctx.request.query.type, userInfo = await this.getUserInfo(ctx) || {}
+    try {
+      // 获取到用户对应的角色
+      oneUserRole = await RoleModel.findOne({
+        where: {
+          role_id:userInfo.role_id
+        }
+      })
+    }  catch (e) {
+      this.handleException(ctx, e)
+      return
+    }
+    
+    try {
+      // 通过角色的权限id去获取 对应的权限表
+      whereParams =  {
         flag: 1,
         authority_type: type
       }
-    })
+      console.log("whereParams")
+      console.log(oneUserRole.auth_ids)
+
+      // oneUserRole.auth_ids && (whereParams['authority_id'] = {
+      //   [Op.in]: oneUserRole.auth_ids.split(',')
+      // })
+      data = await AuthModel.findAll({
+        attributes: [
+          'authority_id', 
+          'authority_name', 
+          'authority_type',
+          'authority_url',
+          'authority_sort',
+          'desc',
+          'parent_id',
+          'parent_name'
+        ],
+        where:whereParams
+      })
+    }  catch (e) {
+      this.handleException(ctx, e)
+      return
+    }
+
     ctx.body = {
       code: data ? 20000 : 1003,
       data: data,

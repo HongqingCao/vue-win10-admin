@@ -44,7 +44,9 @@ router.afterEach(() => {
 
 const nowRoute = (path) => {
   let nowpath = utils.splitRouter(path)
+  console.log(nowpath)
   let storeRouters = store.getters.routers
+  console.log(storeRouters)
   let changeRouterWin = {}
   let navTitle = ''
   storeRouters.forEach(item => {

@@ -21,7 +21,7 @@ class Base{
       userInfo = decoded
     })
     // 直接从数据库获取，能保证用户最新的数据
-    result = await UserModel.findOne({id: userInfo.id, flag: 1})
+    result = await UserModel.findOne({where:{id: userInfo.id, flag: 1}})
     return result
   }
 

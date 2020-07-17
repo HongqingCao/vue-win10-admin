@@ -44,8 +44,7 @@ export default {
   methods: {
     handleClick(e) {
       let isMenu = getClassName(e.target, 'menu-warrper')
-      let isStart = getClassName(e.target, 'start-button')
-      
+     // let isStart = getClassName(e.target, 'start-button')
       let isBtnMenu = getClassName(e.target, 'task-button task-btn-menu')
       let isBtnMessage = getClassName(e.target, 'task-button task-btn-message')
 

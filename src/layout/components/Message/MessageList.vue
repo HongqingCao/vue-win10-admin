@@ -28,7 +28,7 @@ export default {
     closeMsg (item) {
       this.messageList.forEach((msg, index) => {
         if (msg.uuid === item.uuid) {
-          this.messageList.splice(index, 1);
+          this.messageList.splice(index, 1)
         }
       });
     }

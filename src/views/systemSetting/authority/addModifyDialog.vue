@@ -82,7 +82,7 @@ export default {
       if(this.title == '新增权限') {
         this.form.parent_name = data.authority_name ? data.authority_name : ""
         this.form.parent_id = data.authority_id ? data.authority_id : "0"
-      } else this.form = data
+      } else this.form = JSON.parse(JSON.stringify(data))
     },
     confirm() {
       this.$refs.ruleForm.validate(valid => {

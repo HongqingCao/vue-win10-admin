@@ -23,6 +23,7 @@ class Token {
     } catch (e) {
       throw e
     }
+
     // 用户不存在则创建一条数据，存在则将原来的token替换掉
     if (!search) {
       sql = await TokenModel.create(obj.set)
@@ -34,6 +35,7 @@ class Token {
         }
         oldUserInfo = decoded
       })
+     
       // 用户数据发生变化，重新设置数据信息，只修改token
       delete newUserInfo[data.type + '_expire_time']
       delete oldUserInfo[data.type + '_expire_time']
@@ -42,22 +44,22 @@ class Token {
         obj.set = {
           [data.type + '_token']: obj.set[data.type + '_token']
         }
-        sql = await  TokenModel.update(obj.set, {where:{user_id: obj.set.user_id}})
+        sql = await  TokenModel.update(obj.set, {where:{user_id: data.user_id}})
+
       } else if(+new Date(search[data.type + '_expire_time']) > +new Date()) {
         // 数据未过期，不处理
         sql = ``
       } 
       else {
-        sql = await TokenModel.update(obj.set, {where:{user_id: obj.set.user_id}})
+        sql = await TokenModel.update(obj.set, {where:{user_id: data.user_id}})
       }
     }
     return sql
   }
 
   async getToken (where) {
-    console.log("where")
-    console.log(where)
-    const result = await TokenModel.findOne({where})
+
+    const result = await TokenModel.findOne({where:where})
     return result
   }
 }

@@ -175,6 +175,8 @@ const sortMenuList = (menuList) => {
       return routerItem
     } 
   })
+  console.log("111222")
+  console.log(baseMenu)
   // 过滤数组
   baseMenu = baseMenu.filter(item => item!=undefined)
   constantRoutes = getTreeArr({ key: 'id', pKey: 'pid', data: baseMenu, jsonData: false })

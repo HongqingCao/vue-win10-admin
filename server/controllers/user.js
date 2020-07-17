@@ -70,79 +70,76 @@ class User extends Base{
 
  // 登录
   async login (ctx, next) {
+    // 验证登录信息是否合法
     await ValidateUser.login(ctx, next)
+
     let account = ctx.request.body.account,
         password = MD5(ctx.request.body.password),
         type = ctx.request.body.type,
         search, token = [], data
-    let where = {
-      account:account,
-      password:password,
-      flag: 1
-    }
-    try {
-      search = await UserModel.findOne({where})
-      data = search ? JSON.parse(JSON.stringify(search)) : null
+       
+    search = await UserModel.findOne({
+                where:{
+                  account:account,
+                  password:password,
+                  flag: 1
+                }
+              })
 
-      if (data && data.status != 0) {
-        for (let key in data) {
-          if (!data[key]) {
-            delete data[key]
+    data = search ? JSON.parse(JSON.stringify(search)) : null
+    console.log("user_id")
+    console.log(data.user_id)
+    if (data) {
+      if (data.status == 0) {
+        ctx.body = {
+          code: 20301,
+          success: false,
+          message: '当前账号已被停用'
+        }
+        return
+      }
+      for (let key in data) {
+        if (!data[key]) {
+          delete data[key]
+        }
+      }
+      // 得到要设置的token类型和过期时间
+      switch (+type) {
+        case 0:
+          data.type = 'phone'
+          data[data.type + '_expire_time'] = new Date(+new Date() + 60 * 60 * 24 * 180 * 1000) // 半年
+          break
+        case 1:
+          data.type = 'user'
+          data[data.type + '_expire_time'] = new Date(+new Date() + 60 * 60 * 24 * 60 * 1000) // 两个月
+          break
+        case 2:
+          data.type = 'admin'
+          data[data.type + '_expire_time'] = new Date(+new Date() + 60 * 60 * 24 * 1 * 1000) // 一天
+        // data[data.type + '_expire_time'] = new Date(+new Date() + 60 * 1000) // 重新登录则上次的失效 (测试期间设置为1分钟后失效)
+          break
+      }
+
+      try {
+        
+        // Token过期了或者用户登录获取到的信息和之前token解析出来的不一样，则重新设置，否则不处理
+        await Authority.setToken(data, {
+          set: {
+            [data.type + '_token']: JWT.sign(data, secret, {}),
+            [data.type + '_expire_time']: data[data.type + '_expire_time'],
+            [data.type + '_ip']: this.getClientIp(ctx),
+            user_id: data.user_id
+          },
+          get: {
+            user_id: data.user_id
           }
-        }
-        // 得到要设置的token类型和过期时间
-        switch (+type) {
-          case 0:
-            data.type = 'phone'
-            data[data.type + '_expire_time'] = new Date(+new Date() + 60 * 60 * 24 * 180 * 1000) // 半年
-            break
-          case 1:
-            data.type = 'user'
-            data[data.type + '_expire_time'] = new Date(+new Date() + 60 * 60 * 24 * 60 * 1000) // 两个月
-            break
-          case 2:
-            data.type = 'admin'
-            data[data.type + '_expire_time'] = new Date(+new Date() + 60 * 60 * 24 * 1 * 1000) // 一天
-           // data[data.type + '_expire_time'] = new Date(+new Date() + 60 * 1000) // 重新登录则上次的失效 (测试期间设置为1分钟后失效)
-            break
-        }
-
-        try {
-          // Token过期了或者用户登录获取到的信息和之前token解析出来的不一样，则重新设置，否则不处理
-          Authority.setToken(data, {
-            set: {
-              [data.type + '_token']: JWT.sign(data, secret, {}),
-              [data.type + '_expire_time']: data[data.type + '_expire_time'],
-              [data.type + '_ip']: this.getClientIp(ctx),
-              user_id: data.user_id
-            },
-            get: {
-              user_id: data.user_id
-            }
-          })
-        } catch (e) {
-          this.handleException(ctx, e)
-          return
-        }
-      } 
-    } catch (e) {
-      this.handleException(ctx, e)
-      return
-    }
-
-    if (!search) {
-      ctx.body = {
-        code: 20301,
-        success: false,
-        message: '账号或密码错误'
+        })
+       
+      } catch (e) {
+        this.handleException(ctx, e)
+        return
       }
-    } else if (search.status === 0) {
-      ctx.body = {
-        code: 20301,
-        success: false,
-        message: '当前账号已被停用'
-      }
-    } else {
+
       try {
         await logModel.writeLog({
           set: {
@@ -158,12 +155,18 @@ class User extends Base{
       } catch (e) {
         this.handleException(ctx, e)
       }
+
       try {
+        console.log("54445555")
         token = await Authority.getToken({user_id: data.user_id})
+        console.log("55555")
       } catch (e) {
         this.handleException(ctx, e)
         return
       }
+
+      console.log(token)
+
       ctx.body = {
         code: 20000,
         success: true,
@@ -171,7 +174,13 @@ class User extends Base{
         token: token ? token[data.type + '_token'] : '',
         message: '登录成功'
       }
-    }   
+    } else {
+      ctx.body = {
+        code: 20301,
+        success: false,
+        message: '账号或密码错误'
+      }
+    }  
   }
 // 退出登录
   async logOut (ctx, next) {

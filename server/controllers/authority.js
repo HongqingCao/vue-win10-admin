@@ -62,10 +62,7 @@ class Authority extends Base{
         return
       }
     try {
-      ///search = await this.getToken({[content.type + '_token']: token})
       search = await this.getToken({user_id: content.user_id})
-      console.log("search13")
-      console.log(Date.parse(search[content.type + '_expire_time']) < +new Date())
     } catch (e) {
       this.handleException(ctx, e)
       return
@@ -126,8 +123,6 @@ class Authority extends Base{
         return
       }
       try {
-        console.log('path')
-        console.log(ctx.path)
         authority_id = await  AuthModel.findOne({
           attributes: [
             'authority_id', 
