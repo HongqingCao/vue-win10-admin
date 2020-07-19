@@ -10,6 +10,7 @@ class Role extends Base{
     this.created = this.created.bind(this)
     this.update = this.update.bind(this)
     this.delete = this.delete.bind(this)
+    this.getRoleByUserId = this.getRoleByUserId.bind(this)
   }
   async getAll (ctx, next) {
     const data = await RoleModel.findAll({
@@ -18,6 +19,7 @@ class Role extends Base{
         'name',
         'desc',
         'auth_ids',
+        'half_checked',
         'createdAt'
       ],
       where: {
@@ -174,6 +176,14 @@ class Role extends Base{
         message: '删除失败'
       }
     }
+  }
+  
+  async getRoleByUserId (where) {
+    console.log("where")
+    
+    const oneUserRole = await RoleModel.findOne({where:where})
+    console.log(oneUserRole)
+    return oneUserRole
   }
 }
 

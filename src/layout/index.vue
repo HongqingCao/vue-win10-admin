@@ -1,5 +1,15 @@
+<!--
+ * @Author: codercao
+ * @Date: 2020-07-04 15:12:59
+ * @LastEditors: codercao
+ * @LastEditTime: 2020-07-19 20:10:59
+ * @Description: 
+ * @FilePath: \vue-win10-admin\src\layout\index.vue
+--> 
 <template>
-  <div class="win10-warrper" @click="handleClick">
+  <div
+    class="win10-warrper"
+    @click="handleClick">
     <div class="desktop-warrper">
       <short-cut></short-cut>
     </div>
@@ -18,7 +28,7 @@ import { getClassName } from '@/utils/dom'
 
 import shortCut from './components/ShortCutMenu/index.vue'
 import taskBar from './components/TaskBar/index.vue'
-import win10Menu from './components/Menu/index.vue'
+import win10Menu from './components/StartMenu/index.vue'
 import win10Message from './components/Message/index.vue'
 import window from './components/Window/index.vue'
 export default {
@@ -39,6 +49,7 @@ export default {
  data() {
    return {
      winArr: [],
+     bgSrc:require('@/assets/bg_01.jpg')
    }
  },
   methods: {
@@ -58,23 +69,7 @@ export default {
         }
       }
     }
-  },
-  created() {
-    this.$on('global:LOADING', (value) => {
-        let loading
-        if (value) {
-          loading = this.$loading({
-            lock: true,
-            text: 'Loading',
-            spinner: 'el-icon-loading',
-            background: 'rgba(0, 0, 0, 0.7)'
-          })
-        } else {
-          loading.close()
-        }
-      })
   }
-
 }
 </script>
 
@@ -82,7 +77,7 @@ export default {
 .win10-warrper {
   width: 100%;
   height: 100%;
-  background: #000 url(../assets/main.jpg) no-repeat fixed;
+  //background: #000 url(../assets/main.jpg) no-repeat fixed;
   background-size: 100% 100%;
   .desktop-warrper {
     width: 100%;

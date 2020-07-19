@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-07-04 15:12:59
- * @LastEditTime: 2020-07-12 23:16:46
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2020-07-19 19:22:43
+ * @LastEditors: codercao
  * @Description: In User Settings Edit
  * @FilePath: \vue-win10-admin\src\main.js
  */ 
@@ -16,6 +16,7 @@ import '@/styles/index.scss' // global css
 
 import * as filters from './filters'
 import formValid from './utils/formValid'
+import { dispatchSetLocalStore } from './utils/storage'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -31,6 +32,8 @@ Object.keys(filters).forEach(key => {
 
 Vue.config.productionTip = false
 Vue.prototype.formValid = formValid
+
+Vue.prototype.setLocalStore = dispatchSetLocalStore
 
 new Vue({
   router,

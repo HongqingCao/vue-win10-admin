@@ -18,7 +18,7 @@
           icon="iconzuixiaohua"
           title="最小化"
           class="task-btn"
-          @click="handleMessageBtn"
+          @click="handleMix"
         ></task-btn>
         <task-btn
           icon="iconzuidahua"
@@ -112,8 +112,9 @@ export default {
     }
   },
   methods: {
-    handleMessageBtn(){
-
+    handleMix(){
+      this.$store.dispatch('app/toggleWin', '')
+      this.$router.push('/') 
     },
     mousedown(e, direction) {
       if (this.fullScreen === true) {
@@ -194,6 +195,7 @@ export default {
 .window-wrapper {
   position: absolute;
   min-width: 1280px;
+  min-height: 80%;
   z-index: 9;
   .window-header {
     height: 40px;

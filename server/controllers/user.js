@@ -87,8 +87,6 @@ class User extends Base{
               })
 
     data = search ? JSON.parse(JSON.stringify(search)) : null
-    console.log("user_id")
-    console.log(data.user_id)
     if (data) {
       if (data.status == 0) {
         ctx.body = {
@@ -157,15 +155,11 @@ class User extends Base{
       }
 
       try {
-        console.log("54445555")
         token = await Authority.getToken({user_id: data.user_id})
-        console.log("55555")
       } catch (e) {
         this.handleException(ctx, e)
         return
       }
-
-      console.log(token)
 
       ctx.body = {
         code: 20000,
@@ -221,11 +215,13 @@ class User extends Base{
   }
   async getInfo (ctx, next) {
     let userInfo = await this.getUserInfo(ctx)
-    let where = {
-      id:userInfo.id,
+    const search = await UserModel.findOne({
+      where:{
+       id:userInfo.id,
        flag: 1
-    }
-    const search = await UserModel.findOne({where})
+      }
+    })
+
     if (search) {
       ctx.body = {
         code: 20000,

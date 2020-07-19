@@ -1,7 +1,7 @@
 const AuthModel = require('../model/auth')
 const logModel = require('../model/log')
-const RoleModel = require('../model/role')
 const Authority = require('./authority')
+const Role = require('./role')
 const Op = require('sequelize').Op
 const Base = require('./base')
 
@@ -16,31 +16,16 @@ class Auth extends Base{
   }
 
   async getList (ctx, next) {
-    let oneUserRole, whereParams, data, type = ctx.request.query.type, userInfo = await this.getUserInfo(ctx) || {}
-    try {
-      // 获取到用户对应的角色
-      oneUserRole = await RoleModel.findOne({
-        where: {
-          role_id:userInfo.role_id
-        }
-      })
-    }  catch (e) {
-      this.handleException(ctx, e)
-      return
-    }
-    
+    let oneUserRole, whereParams, data, menuList = [], authList = [], userInfo = await this.getUserInfo(ctx) || {}
     try {
       // 通过角色的权限id去获取 对应的权限表
+      oneUserRole = await  Role.getRoleByUserId({role_id: userInfo.role_id})
       whereParams =  {
-        flag: 1,
-        authority_type: type
+        flag: 1
       }
-      console.log("whereParams")
-      console.log(oneUserRole.auth_ids)
-
-      // oneUserRole.auth_ids && (whereParams['authority_id'] = {
-      //   [Op.in]: oneUserRole.auth_ids.split(',')
-      // })
+      oneUserRole.auth_ids && (whereParams['authority_id'] = {
+        [Op.in]: oneUserRole.auth_ids.split(',')
+      })
       data = await AuthModel.findAll({
         attributes: [
           'authority_id', 
@@ -54,14 +39,25 @@ class Auth extends Base{
         ],
         where:whereParams
       })
+      
+      data.map(item => {
+        if (item.authority_type === 0) {
+          menuList.push(item)
+        }
+        if (item.authority_type === 1) {
+          authList.push(item.authority_url)
+        }
+      })
     }  catch (e) {
       this.handleException(ctx, e)
       return
     }
-
     ctx.body = {
       code: data ? 20000 : 1003,
-      data: data,
+      data: {
+        menuList:menuList,
+        authList:authList
+      },
       error:null,
       desc: data ? 'SUCCESS' : 'error'
     }

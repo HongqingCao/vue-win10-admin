@@ -32,6 +32,7 @@ export default {
       title:'设置权限',
       defaultExpandedArr:[],
       defaultCheckedArr:[],
+      halfCheckedKeys:[],
       nodeData:[],
       role_id:'',
       checkedData:[],
@@ -44,16 +45,19 @@ export default {
   methods: {
     show(data) {
       this.dialogVisible = true
-      this.getAllAuthList()
-      //console.log(data)
+      this.defaultCheckedArr = []
       this.role_id = data.role_id
-      this.defaultCheckedArr = data.auth_ids ? data.auth_ids.split(',') : []
+      this.getAllAuthList()
+      let halfCheckedKeys = data.half_checked ? data.half_checked.split(',')  : []
+      let defaultCheckedArr = data.auth_ids ? data.auth_ids.split(',') : []
+      // 过滤掉 【父节点的子节点未全部选中的父节点】
+      this.defaultCheckedArr = defaultCheckedArr.filter(item=> halfCheckedKeys.indexOf(item)==-1)
     },
     getAllAuthList() {
       getAllAuthList().then(res => {
           if (res.code === 20000 && res.data) {
             this.nodeData = this.getTreeNodeData(res.data,'0')
-            this.selectedNodeIds = this.defaultExpandedArr
+           // this.selectedNodeIds = this.defaultExpandedArr
           }
         })
     },
@@ -70,14 +74,17 @@ export default {
       return nodeArr
     },
     nodeChanged(data, checkedData) {
-      this.selectedNodeIds = checkedData.checkedKeys
-      console.log(checkedData.checkedKeys)
-      //this.selectedNodeIds = Array.from(new Set(this.selectedNodeIds)) 
+      let checkedKeys = checkedData.checkedKeys
+      // 【子节点选中，父节点必选中】
+      this.halfCheckedKeys = checkedData.halfCheckedKeys
+      this.selectedNodeIds = checkedKeys.concat(this.halfCheckedKeys)
+     
     },
     confirm() {
       this.selectedNodeIds = Array.from(new Set(this.selectedNodeIds)) 
       let data = {
         role_id: this.role_id,
+        half_checked: this.halfCheckedKeys ? this.halfCheckedKeys.join():'',
         auth_ids: this.selectedNodeIds.join()
       }
       console.log(data)

@@ -104,7 +104,7 @@ class Authority extends Base{
   // 验证用户是否有操作权限
   async permissions (ctx, next) {
     let auth_ids, authority_id
-    const whiteList = ['/api/user/login', '/api/user/registered', '/api/user/loginOut']
+    const whiteList = ['/api/user/login', '/api/user/registered', '/api/user/logOut', '/api/user/getInfo', '/api/auth/getList']
     // 不需要验证数据权限
     if (whiteList.includes(ctx.path)) return next()
     const userInfo = await this.getUserInfo(ctx)
