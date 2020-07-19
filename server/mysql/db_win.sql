@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost_3306
-Source Server Version : 80015
+Source Server Version : 80019
 Source Host           : localhost:3306
 Source Database       : db_win
 
 Target Server Type    : MYSQL
-Target Server Version : 80015
+Target Server Version : 80019
 File Encoding         : 65001
 
-Date: 2020-07-17 18:09:56
+Date: 2020-07-19 20:21:11
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,20 +20,20 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `db_auth`;
 CREATE TABLE `db_auth` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `authority_id` varchar(20) DEFAULT NULL,
   `authority_name` varchar(48) DEFAULT NULL COMMENT '权限名称',
-  `authority_type` int(11) DEFAULT NULL COMMENT '权限类型: 0：菜单（默认0），1：操作和功能',
+  `authority_type` int DEFAULT NULL COMMENT '权限类型: 0：菜单（默认0），1：操作和功能',
   `authority_url` varchar(128) DEFAULT NULL COMMENT '权限标识',
-  `authority_sort` int(11) DEFAULT NULL,
+  `authority_sort` int DEFAULT NULL,
   `parent_id` varchar(20) DEFAULT '0',
   `parent_name` varchar(48) DEFAULT NULL,
   `desc` varchar(128) DEFAULT NULL COMMENT '权限描述',
-  `create_user` int(11) DEFAULT NULL,
-  `update_user` int(11) DEFAULT NULL,
-  `delete_user` int(11) DEFAULT NULL,
+  `create_user` int DEFAULT NULL,
+  `update_user` int DEFAULT NULL,
+  `delete_user` int DEFAULT NULL,
   `delete_time` datetime DEFAULT NULL,
-  `flag` int(4) DEFAULT '1' COMMENT '状态: 0：删除，1：可用(默认为1)',
+  `flag` int DEFAULT '1' COMMENT '状态: 0：删除，1：可用(默认为1)',
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`)
@@ -52,7 +52,7 @@ INSERT INTO `db_auth` VALUES ('7', 'R6IlvZRb', '用户管理', '0', 'user', '2',
 INSERT INTO `db_auth` VALUES ('8', 'R6LCSXn8', '权限列表', '1', '/api/auth/getList', '0', 'R6Ej09A1', '权限列表', 'type,0菜单权限，1操作功能', null, null, null, '2020-07-03 15:13:21', '1', '2020-07-03 15:13:28', '2020-07-03 15:13:31');
 INSERT INTO `db_auth` VALUES ('9', 'R6NT1Syx', '新增权限', '1', '/api/auth/createAuth', '1', 'R6Ej09A1', '权限设置', '新增权限', null, null, null, '2020-07-03 15:15:39', '1', '2020-07-03 15:15:45', '2020-07-03 15:15:47');
 INSERT INTO `db_auth` VALUES ('10', 'R6O8RN67', '删除权限', '1', '/api/auth/deleteAuth', '2', 'R6Ej09A1', '更新权限', '删除权限', null, null, null, '2020-07-03 15:17:10', '1', '2020-07-03 15:17:12', '2020-07-03 15:17:15');
-INSERT INTO `db_auth` VALUES ('11', 'R6O8RN6', '更新权限', '1', '/api/auth/updateAuth', '3', 'R6Ej09A1', '更新权限', '更新权限', null, null, null, '2020-07-03 15:18:45', '1', '2020-07-03 15:18:47', '2020-07-03 15:18:50');
+INSERT INTO `db_auth` VALUES ('11', 'R6O8RN6', '更新权限', '1', '/api/auth/updateAuth', '3', 'R6Ej09A1', '更新权限', '更新权限', null, '1', null, '2020-07-03 15:18:45', '1', '2020-07-03 15:18:47', '2020-07-18 22:23:24');
 INSERT INTO `db_auth` VALUES ('12', 'R6O8RN1', '测试', '1', 'test', '1', '0', '测试', null, null, null, null, '2020-07-03 15:33:27', '0', '2020-07-03 15:33:30', '2020-07-03 15:33:33');
 INSERT INTO `db_auth` VALUES ('13', 'o1A0GCIxG', '系统日志列表', '1', '/api/log/getList', '0', 'R6FP04jv', '', '系统日志列表', '1', null, '1', '2020-07-08 15:37:58', '0', '2020-07-07 17:32:21', '2020-07-08 15:37:58');
 INSERT INTO `db_auth` VALUES ('14', 'ZVR1c_mIA', '测试', '0', 'testtess', '5', '0', null, '开的测试', '1', '1', '1', '2020-07-08 15:47:30', '0', '2020-07-07 19:55:35', '2020-07-08 15:47:30');
@@ -83,7 +83,7 @@ INSERT INTO `db_auth` VALUES ('38', 'pLTJHvegw', '删除用户', '1', '/api/user
 INSERT INTO `db_auth` VALUES ('39', '56rjUo_2K', '获取全部权限列表', '1', '/api/auth/getAll', null, 'R6Ej09A1', '权限设置', null, '1', null, null, '2020-07-16 17:37:20', '1', '2020-07-16 17:37:20', '2020-07-16 17:37:20');
 INSERT INTO `db_auth` VALUES ('40', 'AQ4tjqUVl', 'www', '0', '2222', null, '0', null, null, '1', null, '1', '2020-07-17 14:36:37', '0', '2020-07-16 17:40:39', '2020-07-17 14:36:37');
 INSERT INTO `db_auth` VALUES ('41', 'PRAKl_Jbz', '颜色', '0', 'colour', '3', 'R6AhD4Jw', '平台管理', null, '1', '1', null, '2020-07-17 14:28:09', '1', '2020-07-17 14:28:09', '2020-07-17 14:54:15');
-INSERT INTO `db_auth` VALUES ('42', 'bOvZ_X83z', '个人设置', '0', 'personal', '0', 'R6AhD4Jw', '平台管理', null, '1', '1', null, '2020-07-17 14:28:37', '1', '2020-07-17 14:28:37', '2020-07-17 14:54:21');
+INSERT INTO `db_auth` VALUES ('42', 'bOvZ_X83z', '个人设置', '0', 'personal', '5', 'R6AhD4Jw', '平台管理', null, '1', '1', null, '2020-07-17 14:28:37', '1', '2020-07-17 14:28:37', '2020-07-18 22:22:41');
 INSERT INTO `db_auth` VALUES ('43', 'hJl97ee5R', '任务栏', '0', 'taskbar', '4', 'R6AhD4Jw', '平台管理', null, '1', null, null, '2020-07-17 15:00:39', '1', '2020-07-17 15:00:39', '2020-07-17 15:00:39');
 
 -- ----------------------------
@@ -91,9 +91,9 @@ INSERT INTO `db_auth` VALUES ('43', 'hJl97ee5R', '任务栏', '0', 'taskbar', '4
 -- ----------------------------
 DROP TABLE IF EXISTS `db_log`;
 CREATE TABLE `db_log` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `origin` int(4) DEFAULT NULL COMMENT '日志来源: 0: 手机 1: 官网 2: 管理平台',
-  `type` int(4) DEFAULT NULL COMMENT '日志类型: 1.用户登录 2. 用户登出 3. 菜单访问 4.功能操作',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `origin` int DEFAULT NULL COMMENT '日志来源: 0: 手机 1: 官网 2: 管理平台',
+  `type` int DEFAULT NULL COMMENT '日志类型: 1.用户登录 2. 用户登出 3. 菜单访问 4.功能操作',
   `title` varchar(128) DEFAULT NULL COMMENT '日志标题',
   `desc` varchar(128) DEFAULT NULL COMMENT '日志描述',
   `ip` varchar(48) DEFAULT NULL COMMENT '日志描述访问IP',
@@ -101,7 +101,7 @@ CREATE TABLE `db_log` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   `create_name` varchar(100) DEFAULT NULL,
-  `flag` int(4) DEFAULT '1' COMMENT '状态: 0：删除，1：可用(默认为1)',
+  `flag` int DEFAULT '1' COMMENT '状态: 0：删除，1：可用(默认为1)',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -116,44 +116,45 @@ INSERT INTO `db_log` VALUES ('5', null, '4', '注册用户', '', '::ffff:127.0.0
 INSERT INTO `db_log` VALUES ('6', null, '4', '注册用户', '', '::ffff:10.7.253.134', '1', '2020-07-15 18:01:21', '2020-07-15 18:01:21', '超级管理员', '1');
 INSERT INTO `db_log` VALUES ('7', null, '4', '注册用户', '', '::ffff:10.7.253.134', '1', '2020-07-15 18:04:08', '2020-07-15 18:04:08', '超级管理员', '1');
 INSERT INTO `db_log` VALUES ('8', null, '4', '注册用户', '', '::1', '1', '2020-07-15 18:04:22', '2020-07-15 18:04:22', '超级管理员', '1');
-INSERT INTO `db_log` VALUES ('9', null, '4', '注册用户', '', '::1', 'ZZ_fn-1Rd', '2020-07-16 11:14:34', '2020-07-16 11:14:34', '管理员', '1');
+INSERT INTO `db_log` VALUES ('9', null, '4', '注册用户', '', '::1', 'ZZ_fn-1Rd', '2020-07-16 11:14:34', '2020-07-18 13:11:16', '管理员', '0');
 
 -- ----------------------------
 -- Table structure for db_role
 -- ----------------------------
 DROP TABLE IF EXISTS `db_role`;
 CREATE TABLE `db_role` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `role_id` varchar(20) DEFAULT NULL COMMENT '权限ID',
   `name` varchar(24) DEFAULT NULL COMMENT '角色名称',
   `desc` varchar(128) DEFAULT NULL COMMENT '角色描述',
   `auth_ids` longtext COMMENT '角色权限id列表',
-  `create_user` int(11) DEFAULT NULL,
-  `update_user` int(11) DEFAULT NULL,
-  `delete_user` int(11) DEFAULT NULL,
+  `create_user` int DEFAULT NULL,
+  `update_user` int DEFAULT NULL,
+  `delete_user` int DEFAULT NULL,
   `delete_time` datetime DEFAULT NULL,
-  `flag` int(4) DEFAULT '1' COMMENT '状态: 0：删除，1：可用(默认为1)',
+  `flag` int DEFAULT '1' COMMENT '状态: 0：删除，1：可用(默认为1)',
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
+  `half_checked` longtext COMMENT '半选中角色权限id列表',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of db_role
 -- ----------------------------
-INSERT INTO `db_role` VALUES ('2', 'Fr4iC6gVO', '超级管理员', '拥有全部权限的角色', 'R6zw8Hly,z3Kl73yJP,YPwdzlvSi,R6AhD4Jw,j-1fD9YEl,SMaog6p8a,PRAKl_Jbz,bOvZ_X83z,hJl97ee5R,R6Ej09A1,R6LCSXn8,R6NT1Syx,R6O8RN67,R6O8RN6,56rjUo_2K,R6Fjw3Q4,u7dJFXAng,5V9hBAwry,Xb8IG-aGm,2X8BvHUTN,R6FP04jv,unh2To0Bx,uqu7Z_TPq,zD5_5LJUQ,CVKN01q8r,8dsJ-8Fmq', '1', '1', '1', '2020-07-09 11:29:54', '1', '2020-07-09 11:16:16', '2020-07-17 17:54:42');
-INSERT INTO `db_role` VALUES ('3', 'e8Ry49OEC', '管理员', '一般管理员权限1', 'R6zw8Hly,z3Kl73yJP,YPwdzlvSi,R6AhD4Jw,j-1fD9YEl,SMaog6p8a,PRAKl_Jbz,bOvZ_X83z,hJl97ee5R', '1', '1', null, '2020-07-09 11:32:51', '1', '2020-07-09 11:32:51', '2020-07-17 17:24:37');
-INSERT INTO `db_role` VALUES ('4', '0FU5D5rg1', '前端开发人员', '前端开发人员', null, '1', '1', null, '2020-07-09 11:33:27', '1', '2020-07-09 11:33:27', '2020-07-09 11:34:24');
-INSERT INTO `db_role` VALUES ('5', '73lVBH71v', '后端开发人员', '后端开发人员', null, '1', '1', null, '2020-07-09 11:33:44', '1', '2020-07-09 11:33:44', '2020-07-09 11:34:38');
-INSERT INTO `db_role` VALUES ('6', '75NMnsfuk', '测试人员', '测试xx', null, '1', '1', null, '2020-07-09 11:34:49', '1', '2020-07-09 11:34:49', '2020-07-15 16:29:49');
-INSERT INTO `db_role` VALUES ('7', 'lJpUs7bz8', 'cece', 'cece', null, '2', null, '1', '2020-07-16 11:16:50', '0', '2020-07-15 16:50:05', '2020-07-16 11:16:50');
+INSERT INTO `db_role` VALUES ('2', 'Fr4iC6gVO', '超级管理员', '拥有全部权限的角色', 'R6zw8Hly,z3Kl73yJP,YPwdzlvSi,R6AhD4Jw,j-1fD9YEl,SMaog6p8a,PRAKl_Jbz,bOvZ_X83z,hJl97ee5R,R6Cip4M3,R6Ej09A1,R6LCSXn8,R6NT1Syx,R6O8RN67,R6O8RN6,56rjUo_2K,R6Fjw3Q4,u7dJFXAng,5V9hBAwry,Xb8IG-aGm,2X8BvHUTN,R6FP04jv,unh2To0Bx,uqu7Z_TPq,R6IlvZRb,nYf2OlmGy,Rz_Ue0mSy,NFY0anjdT,pLTJHvegw,zD5_5LJUQ,CVKN01q8r,8dsJ-8Fmq', '1', '1', '1', '2020-07-09 11:29:54', '1', '2020-07-09 11:16:16', '2020-07-18 22:19:24', 'R6Cip4M3,R6Fjw3Q4');
+INSERT INTO `db_role` VALUES ('3', 'e8Ry49OEC', '管理员', '一般管理员权限1', 'R6zw8Hly,z3Kl73yJP,YPwdzlvSi,R6AhD4Jw,j-1fD9YEl,SMaog6p8a,PRAKl_Jbz,bOvZ_X83z,hJl97ee5R,R6Ej09A1,R6LCSXn8,R6NT1Syx,R6O8RN67,R6O8RN6,56rjUo_2K,R6Fjw3Q4,u7dJFXAng,5V9hBAwry,Xb8IG-aGm,2X8BvHUTN,R6FP04jv,unh2To0Bx,uqu7Z_TPq,zD5_5LJUQ,CVKN01q8r,8dsJ-8Fmq,R6Cip4M3', '1', '1', null, '2020-07-09 11:32:51', '1', '2020-07-09 11:32:51', '2020-07-18 13:13:08', 'R6Cip4M3');
+INSERT INTO `db_role` VALUES ('4', '0FU5D5rg1', '前端开发人员', '前端开发人员', 'R6zw8Hly,z3Kl73yJP,YPwdzlvSi,R6AhD4Jw,j-1fD9YEl,SMaog6p8a,PRAKl_Jbz,bOvZ_X83z,hJl97ee5R', '1', '1', null, '2020-07-09 11:33:27', '1', '2020-07-09 11:33:27', '2020-07-18 12:50:48', null);
+INSERT INTO `db_role` VALUES ('5', '73lVBH71v', '后端开发人员', '后端开发人员', 'R6LCSXn8,R6O8RN67,R6O8RN6,56rjUo_2K,u7dJFXAng,5V9hBAwry,2X8BvHUTN,R6FP04jv,unh2To0Bx,uqu7Z_TPq,R6IlvZRb,nYf2OlmGy,Rz_Ue0mSy,NFY0anjdT,pLTJHvegw,R6Cip4M3,R6Ej09A1,R6Fjw3Q4', '1', '1', '1', '2020-07-18 22:08:33', '0', '2020-07-09 11:33:44', '2020-07-18 22:08:33', 'R6Cip4M3,R6Ej09A1,R6Fjw3Q4');
+INSERT INTO `db_role` VALUES ('6', '75NMnsfuk', '测试人员', '测试xx', 'Rz_Ue0mSy,zD5_5LJUQ,CVKN01q8r,8dsJ-8Fmq,R6Cip4M3,R6IlvZRb', '1', '1', '2', '2020-07-18 13:10:59', '0', '2020-07-09 11:34:49', '2020-07-18 13:10:59', 'R6Cip4M3,R6IlvZRb');
+INSERT INTO `db_role` VALUES ('7', 'lJpUs7bz8', 'cece', 'cece', null, '2', null, '1', '2020-07-16 11:16:50', '0', '2020-07-15 16:50:05', '2020-07-16 11:16:50', null);
 
 -- ----------------------------
 -- Table structure for db_token
 -- ----------------------------
 DROP TABLE IF EXISTS `db_token`;
 CREATE TABLE `db_token` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `user_id` varchar(20) DEFAULT NULL,
   `admin_token` varchar(1024) DEFAULT NULL,
   `phone_token` varchar(1024) DEFAULT NULL,
@@ -167,38 +168,38 @@ CREATE TABLE `db_token` (
   `admin_expire_time` datetime DEFAULT NULL,
   `phone_expire_time` datetime DEFAULT NULL,
   `user_expire_time` datetime DEFAULT NULL,
-  `flag` int(4) DEFAULT '1' COMMENT '状态: 0：删除，1：可用(默认为1)',
+  `flag` int DEFAULT '1' COMMENT '状态: 0：删除，1：可用(默认为1)',
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of db_token
 -- ----------------------------
-INSERT INTO `db_token` VALUES ('1', 'ZZ_fn-1Rd', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcl9pZCI6IlpaX2ZuLTFSZCIsInJvbGVfaWQiOiJGcjRpQzZnVk8iLCJyb2xlX25hbWUiOiLotoXnuqfnrqHnkIblkZgiLCJhY2NvdW50Ijoicm9vdCIsIm5hbWUiOiLnrqHnkIblkZgiLCJwYXNzd29yZCI6IjYzYTlmMGVhN2JiOTgwNTA3OTZiNjQ5ZTg1NDgxODQ1IiwidHlwZSI6ImFkbWluIiwic2V4IjoyLCJwaG9uZSI6IjE4NzcwOTE5MDgwIiwic3RhdHVzIjoxLCJjcmVhdGVfdXNlciI6IjBGVTVENXJnMSIsInVwZGF0ZV91c2VyIjoiWlpfZm4tMVJkIiwiZmxhZyI6MSwiY3JlYXRlZEF0IjoiMjAyMC0wNy0xNVQwOToxNTowMy4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMC0wNy0xN1QwOTo1NDoyNy4wMDBaIiwiYWRtaW5fZXhwaXJlX3RpbWUiOiIyMDIwLTA3LTE4VDEwOjA0OjEzLjc2MFoiLCJpYXQiOjE1OTQ5ODAyNTN9.KaYNQrMK6huQftxbozrtvlJ_vA4XFT7vf83CTStI2_U', null, null, null, null, null, '::1', null, null, '2020-07-18 17:19:36', '2020-07-16 16:20:14', '2020-07-16 16:20:14', '1', '2020-07-16 16:20:14', '2020-07-17 18:04:13');
 INSERT INTO `db_token` VALUES ('7', 'kuDvmHxc1', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcl9pZCI6Imt1RHZtSHhjMSIsInJvbGVfaWQiOiJlOFJ5NDlPRUMiLCJyb2xlX25hbWUiOiLnrqHnkIblkZgiLCJhY2NvdW50IjoiYWRtaW4iLCJuYW1lIjoiYWRtaW4iLCJwYXNzd29yZCI6IjAxOTIwMjNhN2JiZDczMjUwNTE2ZjA2OWRmMThiNTAwIiwidHlwZSI6ImFkbWluIiwic2V4IjoxLCJwaG9uZSI6IjE3NjIxNjUyMDEyIiwic3RhdHVzIjoxLCJjcmVhdGVfdXNlciI6IjNzaTlZTDZFOSIsInVwZGF0ZV91c2VyIjoiWlpfZm4tMVJkIiwiZmxhZyI6MSwiY3JlYXRlZEF0IjoiMjAyMC0wNy0xNVQxMDowNDoyMi4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMC0wNy0xN1QwOToyNDoxNy4wMDBaIiwiYWRtaW5fZXhwaXJlX3RpbWUiOiIyMDIwLTA3LTE4VDA5OjI3OjU1LjYzMVoiLCJpYXQiOjE1OTQ5NzgwNzV9.ICj1Hp2Mz0I0tlZtu2RTqxq_XZ45EVTMwxMOqGwkD7U', null, null, null, null, null, '::1', null, null, '2020-07-18 17:21:12', '2020-07-17 17:21:12', '2020-07-17 17:21:12', '1', '2020-07-17 17:21:12', '2020-07-17 17:27:55');
+INSERT INTO `db_token` VALUES ('9', 'ZZ_fn-1Rd', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcl9pZCI6IlpaX2ZuLTFSZCIsInJvbGVfaWQiOiJGcjRpQzZnVk8iLCJyb2xlX25hbWUiOiLotoXnuqfnrqHnkIblkZgiLCJhY2NvdW50Ijoicm9vdCIsIm5hbWUiOiJyb290IiwicGFzc3dvcmQiOiI2M2E5ZjBlYTdiYjk4MDUwNzk2YjY0OWU4NTQ4MTg0NSIsInR5cGUiOiJhZG1pbiIsInNleCI6MiwicGhvbmUiOiIxODc3MDkxOTA4MCIsInN0YXR1cyI6MSwiY3JlYXRlX3VzZXIiOiIwRlU1RDVyZzEiLCJ1cGRhdGVfdXNlciI6IlpaX2ZuLTFSZCIsImZsYWciOjEsImNyZWF0ZWRBdCI6IjIwMjAtMDctMTVUMDk6MTU6MDMuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjAtMDctMThUMTA6NTQ6NTQuMDAwWiIsImFkbWluX2V4cGlyZV90aW1lIjoiMjAyMC0wNy0yMFQxMDo0Mzo0My41MzJaIiwiaWF0IjoxNTk1MTU1NDIzfQ.AG_PTXsPI5vH4q8anPmPSRR4LLA6-Dv6CCDGY3-Iz0M', null, null, null, null, null, '::1', null, null, '2020-07-20 18:43:43', '2020-07-18 18:25:58', '2020-07-18 18:25:58', '1', '2020-07-18 18:25:58', '2020-07-19 18:43:43');
 
 -- ----------------------------
 -- Table structure for db_user
 -- ----------------------------
 DROP TABLE IF EXISTS `db_user`;
 CREATE TABLE `db_user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `role_id` varchar(20) DEFAULT NULL,
   `account` varchar(100) DEFAULT NULL,
   `name` varchar(100) DEFAULT NULL,
   `password` varchar(32) DEFAULT NULL,
-  `type` int(4) DEFAULT '1' COMMENT '用户类型: 0: 系统注册 1: 管理平台添加 2:导入',
-  `sex` int(4) DEFAULT NULL,
+  `type` int DEFAULT '1' COMMENT '用户类型: 0: 系统注册 1: 管理平台添加 2:导入',
+  `sex` int DEFAULT NULL,
   `avatar` varchar(128) DEFAULT NULL COMMENT '头像',
   `phone` varchar(12) DEFAULT NULL,
-  `status` int(4) DEFAULT '1' COMMENT '状态: 0：停用，1：启用(默认为1)',
+  `status` int DEFAULT '1' COMMENT '状态: 0：停用，1：启用(默认为1)',
   `create_user` varchar(20) DEFAULT NULL,
   `update_user` varchar(128) DEFAULT NULL,
   `delete_user` varchar(128) DEFAULT NULL,
   `delete_time` datetime DEFAULT NULL,
-  `flag` int(4) DEFAULT '1' COMMENT '状态: 0：删除，1：可用(默认为1)',
+  `flag` int DEFAULT '1' COMMENT '状态: 0：删除，1：可用(默认为1)',
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   `role_name` varchar(24) DEFAULT NULL,
@@ -209,6 +210,6 @@ CREATE TABLE `db_user` (
 -- ----------------------------
 -- Records of db_user
 -- ----------------------------
-INSERT INTO `db_user` VALUES ('1', 'Fr4iC6gVO', 'root', '管理员', '63a9f0ea7bb98050796b649e85481845', '1', '2', null, '18770919080', '1', '0FU5D5rg1', 'ZZ_fn-1Rd', null, null, '1', '2020-07-15 17:15:03', '2020-07-17 17:54:27', '超级管理员', 'ZZ_fn-1Rd');
+INSERT INTO `db_user` VALUES ('1', 'Fr4iC6gVO', 'root', 'root', '63a9f0ea7bb98050796b649e85481845', '1', '2', null, '18770919080', '1', '0FU5D5rg1', 'ZZ_fn-1Rd', null, null, '1', '2020-07-15 17:15:03', '2020-07-18 18:54:54', '超级管理员', 'ZZ_fn-1Rd');
 INSERT INTO `db_user` VALUES ('2', 'e8Ry49OEC', 'admin', 'admin', '0192023a7bbd73250516f069df18b500', '1', '1', null, '17621652012', '1', '3si9YL6E9', 'ZZ_fn-1Rd', null, null, '1', '2020-07-15 18:04:22', '2020-07-17 17:24:17', '管理员', 'kuDvmHxc1');
 INSERT INTO `db_user` VALUES ('10', '75NMnsfuk', 'test', 'test', 'cc03e747a6afbbcbf8be7668acfebee5', '1', '1', null, '17621652012', '1', 'ZZ_fn-1Rd', 'ZZ_fn-1Rd', '1', '2020-07-16 11:18:14', '0', '2020-07-16 11:14:34', '2020-07-16 11:18:14', '测试人员', 'H5LJihoPx');
