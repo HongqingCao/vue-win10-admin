@@ -1,10 +1,10 @@
 <!--
  * @Author: your name
  * @Date: 2020-07-04 15:12:59
- * @LastEditTime: 2020-07-12 13:19:28
- * @LastEditors: your name
+ * @LastEditTime: 2020-07-19 22:40:20
+ * @LastEditors: codercao
  * @Description: In User Settings Edit
- * @FilePath: \home-worlkf:\github\vue-win10-admin\src\layout\components\Menu\index.vue
+ * @FilePath: \vue-win10-admin\src\layout\components\StartMenu\index.vue
 --> 
 <template>
   <div class="menu-warrper"  :style="{bottom: showMenu==true ?'40px':'-480px'}">
@@ -50,7 +50,7 @@ export default {
   bottom: -480px;
   left: 0;
   color: white;
-  background-color: rgba(19, 23, 28, 0.8);
+  background-color: rgba(19, 23, 28, 0.9);
   overflow-x: hidden;
   overflow-y: auto;
   z-index: 2000;
@@ -67,6 +67,7 @@ export default {
     overflow-x: hidden;
     overflow-y: auto;
     font-size: 12px;
+    background-color: #1f1f1f;
     -webkit-animation-duration: 0.5s;
     animation-duration: 0.5s;
 
