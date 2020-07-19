@@ -2,7 +2,7 @@
 <img src="./win10.png" alt="mark text" width="414" height="733">
 </p>
 
-<h3 align="center">用vue+KOA2构建window10风格的管理系统</h3>
+<h3 align="center">用Vue+KOA2构建window10风格的管理系统</h3>
 
 <p align="center">
   <a href="">
@@ -14,7 +14,7 @@
   </a>
 </p>
 
-> 用vue+KOA2构建window10风格的管理系统,前后端高度集成
+> 用Vue+KOA2构建window10风格的管理系统,前后端高度集成
 
 ## 更新日志
 
@@ -97,7 +97,7 @@
 用`concurrently`插件，这样可以让`npm script命令`同时开启多个监听服务，而且如果一个进程服务失败，其他进程服务仍然继续运行，甚至不会注意到其中的区别，赞~
 
 #### （3）项目启动
-> 步骤一、创建一个空的`mysql`数据库（如：db_win），可以直接导入创建数据库和数据, 在'server/mysql/init.sql'  
+> 步骤一、创建一个空的`mysql`数据库（如：db_win），可以直接导入创建数据库和数据, 在'server/mysql/db_win.sql'  
 
 >步骤二、在`server/config/config.js`修改相关数据库配置，**PS:如果你是直接导入的数据库和数据可以直接忽略步骤三、四**
 
@@ -120,25 +120,14 @@ const config = {
 
 module.exports = config
 ```
-
-> 步骤三、第一次运行，根据模型自动创建表，在`server/config/db.js`放开下面这段注释
-```
-// sequelize
-//   .sync({alter: true} )
-//   .then(() => {
-//     console.log('init db ok')
-//   })
-//   .catch(err => {
-//     console.log('init db error', err)
-//   })
-```
-> 步骤四、项目运行 'npm run server',看到'init db ok'，即可在数据库看到表，然后注释掉**步骤二**的代码
-
-![](https://user-gold-cdn.xitu.io/2020/7/15/1735083e739014d0?w=860&h=602&f=png&s=82791)
-
+> 超级管理账号：root, 密码:root  
 
 
 接下来就可以愉快的玩耍了~
+
+
+#### （3）项目拓展  
+1、 
 
 ## License
 

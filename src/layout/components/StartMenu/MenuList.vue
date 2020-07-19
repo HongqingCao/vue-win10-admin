@@ -1,16 +1,16 @@
 <!--
  * @Author: your name
  * @Date: 2020-07-04 15:12:59
- * @LastEditTime: 2020-07-11 22:37:01
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2020-07-19 22:39:29
+ * @LastEditors: codercao
  * @Description: In User Settings Edit
- * @FilePath: \home-worlkf:\github\vue-win10-admin\src\layout\components\Menu\MenuList.vue
+ * @FilePath: \vue-win10-admin\src\layout\components\StartMenu\MenuList.vue
 --> 
 <template>
   <div class="menulist-warrper" v-if="routers">
     <el-menu
       text-color="#ffffff"
-      background-color="rgba(19, 23, 28, 0.8)"
+      background-color="rgba(19, 23, 28, 0.2)"
       active-text-color="#6b6b6b"
       class="el-menu-vertical-demo"
       v-for="item in routers" :key="item.id"
@@ -68,7 +68,7 @@ export default {
     border-right:none
   }
   .el-submenu__title{
-        height: 40px !important;
+    height: 40px !important;
     line-height: 40px !important;
     &:hover {
       color: white!important;
