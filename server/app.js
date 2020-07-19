@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-07-04 15:12:57
+ * @LastEditTime: 2020-07-18 22:19:31
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \vue-win10-admin\server\app.js
+ */ 
 const Koa = require('koa')
 const app = new Koa()
 const json = require('koa-json')
@@ -37,9 +45,9 @@ app.use(async (ctx, next) => {
 app.use(async (ctx, next) => {
   await authority.checkToken(ctx, next)
 })
-// app.use(async (ctx, next) => {
-//   await authority.permissions(ctx, next)
-// })
+app.use(async (ctx, next) => {
+  await authority.permissions(ctx, next)
+})
 
 app.use(routes())
 

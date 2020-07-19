@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-07-09 21:47:22
+ * @LastEditTime: 2020-07-18 12:57:42
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \vue-win10-admin\src\views\systemSetting\role\addModifyDialog.vue
+--> 
 <template>
   <div class="addModifyDialog-wrapper">
     <el-dialog 
@@ -6,7 +14,7 @@
       :modal-append-to-body="false"
       width="500px">
       <el-form :model="ruleForm" :rules="roleRules" ref="ruleForm" label-width="120px">
-        <el-form-item label="* 角色名" prop="name">
+        <el-form-item label="角色名" prop="name">
           <el-input v-model="ruleForm.name"></el-input>
         </el-form-item>
         <el-form-item label="角色描述">

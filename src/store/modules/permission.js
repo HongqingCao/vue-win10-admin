@@ -124,13 +124,17 @@ export function filterAsyncRoutes(routes, roles) {
 
 const state = {
   routes: [],
-  addRoutes: []
+  addRoutes: [],
+  dataPermission:[]
 }
 
 const mutations = {
   SET_ROUTES: (state, routes) => {
     state.addRoutes = routes
     state.routes = routes
+  },
+  SET_DATAPERMISSION: (state, authList) => {
+    state.dataPermission = authList
   }
 }
 
@@ -143,7 +147,8 @@ const actions = {
           //sortMenuList(modelRouter)
           console.log("111")
           console.log(res.data)
-          sortMenuList(res.data)
+          sortMenuList(res.data.menuList)
+          commit('SET_DATAPERMISSION', res.data.authList)
           commit('SET_ROUTES', constantRoutes)
         } else {
           constantRoutes.push({path: '*', redirect: '/404', hidden: true});
@@ -175,8 +180,11 @@ const sortMenuList = (menuList) => {
       return routerItem
     } 
   })
+  
   // 过滤数组
   baseMenu = baseMenu.filter(item => item!=undefined)
+  console.log("111222")
+  console.log(baseMenu)
   constantRoutes = getTreeArr({ key: 'id', pKey: 'pid', data: baseMenu, jsonData: false })
 }
 // 调整路由

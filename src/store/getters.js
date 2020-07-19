@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-07-04 15:12:59
+ * @LastEditTime: 2020-07-18 22:01:06
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \vue-win10-admin\src\store\getters.js
+ */ 
 const getters = {
   getScreenWidth: state => state.app.screenWidth,
   getScreenHeight: state => state.app.screenHeight,
@@ -17,5 +25,6 @@ const getters = {
   userInfo: state => state.user.userInfo,
 
   routers: state => state.permission.routes,
+  dataPermission: state => state.permission.dataPermission,
 }
 export default getters

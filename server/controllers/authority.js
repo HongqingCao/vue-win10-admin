@@ -62,10 +62,7 @@ class Authority extends Base{
         return
       }
     try {
-      ///search = await this.getToken({[content.type + '_token']: token})
       search = await this.getToken({user_id: content.user_id})
-      console.log("search13")
-      console.log(Date.parse(search[content.type + '_expire_time']) < +new Date())
     } catch (e) {
       this.handleException(ctx, e)
       return
@@ -107,7 +104,7 @@ class Authority extends Base{
   // 验证用户是否有操作权限
   async permissions (ctx, next) {
     let auth_ids, authority_id
-    const whiteList = ['/api/user/login', '/api/user/registered', '/api/user/loginOut']
+    const whiteList = ['/api/user/login', '/api/user/registered', '/api/user/logOut', '/api/user/getInfo', '/api/auth/getList']
     // 不需要验证数据权限
     if (whiteList.includes(ctx.path)) return next()
     const userInfo = await this.getUserInfo(ctx)
@@ -126,8 +123,6 @@ class Authority extends Base{
         return
       }
       try {
-        console.log('path')
-        console.log(ctx.path)
         authority_id = await  AuthModel.findOne({
           attributes: [
             'authority_id', 

@@ -35,6 +35,55 @@ export default {
       icon: 'iconyunliankeji_gongyinglianfuben'
     },
   },
+  analysis:{
+    path: 'analysis',
+    component: () => import('@/views/dashboard/analysis'),
+    hidden: true,
+    name: 'analysis',
+    meta: { title: '分析页面' }
+  },
+  workplace:{
+    path: 'workplace',
+    component: () => import('@/views/dashboard/workplace'),
+    hidden: true,
+    name: 'workplace',
+    meta: { title: '工作台' }
+  },
+  background:{
+    path: 'background',
+    component: () => import('@/views/config/background'),
+    hidden: true,
+    name: 'background',
+    meta: { title: '背景' }
+  },
+  begin:{
+    path: 'begin',
+    component: () => import('@/views/config/begin'),
+    hidden: true,
+    name: 'begin',
+    meta: { title: '开始' }
+  },
+  colour:{
+    path: 'colour',
+    component: () => import('@/views/config/colour'),
+    hidden: true,
+    name: 'colour',
+    meta: { title: '颜色' }
+  },
+  personal:{
+    path: 'personal',
+    component: () => import('@/views/config/personal'),
+    hidden: true,
+    name: 'personal',
+    meta: { title: '个人' }
+  },
+  taskbar:{
+    path: 'taskbar',
+    component: () => import('@/views/config/taskbar'),
+    hidden: true,
+    name: 'taskbar',
+    meta: { title: '任务栏' }
+  },
   authority:{
     path: 'authority',
     component: () => import('@/views/systemSetting/authority'),

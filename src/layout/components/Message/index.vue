@@ -27,25 +27,20 @@ export default {
     return {
       messageList: [
         {
-          title: 'IT运维统计报表界面',
-          text: 'IT运维统计报表界面，点击会话id为409的查询按钮，在会话回显界面，exit命令的显示结果中有乱码显示；',
+          title: '前端开发',
+          text: '基本完成win10风格桌面布局(有bug)，实现完整的基础管理系统功能',
           uuid: '00001'
         },
         {
-          title: 'IT运维统计报表界面',
-          text: 'IT运维统计报表界面，点击会话id为409的查询按钮，在会话回显界面，exit命令的显示结果中有乱码显示；',
+          title: '后端开发',
+          text: '基本完成相关功能的开发',
           uuid: '00002'
         },
         {
-          title: 'fa',
-          text: 'faknk',
+          title: '开发计划',
+          text: '优化权限',
           uuid: '00003'
         },
-        {
-          title: 'fa',
-          text: 'faknk',
-          uuid: '00004'
-        }
       ]
     };
   },

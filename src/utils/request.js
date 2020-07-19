@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-07-04 15:13:00
+ * @LastEditTime: 2020-07-18 22:19:53
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \vue-win10-admin\src\utils\request.js
+ */ 
 import axios from 'axios'
 import { Message, MessageBox } from 'element-ui'
 import store from '@/store'

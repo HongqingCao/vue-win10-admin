@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-07-04 15:12:58
+ * @LastEditTime: 2020-07-18 12:42:21
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \vue-win10-admin\server\model\role.js
+ */ 
 const initTable = require('../config/db')
 const Sequelize = require('sequelize')
 const moment = require('moment')
@@ -25,6 +33,10 @@ const role = initTable.define('db_role', {
   auth_ids: {
     type: Sequelize.TEXT('long'),
     comment: '角色权限id列表'
+  },
+  half_checked: {
+    type: Sequelize.TEXT('long'),
+    comment: '半选中角色权限id列表'
   },
   create_user: Sequelize.INTEGER(11),
   update_user: Sequelize.INTEGER(11),

@@ -55,24 +55,72 @@ export const _removeSessionStore = () => {
 /**
  * 对localStorage操作
  */
-export const _setLocalStore = (key, value, type) => {
-  if (!key) return
-  if (type === 'JSONStr') {
-    value = JSON.stringify(value)
+export const _setLocalStore = (type, value) => {
+  let settings = JSON.parse(_getLocalStore()) || {
+    color: 31,
+    taskbarMode: 'bottom',
+    bgSrc: '/static/img/bg_02.f6c87e91.jpg'
   }
-  localStorage.setItem(key, value)
+  switch(type) {
+    case 'bgSrc':
+      settings.bgSrc = value
+      break
+    case 'color':
+      settings.color = value
+      break
+    case 'taskbarMode':
+      settings.taskbarMode = value
+      break
+  }
+  settings = JSON.stringify(settings)
+  localStorage.setItem(TokenKey, settings)
 }
-export const _getLocalStore = (key, type) => {
-  if (!localStorage.getItem(key)) {
+export const _getLocalStore = (type) => {
+  if (!localStorage.getItem(TokenKey)) {
     return
   }
   if (type === 'JSONStr') {
-    return JSON.parse(localStorage.getItem(key))
+    return JSON.parse(localStorage.getItem(TokenKey))
   } else {
-    return localStorage.getItem(key)
+    return localStorage.getItem(TokenKey)
   }
 }
 export const _removeLocalStore = key => {
   if (!key) return
   localStorage.removeItem(key)
+}
+
+export const dispatchSetLocalStore = (type, value) => {
+
+  let settings = _getLocalStore('JSONStr') || {
+    color: 31,
+    taskbarMode: 'bottom',
+    bgSrc: '/static/img/bg_02.f6c87e91.jpg'
+  }
+  switch(type) {
+    case 'bgSrc':
+      settings.bgSrc = value
+      break
+    case 'color':
+      settings.color = value
+      break
+    case 'taskbarMode':
+      settings.taskbarMode = value
+      break
+  }
+  settings = JSON.stringify(settings)
+    // 创建一个StorageEvent事件
+  let newStorageEvent = document.createEvent('StorageEvent');
+  const storage = {
+      setItem: function (k, val) {
+        localStorage.setItem(k, val)
+
+          // 初始化创建的事件
+          newStorageEvent.initStorageEvent('setItem', false, false, k, null, val, null, null)
+
+          // 派发对象
+          window.dispatchEvent(newStorageEvent)
+      }
+  }
+  return storage.setItem(TokenKey, settings)
 }
