@@ -26,5 +26,6 @@ const getters = {
 
   routers: state => state.permission.routes,
   dataPermission: state => state.permission.dataPermission,
+  menuList: state => state.permission.menuList
 }
 export default getters

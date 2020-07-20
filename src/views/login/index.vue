@@ -21,8 +21,17 @@
 
 <script>
 import { isPassword } from "@/utils/validate"
+import { mapGetters } from 'vuex' 
+
 export default {
   name: "Login",
+  computed: {
+    ...mapGetters([
+      'showMenu',
+      'showMessage',
+      'nowWin'
+    ])
+ },
   data() {
   const validateAccount = (rule, value, callback) => {
     if (!value) {
@@ -81,7 +90,7 @@ export default {
         if(valid) {
           this.$store.dispatch('user/login', this.loginForm)
             .then(() => {
-              this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+               this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
             })
             .catch(() => {
             })

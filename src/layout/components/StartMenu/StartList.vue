@@ -91,7 +91,7 @@ export default {
           type: 'warning'
         }).then(() => {
           this.$store.dispatch('user/logOut').then(() => {
-            this.$router.go(0)
+            this.$router.push('/')
           })
         }).catch(() => {
           this.$message({
