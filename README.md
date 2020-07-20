@@ -1,7 +1,4 @@
-<p align="center">
-<img src="./win10.png" alt="mark text" width="414" height="733">
-</p>
-
+![](https://user-gold-cdn.xitu.io/2020/7/20/1736a52feeadcdd4?w=1582&h=1006&f=png&s=170719)
 <h3 align="center">用Vue+KOA2构建window10风格的管理系统</h3>
 
 <p align="center">
@@ -34,8 +31,6 @@
 - **前端** Vue + Vuex + Vue-Router + Element+UI
 - **后端** Node + koa2 + Sequelize
 - **数据库** mysql
-
-![](https://user-gold-cdn.xitu.io/2020/7/17/1735a8bd6cc357f2?w=1502&h=993&f=gif&s=2547685)
 
 ## 构建和设置
 
