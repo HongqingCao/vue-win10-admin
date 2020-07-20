@@ -135,7 +135,8 @@ module.exports = config
 
 功能是依附于菜单的，需要先配置系统设置-权限设置 才能在菜单下⾯挂功能接⼝
 
-> 3、 添加或者更新新数据库表  
+> 3、 添加或者更新新数据库表   
+ 
 在server/model 里对应添加数据库模型，根据模型自动创建表，只需要建完模型后，把server/config/db.js 里把下面这段代码放开，运行 npm run server或者npm run start ,看到 init db ok，说明数据库表更新完~
 
 ```
