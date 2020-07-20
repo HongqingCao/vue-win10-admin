@@ -17,7 +17,15 @@ export function hasDataPermission(permission) {
 // 页面权限
 
 export function hasPagePermission(path) {
-  const menuList = store.getters.menuList.filter(item => { return item.path })
+  let menuList = []
+  store.getters.menuList.forEach(item => {
+    menuList.push(item.authority_url)
+  })
+  console.log("menuList")
+  console.log(menuList)
+  console.log(path)
   let nowpath = utils.splitRouter(path)
+  console.log("menuList")
+  console.log(nowpath)
   return menuList.includes(nowpath, 0)
 }

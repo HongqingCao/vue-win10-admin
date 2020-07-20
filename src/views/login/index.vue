@@ -22,7 +22,7 @@
 <script>
 import { isPassword } from "@/utils/validate"
 import { mapGetters } from 'vuex' 
-import { hasPagePermission } from '@/utils/permission'
+
 export default {
   name: "Login",
   computed: {
@@ -90,12 +90,7 @@ export default {
         if(valid) {
           this.$store.dispatch('user/login', this.loginForm)
             .then(() => {
-              // 登陆如果是系统退出进来的，判断一下是否有页面权限
-              if (hasPagePermission(this.redirect)) {
-                this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
-              } else {
-                this.$router.push({path: '/'})
-              }
+               this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
             })
             .catch(() => {
             })
