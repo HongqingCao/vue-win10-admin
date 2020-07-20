@@ -1,7 +1,4 @@
-<p align="center">
-<img src="./win10.png" alt="mark text" width="414" height="733">
-</p>
-
+![](https://user-gold-cdn.xitu.io/2020/7/20/1736a52feeadcdd4?w=1582&h=1006&f=png&s=170719)
 <h3 align="center">用Vue+KOA2构建window10风格的管理系统</h3>
 
 <p align="center">
@@ -18,8 +15,13 @@
 
 ## 更新日志
 
-2020-06 创建项目 
-注意：目前核心代码并未上传，可先Fork
+ | 序号 |功能 |功能   | 描述 |
+| --- | --- |--- | --- |
+|0| 前端系统功能 |开发中|仪表盘工作台、分析页面、主题设置|
+|1| 前端系统UI |已完成|win10风格桌面系统：仿开始菜单、快捷菜单、任务栏、消息、支持窗口大小拖动（有小bug待修复）|
+|2| 前端功能 |已完成|(1)登录、动态菜单和权限生成<br>(2)系统设置：权限设置、角色设置、用户设置、系统日志<br>(3)平台管理：桌面背景设置|
+|3|后端|已完成|跨域解决、token 统一拦截、权限拦截、路由合并、基本完成相关功能的API开发|
+
 ## 贡献
  有兴趣的同学可以切一个分支（以您的github账号命名分支），发起 pull request 
 
@@ -29,8 +31,6 @@
 - **前端** Vue + Vuex + Vue-Router + Element+UI
 - **后端** Node + koa2 + Sequelize
 - **数据库** mysql
-
-![](https://user-gold-cdn.xitu.io/2020/7/15/173502a176f17ca3?w=1538&h=1015&f=png&s=348016)
 
 ## 构建和设置
 
