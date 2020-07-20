@@ -1,4 +1,5 @@
 import { loginApi, logOut, getInfo } from "@/api/user"
+import { tokenKey } from '@/settings'
 import {
   _setSessionStore,
   _getSessionStore,
@@ -7,7 +8,7 @@ import {
 import { resetRouter } from '@/router'
 
 const state = {
-  token: _getSessionStore(),
+  token: _getSessionStore(tokenKey),
   userInfo:{}
 }
 
@@ -27,7 +28,7 @@ const actions = {
       loginApi(userInfo).then(response => {
         if (response.token) {
           commit('SET_TOKEN', response.token)
-          _setSessionStore(response.token)
+          _setSessionStore(tokenKey, response.token)
         }
         resolve()
       }).catch(error => {
@@ -53,7 +54,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       logOut().then(() => {
         commit('SET_TOKEN', '')
-        _removeSessionStore()
+        _removeSessionStore(tokenKey)
         resetRouter()
         resolve()
       }).catch(error => {

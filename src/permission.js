@@ -10,12 +10,13 @@ import router from '@/router'
 import store from '@/store'
 import { Message } from 'element-ui'
 import { _getSessionStore } from '@/utils/storage'
+import { tokenKey } from '@/settings'
 import utils from '@/utils/utils'
 // 免登陆可进入的页面
 const whiteList = ['/login', '/401', '/404', '/retrieve']
 // 路由前置
 router.beforeEach((to, from, next) => {
-  if (_getSessionStore()) {
+  if (_getSessionStore(tokenKey)) {
     if (to.path === '/login') {
       next({ path: '/' })
     } else {

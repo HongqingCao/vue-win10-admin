@@ -1,14 +1,5 @@
-/*
- * @Author: your name
- * @Date: 2020-07-04 15:12:58
- * @LastEditTime: 2020-07-12 20:50:16
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \home-worlkf:\github\vue-win10-admin\server\routes\user.js
- */ 
 const router = require('koa-router')()
 const User = require('../controllers/user')
-const ValidateUser  = require('../validate/user')
 
 router.prefix('/api/user')
 router.post('/login', User.login)

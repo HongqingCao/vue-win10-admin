@@ -45,6 +45,7 @@ app.use(async (ctx, next) => {
 app.use(async (ctx, next) => {
   await authority.checkToken(ctx, next)
 })
+// 请求全局拦截,验证接口权限
 app.use(async (ctx, next) => {
   await authority.permissions(ctx, next)
 })
