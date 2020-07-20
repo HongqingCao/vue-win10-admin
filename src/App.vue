@@ -14,16 +14,17 @@
 
 <script>
 import { _getLocalStore } from '@/utils/storage'
+import { localKey } from '@/settings'
 export default {
   name: 'App',
   data() {
    return {
-     bgSrc:_getLocalStore('JSONStr') ? _getLocalStore('JSONStr').bgSrc : require('@/assets/bg_01.jpg')
+     bgSrc:_getLocalStore(localKey, 'JSONStr') ? _getLocalStore(localKey, 'JSONStr').bgSrc : require('@/assets/bg_01.jpg')
     }
   },
   created(){
     window.addEventListener('setItem', () => {
-      let local = _getLocalStore('JSONStr')
+      let local = _getLocalStore(localKey, 'JSONStr')
       this.bgSrc = local ? local.bgSrc : this.bgSrc
     })
   },

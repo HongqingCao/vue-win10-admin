@@ -200,7 +200,7 @@ class User extends Base{
           title: '用户登出',
           desc: '',
           ip: this.getClientIp(ctx),
-          create_user: userInfo.id
+          create_user: userInfo.user_id
         }
       })
     } catch (e) {
@@ -319,7 +319,7 @@ class User extends Base{
             title: "编辑用户",
             desc: "编辑用户" + data.account,
             ip: this.getClientIp(ctx),
-            create_user: userInfo.id ||1, 
+            create_user: userInfo.user_id ||1, 
             create_name: userInfo.name || ''
           }
         })
@@ -343,7 +343,7 @@ class User extends Base{
     let  data = ctx.request.body
     let result, userInfo = await this.getUserInfo(ctx) || {}
     data.flag = 0
-    data.delete_user = userInfo.id
+    data.delete_user = userInfo.user_id
     data.delete_time = new Date()
     try {
       result = await UserModel.update(data, {where:{user_id:data.user_id}})
@@ -360,7 +360,7 @@ class User extends Base{
             title: "删除用户",
             desc: "删除用" + data.name,
             ip: this.getClientIp(ctx),
-            create_user: userInfo.id ||1,
+            create_user: userInfo.user_id ||1,
             create_name: userInfo.name || ''
           }
         })

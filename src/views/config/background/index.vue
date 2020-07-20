@@ -23,7 +23,7 @@
 
 import { mapGetters } from 'vuex'
 import preview from '@/components/preview.vue'
-//import { _setLocalStore } from '@/utils/storage'
+import { localKey } from '@/settings'
 export default {
   components: {
     preview
@@ -61,7 +61,7 @@ export default {
   },
  methods:{
    handleClick(item) {
-     this.setLocalStore('bgSrc', item.src)
+     this.setLocalStore(localKey, 'bgSrc', item.src)
    } 
  }
 }

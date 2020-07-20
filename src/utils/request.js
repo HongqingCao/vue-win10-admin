@@ -11,6 +11,7 @@ import { Message, MessageBox } from 'element-ui'
 import store from '@/store'
 import { _getSessionStore } from './storage'
 import router from '@/router'
+import { tokenKey } from '@/settings'
 // create an axios instance
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // api的base_url
@@ -22,7 +23,7 @@ service.interceptors.request.use(config => {
   // 设置请求头
   if (store.getters.token) {
     // 让每个请求携带toke
-    config.headers['Authorization'] = _getSessionStore()
+    config.headers['Authorization'] = _getSessionStore(tokenKey)
   }
   // 对全局参数做过滤，把不存在的参数删除
   if (config.method === 'post') {

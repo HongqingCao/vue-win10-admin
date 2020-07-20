@@ -127,7 +127,27 @@ module.exports = config
 
 
 #### （3）项目拓展  
-1、 
+> 1、 添加新页面  
+现在⽂件 src/router/asyncRoutes.js 中按照其他路由的格式添加新的⻚⾯，添加完成后在使⽤管理员账号在系统设置-权限设置中新增权限，菜单的路径与上述⽂件配置中的name字段对应，必须保持⼀致
+
+> 2、 添加新功能  
+功能是依附于菜单的，需要先配置系统设置-权限设置 才能在菜单下⾯挂功能接⼝
+
+> 3、 添加或者更新新数据库表  
+
+在server/model 里对应添加数据库模型，根据模型自动创建表，只需要建完模型后，把server/config/db.js 里把下面这段代码放开，运行 npm run server或者npm run start ,看到 init db ok，说明数据库表更新完~
+
+```
+// sequelize
+//   .sync({alter: true} )
+//   .then(() => {
+//     console.log('init db ok')
+//   })
+//   .catch(err => {
+//     console.log('init db error', err)
+//   })
+```
+> 3、 添加功能接口  
 
 ## License
 

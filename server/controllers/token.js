@@ -1,11 +1,4 @@
-/*
- * @Author: your name
- * @Date: 2020-07-04 15:12:58
- * @LastEditTime: 2020-07-18 22:21:58
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \vue-win10-admin\server\controllers\token.js
- */ 
+
 const TokenModel = require('../model/token')
 const Op = require('sequelize').Op
 const JWT = require('jsonwebtoken')
