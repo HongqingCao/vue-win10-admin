@@ -21,8 +21,17 @@
 
 <script>
 import { isPassword } from "@/utils/validate"
+import { mapGetters } from 'vuex' 
+import { hasPagePermission } from '@/utils/permission'
 export default {
   name: "Login",
+  computed: {
+    ...mapGetters([
+      'showMenu',
+      'showMessage',
+      'nowWin'
+    ])
+ },
   data() {
   const validateAccount = (rule, value, callback) => {
     if (!value) {
@@ -81,7 +90,12 @@ export default {
         if(valid) {
           this.$store.dispatch('user/login', this.loginForm)
             .then(() => {
-              this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+              // 登陆如果是系统退出进来的，判断一下是否有页面权限
+              if (hasPagePermission(this.redirect)) {
+                this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+              } else {
+                this.$router.push({path: '/'})
+              }
             })
             .catch(() => {
             })
