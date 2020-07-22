@@ -35,6 +35,10 @@ export default {
 </script>
 
 <style lang="scss">
+
+@import "~@/styles/theme-mixin.scss";
+@import "@/styles/theme-variable.scss";
+
 .icon-warrper {
   position: relative;
   text-align: center;

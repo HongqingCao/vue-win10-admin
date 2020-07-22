@@ -191,7 +191,9 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+@import "~@/styles/theme-mixin.scss";
+@import "@/styles/theme-variable.scss";
 .window-wrapper {
   position: absolute;
   min-width: 1280px;
@@ -200,7 +202,8 @@ export default {
   .window-header {
     height: 40px;
     line-height: 40px;
-    background-color:#08d;
+    @include background-color($background-color-theme1);
+    transition: all .5s;
     display: flex;
 
     .window-title {
@@ -208,6 +211,8 @@ export default {
       padding-left: 10px;
       user-select: none;
       color: #fff;
+      @include font-color($font-color-white);
+      transition: all .5s;
 
       &.move {
         cursor: move;
@@ -247,6 +252,7 @@ export default {
         &.active{
           color: #fff;
           background-color: rgba(106, 105, 100, 0.4);
+         transition: all 0.5s;
         }
       }
     }

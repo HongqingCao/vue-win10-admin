@@ -11,28 +11,32 @@
     <div class="left-warrpper">
       <div class="title">创建</div>
       <div class="blocks-list">
-          <div style="width:220px;height:143px;margin-right:3px;margin-bottom:3px;"></div>
-          <div style="width:80px;height:70px;margin-bottom:3px;"></div>
-          <div style="width:80px;height:70px;margin-bottom:3px;"></div>
+          <div class="block" style="width:220px;height:143px;margin-right:3px;margin-bottom:3px;"></div>
+          <div class="block" style="width:80px;height:70px;margin-bottom:3px;"></div>
+          <div class="block" style="width:80px;height:70px;margin-bottom:3px;"></div>
 
-          <div style="width:150px;height:85px;margin-bottom:3px;margin-right:3px;"></div>
-          <div style="width:150px;height:85px;margin-bottom:3px;"></div>
+          <div class="block" style="width:150px;height:85px;margin-bottom:3px;margin-right:3px;"></div>
+          <div class="block" style="width:150px;height:85px;margin-bottom:3px;"></div>
 
-          <div style="width:220px;height:73px;margin-bottom:3px;margin-right:3px;"></div>
-          <div style="width:40px;height:35px;margin-bottom:3px;margin-right:3px;"></div>
-          <div style="width:40px;height:35px;margin-bottom:3px;"></div>
-          <div style="width:40px;height:35px;margin-bottom:3px;margin-right:3px;"></div>
-          <div style="width:40px;height:35px;margin-bottom:3px;"></div>
+          <div class="block" style="width:220px;height:73px;margin-bottom:3px;margin-right:3px;"></div>
+          <div class="block" style="width:40px;height:35px;margin-bottom:3px;margin-right:3px;"></div>
+          <div class="block" style="width:40px;height:35px;margin-bottom:3px;"></div>
+          <div class="block" style="width:40px;height:35px;margin-bottom:3px;margin-right:3px;"></div>
+          <div class="block" style="width:40px;height:35px;margin-bottom:3px;"></div>
 
-          <div style="width:100px;height:50px;margin-bottom:3px;margin-right:3px;"></div>
-          <div style="width:100px;height:50px;margin-bottom:3px;margin-right:3px;"></div>
-          <div style="width:100px;height:50px;margin-bottom:3px;"></div>
+          <div class="block" style="width:100px;height:50px;margin-bottom:3px;margin-right:3px;"></div>
+          <div class="block" style="width:100px;height:50px;margin-bottom:3px;margin-right:3px;"></div>
+          <div class="block" style="width:100px;height:50px;margin-bottom:3px;"></div>
         </div>
     </div>
   </div>
 </template>
 
 <style lang="scss">
+
+@import "~@/styles/theme-mixin.scss";
+@import "@/styles/theme-variable.scss";
+
 .menublocks-warrpper{
   padding: 0 10px 0 10px;
   .left-warrpper {
@@ -40,12 +44,13 @@
     
     .title {
       padding-bottom:10px;
+      @include font-color($font-color-white);
     }
     .blocks-list {
       margin-bottom:10px;
       overflow: hidden;
-      div {
-          background-color: var(--tile-color,#0063B1);
+      .block {
+          background-color: #004275;
           float: left;
           overflow-y: hidden;
         }

@@ -43,6 +43,9 @@ export default {
 </script>
 
 <style lang="scss">
+@import "~@/styles/theme-mixin.scss";
+@import "@/styles/theme-variable.scss";
+
 .menu-warrper {
   width: 600px;
   height: 480px;
@@ -51,6 +54,7 @@ export default {
   left: 0;
   color: white;
   background-color: rgba(19, 23, 28, 0.9);
+  @include startMenu-background-color($startMenu-background-color-black);
   overflow-x: hidden;
   overflow-y: auto;
   z-index: 2000;
@@ -68,13 +72,13 @@ export default {
     overflow-y: auto;
     font-size: 12px;
     background-color: #1f1f1f;
-    -webkit-animation-duration: 0.5s;
+     @include startMenu-background-color($startMenu-background-color-black);
     animation-duration: 0.5s;
 
     &::-webkit-scrollbar {
       width: 5px;
       height: 5px;
-      background:#7f858b;
+      //background:#7f858b;
     }
     
     &::-webkit-scrollbar-track {
@@ -83,7 +87,7 @@ export default {
     
     &::-webkit-scrollbar-thumb {
       border-radius: 0;
-      background-color: rgba(95,95,95,.4);
+     // background-color: rgba(95,95,95,.4);
       transition: all .2s;
       border-radius: 2px;
     

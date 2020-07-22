@@ -9,8 +9,6 @@
 <template>
   <div class="menulist-warrper" v-if="routers">
     <el-menu
-      text-color="#ffffff"
-      background-color="rgba(19, 23, 28, 0.2)"
       active-text-color="#6b6b6b"
       class="el-menu-vertical-demo"
       v-for="item in routers" :key="item.id"
@@ -62,22 +60,32 @@ export default {
 </script>
 
 <style  lang="scss">
+@import "~@/styles/theme-mixin.scss";
+@import "@/styles/theme-variable.scss";
+
 .menulist-warrper {
   width: 100%;
   .el-menu {
-    border-right:none
+    border-right:none;
+      @include startMenu-background-color($startMenu-background-color-black);
   }
   .el-submenu__title{
     height: 40px !important;
     line-height: 40px !important;
+    
+    @include font-color($font-color-white);
     &:hover {
       color: white!important;
       background-color: rgba(106, 105, 100, 0.7)!important;
+    }
+    i {
+      @include font-color($font-color-white);
     }
   }
   .el-menu-item {
     height: 40px !important;
     line-height: 40px !important;
+     @include font-color($font-color-white);
     &.is-active {
        color: white!important;
     }

@@ -38,7 +38,7 @@
       <div class="window">
         <div class="title">
           <div class="name"></div>
-          </div>
+        </div>
         <div class="content">示例文本</div>
       </div>
       <div class="task-bar"></div>
@@ -70,6 +70,10 @@ export default {
 </script>
 
 <style lang="scss">
+
+@import "~@/styles/theme-mixin.scss";
+@import "@/styles/theme-variable.scss";
+
 .preview-wrapper {
   .title{
     font-size: 24px;
@@ -80,6 +84,7 @@ export default {
     height: 235px;
     background: no-repeat;
     background-size: 100% 100% !important;
+    transition: all .5s;
     position: relative;
 
     .start {
@@ -87,7 +92,8 @@ export default {
       bottom: 15px;
       height: 170px;
       width: 174px;
-      background-color: var(--taskbar-color,#004275) !important;
+      @include background-color($background-color-theme1);
+      transition: all .5s;
       .menu-list{
         position: absolute;
         left: 10px;
@@ -99,6 +105,7 @@ export default {
             height: 9px;
             width: 9px;
             background-color: var(--tile-color,#0063B1);
+            transition: all .5s;
             float: left;
             margin-top: 1px;
           }
@@ -120,6 +127,7 @@ export default {
         width: 91px;
         div {
           background-color: var(--tile-color,#0063B1);
+          transition: all .5s;
           float: left;
           overflow-y: hidden;
         }
@@ -132,12 +140,11 @@ export default {
       right: 30px;
       top: 45px;
       box-sizing: border-box;
-      border: 1px solid var(--tile-color,#0063B1);
       background-color: #fff;
       .title {
         width: 100%;
         height: 15px;
-        background-color: var(--tile-color,#0063B1);
+        @include background-color($background-color-theme1);
         .name{
           background-color: #fff;
           height: 2px;
@@ -160,7 +167,7 @@ export default {
       bottom: 0;
       height: 15px;
       width: 100%;
-      background-color: var(--taskbar-color,#002D4F) !important;
+      background-color: #002D4F !important;
     }
   }
 }
