@@ -24,17 +24,23 @@ export default {
 </script>
 
 <style lang="scss">
+
+@import "~@/styles/theme-mixin.scss";
+@import "@/styles/theme-variable.scss";
+
 .start-button {
   height: 40px;
   line-height: 40px;
   padding-left: 10px;
   color: white;
+  @include font-color($font-color-white);
   text-align: center;
   transition: all 0.3s;
   overflow: hidden;
   .iconfont {
     font-size: 16px;
     color: white;
+    @include font-color($font-color-white);
     float: left;
   }
   .name{

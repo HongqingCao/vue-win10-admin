@@ -13,7 +13,6 @@
       <div class="title">选择图片</div>
       <div class="img-list">
         <img v-for="item in imgList"  :key="item.name" :src="item.src" @click="handleClick(item)">
-        
       </div>
     </div>
   </div>

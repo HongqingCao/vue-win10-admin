@@ -7,7 +7,7 @@
  * @FilePath: \vue-win10-admin\src\App.vue
 --> 
 <template>
-  <div id="app"  :style="{ background: 'url('+bgSrc+')'}">
+  <div id="app"  :style="{ background: 'url('+bgSrc+')'}" :data-theme="theme">
     <router-view />
   </div>
 </template>
@@ -19,13 +19,15 @@ export default {
   name: 'App',
   data() {
    return {
-     bgSrc:_getLocalStore(localKey, 'JSONStr') ? _getLocalStore(localKey, 'JSONStr').bgSrc : require('@/assets/bg_01.jpg')
+     bgSrc: _getLocalStore(localKey, 'JSONStr') && _getLocalStore(localKey, 'JSONStr').bgSrc  ? _getLocalStore(localKey, 'JSONStr').bgSrc : require('@/assets/bg_01.jpg'),
+     theme: _getLocalStore(localKey, 'JSONStr') && _getLocalStore(localKey, 'JSONStr').theme  ? _getLocalStore(localKey, 'JSONStr').theme : 'theme1'
     }
   },
   created(){
     window.addEventListener('setItem', () => {
       let local = _getLocalStore(localKey, 'JSONStr')
-      this.bgSrc = local ? local.bgSrc : this.bgSrc
+      this.bgSrc = local && local.bgSrc ? local.bgSrc : this.bgSrc
+      this.theme = local && local.theme ? local.theme : this.theme
     })
   },
 }
@@ -38,5 +40,6 @@ export default {
   background:no-repeat;
   background: fixed;
   background-size: 100% 100% !important;
+  transition: all .5s;
 }
 </style>

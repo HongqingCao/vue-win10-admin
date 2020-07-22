@@ -24,18 +24,23 @@ export default {
 </script>
 
 <style lang="scss">
+@import "~@/styles/theme-mixin.scss";
+@import "@/styles/theme-variable.scss";
+
 .task-button {
   width: 40px;
   height: 40px;
   line-height: 40px;
   font-size: 20px;
   color: white;
+  @include font-color($font-color-white);
   text-align: center;
   transition: all 0.3s;
   
   .iconfont {
     font-size: 19px;
     color: white;
+    @include font-color($font-color-white);
   }
 
   &:hover {

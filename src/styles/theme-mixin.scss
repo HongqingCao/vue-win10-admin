@@ -1,0 +1,82 @@
+@mixin background-color($color) {
+  background-color: $color;
+  [data-theme="theme1"] & {
+    background-color:$background-color-theme1;
+  }
+  [data-theme="theme2"] & {
+    background-color:$background-color-theme2;
+  }
+  [data-theme="theme3"] & {
+    background-color:$background-color-theme3;
+  }
+  [data-theme="theme4"] & {
+    background-color:$background-color-theme4;
+  }
+  [data-theme="theme5"] & {
+    background-color:$background-color-theme5;
+  }
+  [data-theme="theme6"] & {
+    background-color:$background-color-theme6;
+  }
+  [data-theme="theme7"] & {
+    background-color:$background-color-theme7;
+  }
+  [data-theme="theme8"] & {
+    background-color:$background-color-theme8;
+  }
+  [data-theme="theme9"] & {
+    background-color:$background-color-theme9;
+  }
+  [data-theme="theme10"] & {
+    background-color:$background-color-theme10;
+  }
+  [data-theme="theme11"] & {
+    background-color:$background-color-theme11;
+  }
+  [data-theme="theme12"] & {
+    background-color:$background-color-theme12;
+  }
+  [data-theme="theme13"] & {
+    background-color:$background-color-theme13;
+  }
+  [data-theme="theme14"] & {
+    background-color:$background-color-theme14;
+  }
+  [data-theme="theme15"] & {
+    background-color:$background-color-theme15;
+  }
+  [data-theme="theme16"] & {
+    background-color:$background-color-theme16;
+  }
+}
+@mixin font-color($color) {
+  color: $color;
+  [data-theme="theme13"] & {
+    color:$font-color-black;
+  }
+  [data-theme="theme14"] & {
+    color:$font-color-black;
+  }
+  [data-theme="theme15"] & {
+    color:$font-color-black;
+  }
+  [data-theme="theme16"] & {
+    color:$font-color-black;
+  }
+}
+
+@mixin startMenu-background-color($color) {
+  background-color: $color;
+  [data-theme="theme13"] & {
+    background-color:$startMenu-background-color-white;
+  }
+  [data-theme="theme14"] & {
+    background-color:$startMenu-background-color-white;
+  }
+  [data-theme="theme15"] & {
+    background-color:$startMenu-background-color-white;
+  }
+  [data-theme="theme16"] & {
+    background-color:$startMenu-background-color-white;
+  }
+}

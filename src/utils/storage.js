@@ -77,7 +77,7 @@ export const _removeLocalStore = key => {
 
 export const dispatchSetLocalStore = (key, type, value) => {
   let settings = _getLocalStore(key,'JSONStr') || {
-    color: 31,
+    theme: 11,
     taskbarMode: 'bottom',
     bgSrc: ''
   }
@@ -85,8 +85,8 @@ export const dispatchSetLocalStore = (key, type, value) => {
     case 'bgSrc':
       settings.bgSrc = value
       break
-    case 'color':
-      settings.color = value
+    case 'theme':
+      settings.theme = value
       break
     case 'taskbarMode':
       settings.taskbarMode = value

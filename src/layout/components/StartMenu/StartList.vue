@@ -105,13 +105,16 @@ export default {
 </script>
 
 <style lang="scss">
+@import "~@/styles/theme-mixin.scss";
+@import "@/styles/theme-variable.scss";
+
 .startlist-warrper {
    position: fixed;
    z-index: 99999;
    height: 480px;
    transition: all 0.3s;
    background-color: #1f1f1f;
-
+  @include background-color($background-color-theme1);
    .list {
      position: absolute;
      bottom: 0px;
